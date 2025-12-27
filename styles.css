@@ -121,6 +121,55 @@ min-width: 0;
   margin-bottom: 1rem;
 }
 
+/* Hero layout (text + right-side figure) */
+.hero-content {
+  max-width: none; /* override the 48rem so the image can sit to the right */
+}
+
+.hero-layout {
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+}
+
+.hero-copy {
+  flex: 1 1 auto;
+  min-width: 0;
+  max-width: 48rem; /* keep text measure readable */
+}
+
+.hero-figure {
+  margin-top: 3.5rem; /* tweak: 0.25rem–1rem */
+  flex: 0 0 360px;  /* right column width */
+}
+
+.hero-figure-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 0.0rem;
+  border: 0px solid var(--color-border);
+  box-shadow: 0 0px 0px rgba(0, 0, 0, 0.14);
+}
+
+.hero-figure-caption {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--color-text-light);
+}
+
+/* Stack on smaller screens */
+@media (max-width: 900px) {
+  .hero-layout {
+    flex-direction: column;
+  }
+  .hero-figure {
+    flex: none;
+    width: 100%;
+    max-width: 560px;
+  }
+}
+
 /* Stats Section */
 .stats-section {
   background: var(--color-bg-alt);
