@@ -724,7 +724,10 @@ font-size: 0.95rem;
 
 .collab-note {
 color: var(--color-text-light);
-font-size: 0.95rem;
+  margin-left: 0.5rem; 
+  font-size: 0.82rem;
+  letter-spacing: 0.02em;
+  opacity: 0.45;
 }
 
 .collab-note a {
