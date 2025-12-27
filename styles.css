@@ -512,6 +512,60 @@ min-width: 0;
   transition: color 0.2s ease;
 }
 
+/* Publications */
+.pubs-section {
+padding: 3rem 0;
+border-top: 1px solid var(--color-border);
+}
+
+.pubs-list {
+display: grid;
+gap: 1.25rem;
+}
+
+.pub-item {
+border: 1px solid var(--color-border);
+border-radius: 0.5rem;
+padding: 1.25rem;
+background: var(--color-bg);
+transition: box-shadow 0.3s ease;
+}
+
+.pub-item:hover {
+box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+}
+
+.pub-title {
+font-size: 1.05rem;
+font-weight: 500;
+color: var(--color-primary);
+line-height: 1.35;
+}
+
+.pub-meta {
+margin-top: 0.35rem;
+color: var(--color-text-light);
+font-size: 0.95rem;
+line-height: 1.6;
+}
+
+.pub-links {
+margin-top: 0.75rem;
+display: flex;
+flex-wrap: wrap;
+gap: 0.75rem;
+}
+
+.pub-links a {
+color: var(--color-accent);
+text-decoration: none;
+font-size: 0.9rem;
+}
+
+.pub-links a:hover {
+text-decoration: underline;
+}
+
 .theme-repos a:hover {
   color: var(--color-primary);
 }
