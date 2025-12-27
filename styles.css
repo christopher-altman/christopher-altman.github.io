@@ -80,6 +80,14 @@ min-width: 0;
   font-size: 0.95rem;
 }
 
+.tagline-secondary {
+  margin-left: .5rem; 
+  font-size: 0.82rem;
+  letter-spacing: 0.02em;
+  opacity: 0.45;
+  margin-top: 0.35rem;
+}
+
 .nav-links {
   display: flex;
   gap: 1rem;
