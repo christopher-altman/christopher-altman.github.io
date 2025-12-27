@@ -2,7 +2,7 @@
 const repositories = [
   {
     id: 'autodidactic-qml',
-    title: 'Autodidactic-QML',
+    title: 'Autodidactic Quantum Machine Learning Loop Falsifier',
     url: 'https://github.com/christopher-altman/autodidactic-qml',
     shortDesc: 'Falsification testbed for local functional recoverability in neural networks',
     methods: [
@@ -17,7 +17,7 @@ const repositories = [
   },
   {
     id: 'qkernel-telemetry',
-    title: 'Quantum Kernel Telemetry Anomaly',
+    title: 'Quantum Kernel Telemetry Anomaly Detection',
     url: 'https://github.com/christopher-altman/qkernel-telemetry-anomaly',
     shortDesc: 'Reproducible anomaly detection in telemetry using quantum kernel methods',
     methods: [
@@ -32,7 +32,7 @@ const repositories = [
   },
   {
     id: 'bqnn-benchmark',
-    title: 'BQNN Benchmark',
+    title: 'Benchmarks for Binarized Quantum Neural Networks (BQNNs)',
     url: 'https://github.com/christopher-altman/bqnn-benchmark',
     shortDesc: 'Benchmark harness for Binarized Quantum Neural Networks mixing binary classical layers with quantum circuits',
     methods: [
@@ -47,7 +47,7 @@ const repositories = [
   },
   {
     id: 'quantum-decision-flow',
-    title: 'Quantum Decision Flow',
+    title: 'Hamiltonian Topology Augmentation: A Quantum-Inspired Geometric Transformation Toolkit',
     url: 'https://github.com/christopher-altman/quantum-decision-flow',
     shortDesc: 'Dynamics-as-augmentation: apply Hamiltonian time evolution to classical datasets',
     methods: [
@@ -62,7 +62,7 @@ const repositories = [
   },
   {
     id: 'quantum-kernel-expressivity',
-    title: 'Quantum Kernel Expressivity',
+    title: 'Quantum Kernel Expressivity: Measuring Inductive Bias and Feature Complexity in Quantum Kernel Methods',
     url: 'https://github.com/christopher-altman/quantum-kernel',
     shortDesc: 'Studies how quantum-kernel expressivity affects inductive bias and generalization',
     methods: [
@@ -77,7 +77,7 @@ const repositories = [
   },
   {
     id: 'scqubits-fork',
-    title: 'scqubits (Fork)',
+    title: 'Superconducting Flux Qubits: Transmon Anharmonicity vs EJ/EC Ratio',
     url: 'https://github.com/christopher-altman/scqubits',
     shortDesc: 'Open-source Python library for superconducting qubit simulation',
     methods: [
