@@ -71,7 +71,7 @@ min-width: 0;
 font-size: 1.5rem;
 font-weight: 300;
 color: var(--color-primary);
-letter-spacing: 0.04em; /* try 0.01em–0.05em */
+letter-spacing: 0.08em;
 }
 
 .tagline {
@@ -685,7 +685,7 @@ input:focus {
 }
 
 @media (min-width: 768px) {
-.header .name { letter-spacing: 0.03em; }
+.header .name { letter-spacing: 0.08  em; }
 }
 
 /* Collaborations */
