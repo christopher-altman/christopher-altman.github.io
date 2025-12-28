@@ -16,6 +16,21 @@ const repositories = [
     longDesc: 'Implements a falsification testbed for local functional recoverability in neural networks. Minimal matrix-to-RNN pipeline: Hermitian matrix evolves via Langevin dynamics, deterministically mapped into a cyclic RNN trained on self-reconstruction with a mutual-information proxy. After training: perturb weights with Gaussian noise; perform one constrained recovery step under different proxy families using a deterministic PRE→POST→RECOVER pipeline. Challenges locality assumptions in model editing/alignment; highlights functional aliasing.'
   },
   {
+    id: 'sqnt-hardware-demo',
+    title: 'SQNT Hardware Demo: Superposed Quantum Network Topologies',
+    url: 'https://github.com/christopher-altman/sqnt-hardware-demo',
+    shortDesc: 'Deterministic SQNT demo: ground-truth mixture recovery + topology sweeps with reproducible figures',
+    methods: [
+      'Ground-truth mixture generator (controlled interpolation across topology regimes)',
+      'Alpha-sweep experiments with deterministic seeds and reproducible figures',
+      'Per-layer topology composition diagnostics (structure vs performance coupling)',
+      'One-command full run producing figures (numpy/matplotlib only)'
+    ],
+    finding: 'Mixture recovery is measurable: performance varies smoothly with topology mixing (alpha), enabling falsifiable structure-to-behavior claims in a small, repeatable testbed.',
+    tags: ['Quantum ML', 'Adaptive Networks', 'Topology', 'Reproducibility'],
+    longDesc: 'A compact, deterministic demonstration of Superposed Quantum Network Topologies (SQNT). The repo is built as a review-proof artifact: known ground-truth mixtures, systematic alpha sweeps, per-layer topology diagnostics, and generated figures from a single full-run script.'
+  },
+  {
     id: 'qkernel-telemetry',
     title: 'Quantum Kernel Telemetry Anomaly Detection',
     url: 'https://github.com/christopher-altman/qkernel-telemetry-anomaly',
