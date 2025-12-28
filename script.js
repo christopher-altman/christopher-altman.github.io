@@ -14,22 +14,7 @@ const repositories = [
     finding: 'Restoring local geometry does not restore function—proxy metrics improve but behavior fails to return; parameter/representation/function distance decouple',
     tags: ['Alignment', 'Recoverability', 'Neural Networks', 'Falsification'],
     longDesc: 'Implements a falsification testbed for local functional recoverability in neural networks. Minimal matrix-to-RNN pipeline: Hermitian matrix evolves via Langevin dynamics, deterministically mapped into a cyclic RNN trained on self-reconstruction with a mutual-information proxy. After training: perturb weights with Gaussian noise; perform one constrained recovery step under different proxy families using a deterministic PRE→POST→RECOVER pipeline. Challenges locality assumptions in model editing/alignment; highlights functional aliasing.'
-  },,
-  {
-    id: 'sqnt-hardware-demo',
-    title: 'SQNT Hardware Demo: Superposed Quantum Network Topologies',
-    url: 'https://github.com/christopher-altman/sqnt-hardware-demo',
-    shortDesc: 'Ground-truth mixture recovery + topology sweeps for superposed quantum network dynamics (deterministic, artifact-driven)',
-    methods: [
-      'Mixture-of-topologies generator with known ground truth (controlled interpolation across regimes)',
-      'Alpha-sweep experiments with deterministic seeds and reproducible figures',
-      'Per-layer topology composition + diagnostic plots (structure ↔ performance coupling)',
-      'Lightweight, review-proof harness: numpy/matplotlib, quick full-run script'
-    ],
-    finding: 'Controlled mixture recovery is measurable: performance varies smoothly with topology mixing (α), enabling falsifiable “structure → behavior” claims in a small, repeatable testbed',
-    tags: ['Quantum ML', 'Adaptive Networks', 'Topology', 'Reproducibility'],
-    longDesc: 'A compact, deterministic demonstration of Superposed Quantum Network Topologies (SQNT) as a reproducible artifact. The repo emphasizes ground-truth-controlled mixtures (so “recovery” and “identifiability” claims can be tested), systematic alpha sweeps, and per-layer topology composition—paired with generated figures and a single-script full run for review-proof reproduction.'
-  }
+  },
   {
     id: 'qkernel-telemetry',
     title: 'Quantum Kernel Telemetry Anomaly Detection',
@@ -114,8 +99,7 @@ const methods = [
   'Hamiltonian evolution',
   'Recoverability falsification',
   'Binarized networks',
-  'Adiabatic validation',
-  'Adaptive quantum networks'
+  'Adiabatic validation'
 ];
 
 // State
@@ -230,8 +214,7 @@ function getFilteredRepositories() {
       (selectedMethod === 'Hamiltonian evolution' && repo.id === 'quantum-decision-flow') ||
       (selectedMethod === 'Recoverability falsification' && repo.id === 'autodidactic-qml') ||
       (selectedMethod === 'Binarized networks' && repo.id === 'bqnn-benchmark') ||
-      (selectedMethod === 'Adiabatic validation' && repo.id === 'scqubits-fork') ||
-      (selectedMethod === 'Adaptive quantum networks' && repo.id === 'sqnt-hardware-demo');
+      (selectedMethod === 'Adiabatic validation' && repo.id === 'scqubits-fork');
     
     return matchesSearch && matchesTags && matchesMethod;
   });
