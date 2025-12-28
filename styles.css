@@ -614,6 +614,22 @@ text-decoration: underline;
   color: var(--color-primary);
 }
 
+.footer a {
+text-decoration: none;
+}
+.footer a:hover {
+color: var(--color-primary);
+}
+
+.footer a {
+text-decoration: none;
+color: var(--color-text-light);
+transition: color 0.2s ease;
+}
+
+.footer a:hover {
+color: var(--color-primary);
+}
 
 /* Responsive Design */
 @media (min-width: 768px) {
@@ -772,4 +788,13 @@ flex: 0 0 auto;
 width: 72px;
 height: 72px;
 }
+}
+
+.theme-repos code {
+font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+font-size: 0.9em;
+padding: 0.12em 0.35em;
+border-radius: 6px;
+border: 1px solid rgba(0,0,0,0.10);
+background: rgba(0,0,0,0.04);
 }

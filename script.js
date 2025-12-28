@@ -81,14 +81,15 @@ const repositories = [
     url: 'https://github.com/christopher-altman/scqubits',
     shortDesc: 'Open-source Python library for superconducting qubit simulation',
     methods: [
-      'Energy spectra and matrix element calculations',
-      'QuTiP integration for quantum dynamics',
-      'Transmon anharmonicity vs EJ/EC ratio analysis',
-      'Parameter sweep demonstrations for design trade-offs'
+      'Qubit energy spectra and Hamiltonian matrix elements',
+      'QuTiP integration for open-system and dynamical simulations',
+      'Parameter sweep analysis for qubit design exploration',
+      'Validates adiabatic flux ramps using Landau–Zener transition heuristics',
+      'Tracks dressed-state identity across avoided crossings using eigenstate overlap and Hungarian assignment',
     ],
-    finding: 'Enhanced with anharmonicity analysis script demonstrating transmon parameter design space exploration',
+    finding: 'Extended utilities include sweep tooling with reliable adiabatic ramp validation and dressed-state continuity tracking, enabling physically meaningful parameter sweeps that maintain state identity through avoided crossings and flag diabatic risk using Landau–Zener gap/rate diagnostics.',
     tags: ['Superconducting Qubits', 'Simulation', 'QuTiP', 'Transmons'],
-    longDesc: 'Open-source Python library for superconducting qubit simulation (energy spectra, matrix elements, plotting; integrates with QuTiP). Adds a new example script plotting transmon anharmonicity vs EJ/EC ratio (log-scale), demonstrating parameter sweeps and design trade-offs.'
+    longDesc: 'Open-source Python library for superconducting qubit simulation and sweep-based design analysis. This fork adds adiabatic ramp validation and dressed-state tracking for robust parameter sweep analysis.'
   }
 ];
 
@@ -98,7 +99,7 @@ const methods = [
   'Hamiltonian evolution',
   'Recoverability falsification',
   'Binarized networks',
-  'scqubits/transmon'
+  'Adiabatic validation'
 ];
 
 // State
@@ -213,7 +214,7 @@ function getFilteredRepositories() {
       (selectedMethod === 'Hamiltonian evolution' && repo.id === 'quantum-decision-flow') ||
       (selectedMethod === 'Recoverability falsification' && repo.id === 'autodidactic-qml') ||
       (selectedMethod === 'Binarized networks' && repo.id === 'bqnn-benchmark') ||
-      (selectedMethod === 'scqubits/transmon' && repo.id === 'scqubits-fork');
+      (selectedMethod === 'Adiabatic validation' && repo.id === 'scqubits-fork');
     
     return matchesSearch && matchesTags && matchesMethod;
   });
