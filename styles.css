@@ -68,10 +68,10 @@ min-width: 0;
 }
 
 .name {
-  font-size: 1.5rem;
-  font-weight: 300;
-  color: var(--color-primary);
-  letter-spacing: -0.025em;
+font-size: 1.5rem;
+font-weight: 300;
+color: var(--color-primary);
+letter-spacing: 0.04em; /* try 0.01em–0.05em */
 }
 
 .tagline {
@@ -682,6 +682,10 @@ input:focus {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+@media (min-width: 768px) {
+.header .name { letter-spacing: 0.03em; }
 }
 
 /* Collaborations */
