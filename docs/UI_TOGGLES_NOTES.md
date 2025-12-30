@@ -549,3 +549,66 @@ JavaScript-driven pointer detection that adds a `.pointer-hover` class on `point
 - [ ] Desktop browsers: Hover unchanged (CSS or JS, both acceptable)
 - [ ] Clicking links: Navigation works normally, no blocked events
 - [ ] Keyboard Tab focus: Focus-visible styling works independently
+
+---
+
+## Research Themes Footer Link Hover Consistency (2025-12-30)
+
+### 10. Enhanced "Pop" Link Hover for Research Themes Section
+
+**Enhancement:**
+Applied prominent hover effects to Research Themes footer links with background, border, shadow, and lift to match the interaction design of publication/repository items.
+
+**Implementation:**
+
+**Visual Behavior:**
+- **Text Color**: Changes to brand accent (`--item-title-hover`: #2563EB light / #60A5FA dark)
+- **Background**: Subtle background color (`--color-bg-alt`) on hover/tap
+- **Border**: Border changes from transparent to `--item-border-hover` with 1px ring accent
+- **Shadow**: Subtle shadow (0 2px 4px rgba(0,0,0,0.05))
+- **Lift**: 1px upward translateY on hover/tap (half the lift of cards for subtlety)
+- **Padding**: Links have internal padding (0.25rem 0.5rem) with negative margin to maintain layout
+- **Border Radius**: Rounded corners (0.375rem) for pill-like appearance
+- **Transition**: 180ms ease-out for all properties (disabled for `prefers-reduced-motion`)
+
+**CSS Strategy:**
+- Links styled as inline-block with padding and negative margins to expand hit area without affecting layout
+- Desktop: `@media (hover: hover) and (pointer: fine)` with `:hover` + `.pointer-hover` class
+- Touch: `@media (hover: none) and (pointer: coarse)` with `:active` + `.tap-active` class
+- Keyboard: `:focus-visible` applies same styling universally
+- Motion reduction: `prefers-reduced-motion: reduce` disables transform
+
+**JavaScript Integration:**
+- `initializeTouchFeedback()`: Added `.themes-section` container with `.theme-repos a` selector
+- `initializePointerHover()`: Added `.themes-section` container with `.theme-repos a` selector
+- Pointer detection for iPadOS Safari trackpad compatibility
+- Touch event handling for mobile tap feedback
+
+**Files Modified:**
+- `styles.css`:
+  - Updated `.theme-repos a` base styles with padding, margin, border-radius, transparent border (lines 705-714)
+  - Added multi-property transitions (color, border, background, shadow, transform) (lines 716-722)
+  - Desktop hover: Background + border + shadow + lift + brand accent color (lines 725-733)
+  - Touch active: Identical styling to desktop hover (lines 737-745)
+  - Keyboard focus: Identical styling with outline removed (lines 749-756)
+  - Motion reduction override for transform (lines 758-766)
+- `script.js`:
+  - Added `.themes-section` to `initializeTouchFeedback()` with selector `.theme-repos a` (line 535-538)
+  - Added `.themes-section` to `initializePointerHover()` with selector `.theme-repos a` (line 600-604)
+
+**Design Principles:**
+- **Prominent but restrained**: More visible than plain text hover, less dramatic than card lift (1px vs 2px)
+- **Pill-style affordance**: Rounded corners and padding create button-like appearance
+- **Brand consistency**: Uses same CSS variables as publication/repository title hovers
+- **Unified interaction**: Desktop, touch, and keyboard all show identical visual feedback
+- **Layout preservation**: Negative margins prevent hover state from shifting surrounding content
+
+**Testing:**
+- [ ] Desktop: Hover shows background + border + shadow + 1px lift + brand blue text
+- [ ] iPad trackpad: Mouseover triggers immediate feedback (iPadOS Safari + Chrome)
+- [ ] iPad/iPhone touch: Tap shows same background + border + shadow + lift
+- [ ] Keyboard Tab: Focus shows identical styling with no outline (border/shadow provide indication)
+- [ ] Dark mode: Hover/tap uses dark theme colors (#60A5FA, adjusted shadow)
+- [ ] Link navigation: Clicking navigates normally, no blocked events
+- [ ] Layout stability: Hover doesn't shift surrounding links (negative margin technique)
+- [ ] Motion reduction: Transform disabled for users with `prefers-reduced-motion: reduce`

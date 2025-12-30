@@ -530,6 +530,12 @@ function initializeTouchFeedback() {
   if (reposGrid) {
     handleTouchFeedback(reposGrid, '.repo-card');
   }
+
+  // Event delegation on research themes links
+  const themesSection = document.querySelector('.themes-section');
+  if (themesSection) {
+    handleTouchFeedback(themesSection, '.theme-repos a');
+  }
 }
 
 function handleTouchFeedback(container, itemSelector) {
@@ -589,6 +595,12 @@ function initializePointerHover() {
   const reposGrid = document.getElementById('reposGrid');
   if (reposGrid) {
     handlePointerHover(reposGrid, '.repo-card');
+  }
+
+  // Research themes links hover
+  const themesSection = document.querySelector('.themes-section');
+  if (themesSection) {
+    handlePointerHover(themesSection, '.theme-repos a');
   }
 
   function handlePointerHover(container, itemSelector) {
