@@ -436,15 +436,17 @@ letter-spacing: 0.05em;
   }
 }
 
-/* Desktop hover (pointer devices) */
+/* Desktop hover (pointer devices) + JS pointer-hover class for iPadOS Safari */
 @media (hover: hover) and (pointer: fine) {
-  .repo-card:hover {
+  .repo-card:hover,
+  .repo-card.pointer-hover {
     border-color: var(--item-border-hover);
     box-shadow: 0 0 0 1px var(--item-ring-hover), var(--item-shadow-hover);
     transform: translateY(-2px);
   }
 
-  .repo-card:hover .repo-title {
+  .repo-card:hover .repo-title,
+  .repo-card.pointer-hover .repo-title {
     color: var(--item-title-hover);
   }
 }
@@ -758,15 +760,17 @@ background: var(--color-bg);
   }
 }
 
-/* Desktop hover (pointer devices) */
+/* Desktop hover (pointer devices) + JS pointer-hover class for iPadOS Safari */
 @media (hover: hover) and (pointer: fine) {
-  .pub-item:hover {
+  .pub-item:hover,
+  .pub-item.pointer-hover {
     border-color: var(--item-border-hover);
     box-shadow: 0 0 0 1px var(--item-ring-hover), var(--item-shadow-hover);
     transform: translateY(-2px);
   }
 
-  .pub-item:hover .pub-title {
+  .pub-item:hover .pub-title,
+  .pub-item.pointer-hover .pub-title {
     color: var(--item-title-hover);
   }
 }

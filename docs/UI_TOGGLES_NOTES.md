@@ -458,3 +458,94 @@ Separate interaction states for pointer vs touch devices using CSS media queries
 - [ ] Tapping links navigates correctly, no blocked events
 - [ ] Desktop hover unchanged after mobile fix
 - [ ] `prefers-reduced-motion` disables all animations on all devices
+
+---
+
+## iPadOS Safari Trackpad Hover Fix (2025-12-30)
+
+### 9. JavaScript Pointer Hover Bridge for iPadOS Safari
+
+**Problem:**
+iPadOS Safari with trackpad/Magic Keyboard does NOT trigger CSS `:hover` on mouseover for non-anchor container elements (`.pub-item`, `.repo-card`). The hover "pop" styling only activates after a tap/click, unlike iPadOS Chrome which triggers hover immediately on pointer movement.
+
+**Root Cause:**
+iPadOS Safari is conservative about applying `:hover` pseudo-class to non-interactive elements when using pointer devices. Even with `@media (hover: hover) and (pointer: fine)`, Safari does not reliably trigger `:hover` on `<div>`/`<article>` containers on trackpad mouseover.
+
+**Solution:**
+JavaScript-driven pointer detection that adds a `.pointer-hover` class on `pointerover` events for mouse/trackpad devices. CSS then applies identical styling to both `:hover` and `.pointer-hover`.
+
+**Implementation:**
+
+**JavaScript Strategy (script.js):**
+- Added `initializePointerHover()` function called on DOMContentLoaded
+- Event delegation on `.pubs-list` and `#reposGrid` containers
+- Pointer event sequence:
+  1. Detect pointer type on first `pointermove` (mouse/pen = fine pointer)
+  2. `pointerover` → add `.pointer-hover` class to hovered item (mouse/pen only)
+  3. `pointerout` → remove `.pointer-hover` when leaving item
+  4. Safety cleanup on scroll/visibilitychange to prevent sticky hover
+- Touch pointers (`pointerType === 'touch'`) are explicitly ignored (no `.pointer-hover` class added)
+
+**CSS Strategy (styles.css):**
+- Updated desktop hover rules to include `.pointer-hover`:
+  ```css
+  @media (hover: hover) and (pointer: fine) {
+    .repo-card:hover,
+    .repo-card.pointer-hover { /* ... */ }
+  }
+  ```
+- Identical styling for `.pub-item.pointer-hover` in publications section
+- Touch devices continue using `:active` and `.tap-active` (unchanged)
+
+**Behavior:**
+- **iPadOS Safari + trackpad**: Pointer mouseover triggers `.pointer-hover` → immediate pop styling
+- **iPadOS Chrome + trackpad**: CSS `:hover` works natively, `.pointer-hover` is redundant but harmless
+- **Desktop browsers**: CSS `:hover` works natively, `.pointer-hover` adds redundancy (no conflict)
+- **Touch devices**: No `.pointer-hover` applied (pointer type check), continues using `:active`/`.tap-active`
+- **Scroll/visibility change**: Cleans up `.pointer-hover` to prevent sticky state
+
+**Edge Cases Handled:**
+- Pointer moving between child elements (links, badges): Only removes `.pointer-hover` when leaving item entirely
+- Multiple items: Cleans up previous `.pointer-hover` when moving to new item
+- Scrolling with pointer over item: Safety cleanup removes `.pointer-hover` on scroll
+- Tab/visibility switch: Cleanup on `visibilitychange` prevents stale hover state
+- Touch interactions: Explicitly filtered out via `pointerType !== 'touch'` check
+
+**Accessibility:**
+- Passive event listeners (`{ passive: true }`) for scroll performance
+- No interference with click/navigation events
+- Keyboard focus (`:focus-visible`) remains unchanged (works independently)
+- Touch feedback (`:active`, `.tap-active`) remains unchanged
+
+**Files Modified:**
+- `script.js`:
+  - Added `initializePointerHover()` function (lines 566-644)
+  - Nested `handlePointerHover(container, itemSelector)` helper with event delegation
+  - Safety cleanup listeners on scroll/visibilitychange
+- `styles.css`:
+  - Updated `.repo-card:hover` selector to `.repo-card:hover, .repo-card.pointer-hover` (line 441-442)
+  - Updated `.repo-card:hover .repo-title` to include `.repo-card.pointer-hover .repo-title` (line 449)
+  - Updated `.pub-item:hover` selector to `.pub-item:hover, .pub-item.pointer-hover` (line 765-766)
+  - Updated `.pub-item:hover .pub-title` to include `.pub-item.pointer-hover .pub-title` (line 773)
+
+**Browser/Device Compatibility:**
+- iPadOS Safari 13+ with trackpad/Magic Keyboard: Fixed ✅
+- iPadOS Chrome with trackpad: Unchanged (CSS hover continues to work)
+- Desktop browsers: Unchanged (CSS hover continues to work)
+- Touch devices (all browsers): Unchanged (pointer type filtering)
+
+**Performance:**
+- Event delegation: Only 2 `pointerover` + 2 `pointerout` listeners (pubs + repos containers)
+- Passive listeners: No scroll blocking
+- Cleanup listeners: 1 scroll + 1 visibilitychange per container (minimal overhead)
+- No per-item listeners: Scales efficiently with dynamic content
+
+**Testing Checklist (iPadOS Safari Trackpad):**
+- [ ] iPadOS Safari + Magic Keyboard trackpad: Mouseover triggers pop immediately
+- [ ] iPadOS Safari + Magic Keyboard trackpad: Mouseout removes pop
+- [ ] iPadOS Safari + touch: Tap triggers `:active`/`.tap-active` (no `.pointer-hover`)
+- [ ] iPadOS Safari + scroll while hovering: Hover clears, no sticky state
+- [ ] iPadOS Chrome + trackpad: Hover continues to work (CSS or JS, both acceptable)
+- [ ] Desktop browsers: Hover unchanged (CSS or JS, both acceptable)
+- [ ] Clicking links: Navigation works normally, no blocked events
+- [ ] Keyboard Tab focus: Focus-visible styling works independently

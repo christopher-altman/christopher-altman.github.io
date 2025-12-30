@@ -160,6 +160,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initializeViewToggles();
   initializeKeyboardShortcuts();
   initializeTouchFeedback();
+  initializePointerHover();
 });
 
 // Methods Chips
@@ -560,4 +561,84 @@ function handleTouchFeedback(container, itemSelector) {
 
   container.addEventListener('touchend', removeTapActive, { passive: true });
   container.addEventListener('touchcancel', removeTapActive, { passive: true });
+}
+
+// Pointer Hover Detection for iPadOS Safari
+// iPadOS Safari doesn't reliably trigger :hover on trackpad mouseover for non-anchor elements
+// This JS bridge detects pointer devices (mouse/trackpad) and adds .pointer-hover class
+function initializePointerHover() {
+  let hasFinePointer = false;
+
+  // Detect if device has fine pointer capability (trackpad/mouse)
+  const detectPointer = (e) => {
+    if (e.pointerType === 'mouse' || e.pointerType === 'pen') {
+      hasFinePointer = true;
+      // Remove listener after first detection
+      document.removeEventListener('pointermove', detectPointer);
+    }
+  };
+  document.addEventListener('pointermove', detectPointer, { passive: true, once: true });
+
+  // Publications list hover
+  const pubsList = document.querySelector('.pubs-list');
+  if (pubsList) {
+    handlePointerHover(pubsList, '.pub-item');
+  }
+
+  // Repositories grid hover
+  const reposGrid = document.getElementById('reposGrid');
+  if (reposGrid) {
+    handlePointerHover(reposGrid, '.repo-card');
+  }
+
+  function handlePointerHover(container, itemSelector) {
+    let currentHoverItem = null;
+
+    container.addEventListener('pointerover', (e) => {
+      // Only apply to mouse/trackpad pointers
+      if (e.pointerType !== 'mouse' && e.pointerType !== 'pen') return;
+
+      const item = e.target.closest(itemSelector);
+      if (!item) return;
+
+      // Remove hover from previous item if different
+      if (currentHoverItem && currentHoverItem !== item) {
+        currentHoverItem.classList.remove('pointer-hover');
+      }
+
+      currentHoverItem = item;
+      item.classList.add('pointer-hover');
+    }, { passive: true });
+
+    container.addEventListener('pointerout', (e) => {
+      // Only apply to mouse/trackpad pointers
+      if (e.pointerType !== 'mouse' && e.pointerType !== 'pen') return;
+
+      const item = e.target.closest(itemSelector);
+      if (!item) return;
+
+      // Only remove if we're leaving the item entirely (not just entering a child)
+      if (!item.contains(e.relatedTarget)) {
+        item.classList.remove('pointer-hover');
+        if (currentHoverItem === item) {
+          currentHoverItem = null;
+        }
+      }
+    }, { passive: true });
+
+    // Safety cleanup on scroll/visibility change (prevents sticky hover)
+    const cleanupHover = () => {
+      if (currentHoverItem) {
+        currentHoverItem.classList.remove('pointer-hover');
+        currentHoverItem = null;
+      }
+      // Also clean up any stray hover classes
+      container.querySelectorAll('.pointer-hover').forEach(el => {
+        el.classList.remove('pointer-hover');
+      });
+    };
+
+    window.addEventListener('scroll', cleanupHover, { passive: true });
+    document.addEventListener('visibilitychange', cleanupHover);
+  }
 }
