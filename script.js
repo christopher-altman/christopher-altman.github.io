@@ -159,6 +159,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initializeThemeToggle();
   initializeViewToggles();
   initializeKeyboardShortcuts();
+  initializeTouchFeedback();
 });
 
 // Methods Chips
@@ -513,4 +514,50 @@ function initializeKeyboardShortcuts() {
       }
     }
   });
+}
+
+// Touch Feedback for Mobile/iOS
+function initializeTouchFeedback() {
+  // Event delegation on publications list
+  const pubsList = document.querySelector('.pubs-list');
+  if (pubsList) {
+    handleTouchFeedback(pubsList, '.pub-item');
+  }
+
+  // Event delegation on repositories grid
+  const reposGrid = document.getElementById('reposGrid');
+  if (reposGrid) {
+    handleTouchFeedback(reposGrid, '.repo-card');
+  }
+}
+
+function handleTouchFeedback(container, itemSelector) {
+  let activeItem = null;
+  let timeout = null;
+
+  container.addEventListener('touchstart', (e) => {
+    const item = e.target.closest(itemSelector);
+    if (!item) return;
+
+    // Ignore if touching input/textarea/contenteditable
+    if (['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName) || e.target.isContentEditable) {
+      return;
+    }
+
+    activeItem = item;
+    item.classList.add('tap-active');
+  }, { passive: true });
+
+  const removeTapActive = () => {
+    if (activeItem) {
+      if (timeout) clearTimeout(timeout);
+      timeout = setTimeout(() => {
+        activeItem.classList.remove('tap-active');
+        activeItem = null;
+      }, 200);
+    }
+  };
+
+  container.addEventListener('touchend', removeTapActive, { passive: true });
+  container.addEventListener('touchcancel', removeTapActive, { passive: true });
 }

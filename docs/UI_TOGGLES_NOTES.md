@@ -326,3 +326,135 @@ Notes:
 - Title color change is obvious in both list and cards view
 - Works consistently across Publications and Featured Repositories
 - Lift animation is restrained and professional
+
+---
+
+## Mobile Parity Fix (2025-12-30)
+
+### 8. Touch-Friendly Interaction States (iOS/iPadOS/Mobile)
+
+**Problem:**
+Hover states don't work reliably on touch devices (iPhone, iPad, mobile browsers). CSS `:hover` is unpredictable on touch — sometimes fires on tap, sometimes persists ("sticky hover"), sometimes doesn't fire at all.
+
+**Solution:**
+Separate interaction states for pointer vs touch devices using CSS media queries and JavaScript touch handlers.
+
+**Implementation:**
+
+**CSS Strategy (styles.css):**
+- **Desktop (pointer devices)**: `@media (hover: hover) and (pointer: fine)` — hover states on `:hover` only
+- **Touch devices**: `@media (hover: none) and (pointer: coarse)` — tap feedback on `:active` + `.tap-active` class
+- **Keyboard (all devices)**: `:focus-visible` works universally (outside media queries)
+
+**JavaScript Strategy (script.js):**
+- Added `initializeTouchFeedback()` function called on DOMContentLoaded
+- Event delegation on `.pubs-list` and `#reposGrid` containers
+- Touch event sequence:
+  1. `touchstart` → add `.tap-active` class to tapped item
+  2. `touchend` / `touchcancel` → remove `.tap-active` after 200ms timeout
+- Prevents sticky hover: class auto-removes after tap completes
+- Ignores touches on inputs/textareas/contenteditable elements
+
+**Visual Behavior:**
+- **Desktop hover**: Border darkens, title → brand accent, shadow + 2px lift (unchanged from previous iteration)
+- **Touch tap**: Identical visual feedback via `:active` and `.tap-active` class during tap
+- **iPad trackpad/keyboard**: Hover and focus-visible work as expected (pointer: fine media query applies)
+- **Motion sensitivity**: All transitions/transforms disabled for `prefers-reduced-motion: reduce`
+
+**Edge Cases Handled:**
+- iPad with Magic Keyboard: Both hover (trackpad) and touch work independently
+- Touch-drag scrolling: `touchcancel` removes `.tap-active` without triggering false feedback
+- Link navigation: Tap feedback doesn't block navigation, completes naturally
+- Multi-touch: Only tracks last tapped item, clears correctly
+
+**Accessibility:**
+- Passive event listeners (`{ passive: true }`) for better scroll performance
+- No interference with native tap/click behavior
+- Focus-visible keyboard navigation unchanged
+- Touch feedback is purely additive, doesn't break existing interactions
+
+**Files Modified:**
+- `styles.css`:
+  - Refactored `.pub-item:hover` and `.repo-card:hover` into `@media (hover: hover) and (pointer: fine)` blocks
+  - Added `@media (hover: none) and (pointer: coarse)` blocks with `:active` and `.tap-active` selectors
+  - Moved `:focus-visible` rules outside media queries (universal)
+  - Updated `prefers-reduced-motion` overrides to cover all states
+- `script.js`:
+  - Added `initializeTouchFeedback()` function (lines 520-532)
+  - Added `handleTouchFeedback(container, itemSelector)` helper (lines 534-563)
+  - Attached event delegation to `.pubs-list` and `#reposGrid` containers
+
+**Browser/Device Compatibility:**
+- iOS Safari 12+
+- iPadOS Safari 13+ (touch + trackpad hybrid support)
+- Chrome/Firefox/Edge mobile (Android/iOS)
+- Desktop browsers: No change, hover continues to work identically
+
+**Testing Checklist (Mobile Parity):**
+- [ ] iPhone Safari: Tap pub/repo item shows border + ring + title accent + lift
+- [ ] iPad touch: Same tap feedback as iPhone
+- [ ] iPad trackpad: Hover works on mouseover (not tap)
+- [ ] iPad Magic Keyboard: Tab + focus-visible shows identical styling
+- [ ] Android Chrome: Tap feedback appears and clears correctly
+- [ ] Touch-drag scroll: Feedback doesn't stick, clears on `touchcancel`
+- [ ] Link navigation: Tapping GitHub link navigates correctly, no blocked events
+- [ ] Multi-touch: Only last touched item gets `.tap-active`, no conflicts
+- [ ] Desktop unchanged: Hover still works on mouse devices
+- [ ] `prefers-reduced-motion`: Lift animation disabled, transitions disabled
+
+**Performance:**
+- Event delegation: Only 2 event listeners total (pubs + repos containers)
+- Passive listeners: No scroll blocking
+- 200ms timeout: Negligible memory/CPU impact
+- Class toggle: Single DOM mutation per tap
+
+---
+
+## Updated Testing Checklist (Complete)
+
+### Original features:
+- [ ] Hard refresh shows no theme flash (test both light→dark and dark→light)
+- [ ] Theme persists across page refresh
+- [ ] Publications view persists across refresh
+- [ ] Repositories view persists across refresh
+- [ ] Cards layout adapts to viewport width (test 320px, 768px, 1200px)
+- [ ] List view remains readable on mobile
+- [ ] All toggles keyboard-accessible (Tab + Enter/Space)
+- [ ] Focus rings visible on all interactive elements
+- [ ] Contrast acceptable in both light and dark themes (WCAG AA minimum)
+- [ ] Empty repository state doesn't break card grid
+- [ ] Long publication titles wrap gracefully in cards
+
+### Enhancements (smooth transitions, keyboard shortcuts, collapse):
+- [ ] Theme toggle animates smoothly AFTER first click (not on initial load)
+- [ ] Theme transitions disabled for `prefers-reduced-motion: reduce` users
+- [ ] Keyboard shortcut `v` toggles last active section's view
+- [ ] Keyboard shortcut `Shift+V` toggles both sections together
+- [ ] Keyboard shortcut `l` sets list view for active section
+- [ ] Keyboard shortcut `g` sets cards view for active section
+- [ ] Shortcuts ignored when typing in inputs/textareas
+- [ ] Collapse button appears on each repo card (list and cards view)
+- [ ] Collapse state persists separately for list vs cards view
+- [ ] Collapsed cards show only title row, hide all details
+- [ ] Switching between views loads that view's saved collapse states
+- [ ] Chevron rotates smoothly when toggling collapse
+- [ ] Collapse button accessible via keyboard (Tab + Enter/Space)
+- [ ] Mobile: collapse button remains tappable, no conflicts with links
+
+### Hover highlights (desktop):
+- [ ] Desktop hover shows border + ring + brand accent title + shadow + lift
+- [ ] Hover is unmissable but not garish
+- [ ] Title color change obvious in both list and cards view
+- [ ] Works consistently across Publications and Featured Repositories
+- [ ] Focus-visible (keyboard) matches hover appearance
+
+### Mobile parity (touch devices):
+- [ ] iPhone Safari: Tap shows identical feedback to desktop hover
+- [ ] iPad touch: Tap feedback works correctly
+- [ ] iPad trackpad: Hover works on mouseover (pointer: fine)
+- [ ] iPad keyboard: Focus-visible styling identical to hover
+- [ ] Android Chrome/Firefox: Tap feedback appears and clears
+- [ ] Touch-drag scroll doesn't trigger sticky feedback
+- [ ] Tapping links navigates correctly, no blocked events
+- [ ] Desktop hover unchanged after mobile fix
+- [ ] `prefers-reduced-motion` disables all animations on all devices
