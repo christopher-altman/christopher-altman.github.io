@@ -249,3 +249,80 @@ Notes:
   - Shortcuts disabled while typing in inputs/textareas
   - Changes persist via localStorage
 ```
+
+---
+
+## Additional Enhancement (2025-12-30)
+
+### 7. Subtle Hover Highlights (AE Research Style)
+
+**Implementation:**
+- Minimal, modern hover states for publication and repository items
+- Inspired by https://ae.studio/research interaction patterns
+- Works in both list and cards view, both light and dark themes
+
+**Visual behavior:**
+- **Border**: Subtle darkening (light mode) or lightening (dark mode) on hover
+- **Title**: Text color shifts slightly toward pure black (light) or white (dark)
+- **Shadow**: Very slight shadow increase (4px blur, 4% opacity)
+- **Transition**: Smooth 160ms ease-out (disabled for `prefers-reduced-motion`)
+
+**Theme-aware variables:**
+- Light mode: `--item-border-hover: #D1D5DB`, `--item-title-hover: #000000`
+- Dark mode: `--item-border-hover: #4B5563`, `--item-title-hover: #F9FAFB`
+
+**Accessibility:**
+- Same styling applies to `:focus-visible` (keyboard navigation)
+- No layout shift on hover
+- Native focus ring removed (`outline: none`) as border + shadow provide sufficient indication
+- Transitions respect `prefers-reduced-motion: reduce`
+
+**Files modified:**
+- `styles.css`:
+  - Added `--item-border-hover` and `--item-title-hover` to theme variables
+  - Added hover/focus-visible styles for `.pub-item` and `.repo-card`
+  - Wrapped transitions in `@media (prefers-reduced-motion: no-preference)`
+
+**Design principles:**
+- **Whisper-level interaction**: No dramatic lifts, scales, or bounces
+- **Theme consistency**: Hover states adapt to light/dark mode automatically
+- **Motion-aware**: Animation disabled for users with motion sensitivity
+- **Keyboard parity**: Focus-visible state matches hover for equal experience
+
+---
+
+## Enhancement Iteration (2025-12-30)
+
+### Stronger "Pop" Hover States
+
+**Update:** The original hover styling was too subtle. Enhanced to highlight interaction.
+
+**New visual behavior:**
+- **Border + Ring**: Stronger border color (#9CA3AF light / #6B7280 dark) PLUS 1px ring via box-shadow (#6B7280 light / #9CA3AF dark)
+- **Title Color**: Changes to brand accent on hover (#2563EB light / #60A5FA dark) — clearly visible in both list and cards
+- **Shadow**: Increased to 8px blur, 8% opacity (light) / 24% opacity (dark)
+- **Lift**: Subtle 2px upward translateY on hover (disabled for `prefers-reduced-motion`)
+- **Transition**: Increased to 180ms ease-out for smoother feel
+
+**Updated theme variables:**
+- Light mode:
+  - `--item-border-hover: #9CA3AF` (stronger gray)
+  - `--item-ring-hover: #6B7280` (ring accent)
+  - `--item-title-hover: #2563EB` (brand blue)
+  - `--item-shadow-hover: 0 8px 16px rgba(0, 0, 0, 0.08)`
+- Dark mode:
+  - `--item-border-hover: #6B7280` (lighter gray)
+  - `--item-ring-hover: #9CA3AF` (lighter ring)
+  - `--item-title-hover: #60A5FA` (brand blue)
+  - `--item-shadow-hover: 0 8px 16px rgba(0, 0, 0, 0.24)`
+
+**Accessibility updates:**
+- `prefers-reduced-motion: reduce` now disables both transitions AND transform
+- Focus-visible state matches full hover appearance (ring, shadow, lift, title color)
+- No layout shift (transform is visual-only, no padding/margin changes)
+
+**Testing:**
+- Hover is now unmissable but not garish
+- Title color change is obvious in both list and cards view
+- Works consistently across Publications and Featured Repositories
+- Lift animation is restrained and professional

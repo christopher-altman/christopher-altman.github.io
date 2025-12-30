@@ -15,6 +15,10 @@
   --color-bg-alt: #F9FAFB;
   --color-accent: #2563EB;
   --color-stripe: #FAFAFA;
+  --item-border-hover: #9CA3AF;
+  --item-ring-hover: #6B7280;
+  --item-title-hover: #2563EB;
+  --item-shadow-hover: 0 8px 16px rgba(0, 0, 0, 0.08);
   --max-width: 1152px;
   --spacing-xs: 0.5rem;
   --spacing-sm: 1rem;
@@ -34,6 +38,10 @@
   --color-bg-alt: #1F2937;
   --color-accent: #60A5FA;
   --color-stripe: #0D1117;
+  --item-border-hover: #6B7280;
+  --item-ring-hover: #9CA3AF;
+  --item-title-hover: #60A5FA;
+  --item-shadow-hover: 0 8px 16px rgba(0, 0, 0, 0.24);
 }
 
 html {
@@ -417,11 +425,38 @@ letter-spacing: 0.05em;
   border-radius: 0.5rem;
   padding: 1.5rem;
   background: var(--color-bg);
-  transition: box-shadow 0.3s ease;
 }
 
-.repo-card:hover {
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+@media (prefers-reduced-motion: no-preference) {
+  .repo-card {
+    transition: border-color 180ms ease-out, box-shadow 180ms ease-out, transform 180ms ease-out;
+  }
+  .repo-card .repo-title {
+    transition: color 180ms ease-out;
+  }
+}
+
+.repo-card:hover,
+.repo-card:focus-visible {
+  border-color: var(--item-border-hover);
+  box-shadow: 0 0 0 1px var(--item-ring-hover), var(--item-shadow-hover);
+  transform: translateY(-2px);
+  outline: none;
+}
+
+.repo-card:hover .repo-title,
+.repo-card:focus-visible .repo-title {
+  color: var(--item-title-hover);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .repo-card {
+    transition: none;
+  }
+  .repo-card:hover,
+  .repo-card:focus-visible {
+    transform: none;
+  }
 }
 
 .repo-header {
@@ -683,11 +718,38 @@ border: 1px solid var(--color-border);
 border-radius: 0.5rem;
 padding: 1.25rem;
 background: var(--color-bg);
-transition: box-shadow 0.3s ease;
 }
 
-.pub-item:hover {
-box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+@media (prefers-reduced-motion: no-preference) {
+  .pub-item {
+    transition: border-color 180ms ease-out, box-shadow 180ms ease-out, transform 180ms ease-out;
+  }
+  .pub-item .pub-title {
+    transition: color 180ms ease-out;
+  }
+}
+
+.pub-item:hover,
+.pub-item:focus-visible {
+  border-color: var(--item-border-hover);
+  box-shadow: 0 0 0 1px var(--item-ring-hover), var(--item-shadow-hover);
+  transform: translateY(-2px);
+  outline: none;
+}
+
+.pub-item:hover .pub-title,
+.pub-item:focus-visible .pub-title {
+  color: var(--item-title-hover);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pub-item {
+    transition: none;
+  }
+  .pub-item:hover,
+  .pub-item:focus-visible {
+    transform: none;
+  }
 }
 
 .pub-title {
