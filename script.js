@@ -122,6 +122,29 @@ let searchTerm = '';
 let selectedTags = [];
 let selectedMethod = null;
 let expandedRepoId = null;
+let lastActiveSection = 'repo'; // Track which section was last interacted with
+
+// Repo collapse state per view mode
+function getRepoCollapseState() {
+  const stored = localStorage.getItem('repoCollapseState');
+  return stored ? JSON.parse(stored) : { cards: {}, list: {} };
+}
+
+function setRepoCollapseState(state) {
+  localStorage.setItem('repoCollapseState', JSON.stringify(state));
+}
+
+function isRepoCollapsed(repoId, viewMode) {
+  const state = getRepoCollapseState();
+  return state[viewMode]?.[repoId] || false;
+}
+
+function toggleRepoCollapse(repoId, viewMode) {
+  const state = getRepoCollapseState();
+  if (!state[viewMode]) state[viewMode] = {};
+  state[viewMode][repoId] = !state[viewMode][repoId];
+  setRepoCollapseState(state);
+}
 
 // Get all unique tags
 const allTags = [...new Set(repositories.flatMap(r => r.tags))].sort();
@@ -133,6 +156,9 @@ document.addEventListener('DOMContentLoaded', () => {
   initializeSearch();
   renderRepositories();
   updateCurrentYear();
+  initializeThemeToggle();
+  initializeViewToggles();
+  initializeKeyboardShortcuts();
 });
 
 // Methods Chips
@@ -261,51 +287,74 @@ function renderRepositories() {
 function createRepoCard(repo) {
   const card = document.createElement('div');
   card.className = 'repo-card';
-  
-  const isExpanded = expandedRepoId === repo.id;
-  
+
+  const reposSection = document.querySelector('.repos-section');
+  const currentView = reposSection?.dataset.view || 'list';
+  const isCollapsed = isRepoCollapsed(repo.id, currentView);
+
+  card.dataset.repoId = repo.id;
+  card.dataset.collapsed = isCollapsed;
+
   card.innerHTML = `
     <div class="repo-header">
-      <h4 class="repo-title">${repo.title}</h4>
-      <a href="${repo.url}" target="_blank" rel="noopener noreferrer" class="repo-link" aria-label="View repository on GitHub">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-          <polyline points="15 3 21 3 21 9"></polyline>
-          <line x1="10" y1="14" x2="21" y2="3"></line>
+      <div class="repo-header-left">
+        <h4 class="repo-title">${repo.title}</h4>
+        <a href="${repo.url}" target="_blank" rel="noopener noreferrer" class="repo-link" aria-label="View repository on GitHub">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+            <polyline points="15 3 21 3 21 9"></polyline>
+            <line x1="10" y1="14" x2="21" y2="3"></line>
+          </svg>
+        </a>
+      </div>
+      <button class="collapse-btn" aria-label="${isCollapsed ? 'Expand details' : 'Collapse details'}" aria-expanded="${!isCollapsed}">
+        <svg class="collapse-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="18 15 12 9 6 15"></polyline>
         </svg>
-      </a>
+      </button>
     </div>
-    
-    <p class="repo-short-desc">${repo.shortDesc}</p>
-    
-    <div class="repo-methods">
-      <h5>Methods</h5>
-      <ul>
-        ${repo.methods.map(method => `<li>${method}</li>`).join('')}
-      </ul>
+
+    <div class="repo-details">
+      <p class="repo-short-desc">${repo.shortDesc}</p>
+
+      <div class="repo-methods">
+        <h5>Methods</h5>
+        <ul>
+          ${repo.methods.map(method => `<li>${method}</li>`).join('')}
+        </ul>
+      </div>
+
+      <div class="repo-finding">
+        <p><strong>Key finding:</strong> ${repo.finding}</p>
+      </div>
+
+      <div class="repo-tags">
+        ${repo.tags.map(tag => `<span class="repo-tag">${tag}</span>`).join('')}
+      </div>
+
+      <button class="expand-btn ${expandedRepoId === repo.id ? 'expanded' : ''}" data-repo-id="${repo.id}" aria-expanded="${expandedRepoId === repo.id}">
+        <svg class="expand-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+        ${expandedRepoId === repo.id ? 'Show less' : 'Read more'}
+      </button>
+
+      ${expandedRepoId === repo.id ? `<div class="repo-long-desc">${repo.longDesc}</div>` : ''}
     </div>
-    
-    <div class="repo-finding">
-      <p><strong>Key finding:</strong> ${repo.finding}</p>
-    </div>
-    
-    <div class="repo-tags">
-      ${repo.tags.map(tag => `<span class="repo-tag">${tag}</span>`).join('')}
-    </div>
-    
-    <button class="expand-btn ${isExpanded ? 'expanded' : ''}" data-repo-id="${repo.id}" aria-expanded="${isExpanded}">
-      <svg class="expand-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <polyline points="6 9 12 15 18 9"></polyline>
-      </svg>
-      ${isExpanded ? 'Show less' : 'Read more'}
-    </button>
-    
-    ${isExpanded ? `<div class="repo-long-desc">${repo.longDesc}</div>` : ''}
   `;
-  
+
+  const collapseBtn = card.querySelector('.collapse-btn');
+  collapseBtn.addEventListener('click', () => {
+    const newCollapsed = !isRepoCollapsed(repo.id, currentView);
+    toggleRepoCollapse(repo.id, currentView);
+    card.dataset.collapsed = newCollapsed;
+    collapseBtn.setAttribute('aria-label', newCollapsed ? 'Expand details' : 'Collapse details');
+    collapseBtn.setAttribute('aria-expanded', !newCollapsed);
+  });
+
   const expandBtn = card.querySelector('.expand-btn');
   expandBtn.addEventListener('click', () => toggleExpand(repo.id));
-  
+
   return card;
 }
 
@@ -317,4 +366,151 @@ function toggleExpand(repoId) {
 // Update current year in footer
 function updateCurrentYear() {
   document.getElementById('currentYear').textContent = new Date().getFullYear();
+}
+
+// Theme Toggle
+function initializeThemeToggle() {
+  const toggle = document.getElementById('themeToggle');
+  if (!toggle) return;
+
+  const updateToggleLabel = () => {
+    const currentTheme = document.documentElement.dataset.theme || 'light';
+    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+    toggle.setAttribute('aria-label', `Switch to ${newTheme} mode`);
+  };
+
+  updateToggleLabel();
+
+  toggle.addEventListener('click', () => {
+    // Enable transitions after first click
+    document.documentElement.classList.add('theme-transitions');
+
+    const currentTheme = document.documentElement.dataset.theme || 'light';
+    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+    document.documentElement.dataset.theme = newTheme;
+    localStorage.setItem('theme', newTheme);
+    updateToggleLabel();
+  });
+}
+
+// View Toggles
+function initializeViewToggles() {
+  // Publications view toggle
+  const pubsSection = document.getElementById('publications');
+  if (pubsSection) {
+    const savedPubView = localStorage.getItem('pubView') || 'list';
+    pubsSection.dataset.view = savedPubView;
+    updateViewButtons(pubsSection, savedPubView);
+
+    pubsSection.querySelectorAll('.view-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        lastActiveSection = 'pub';
+        const view = btn.dataset.view;
+        pubsSection.dataset.view = view;
+        localStorage.setItem('pubView', view);
+        updateViewButtons(pubsSection, view);
+      });
+    });
+
+    // Track focus for keyboard shortcuts
+    pubsSection.addEventListener('focusin', () => {
+      lastActiveSection = 'pub';
+    });
+  }
+
+  // Repositories view toggle
+  const reposSection = document.querySelector('.repos-section');
+  if (reposSection) {
+    const savedRepoView = localStorage.getItem('repoView') || 'list';
+    reposSection.dataset.view = savedRepoView;
+    updateViewButtons(reposSection, savedRepoView);
+
+    reposSection.querySelectorAll('.view-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        lastActiveSection = 'repo';
+        const view = btn.dataset.view;
+        reposSection.dataset.view = view;
+        localStorage.setItem('repoView', view);
+        updateViewButtons(reposSection, view);
+      });
+    });
+
+    // Track focus for keyboard shortcuts
+    reposSection.addEventListener('focusin', () => {
+      lastActiveSection = 'repo';
+    });
+  }
+}
+
+function updateViewButtons(section, activeView) {
+  section.querySelectorAll('.view-btn').forEach(btn => {
+    const isActive = btn.dataset.view === activeView;
+    btn.setAttribute('aria-pressed', isActive);
+  });
+}
+
+// Keyboard Shortcuts
+function initializeKeyboardShortcuts() {
+  document.addEventListener('keydown', (e) => {
+    // Ignore shortcuts when typing in inputs
+    const isTyping = ['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName) ||
+                     e.target.isContentEditable;
+    if (isTyping) return;
+
+    const pubsSection = document.getElementById('publications');
+    const reposSection = document.querySelector('.repos-section');
+
+    // 'v' - Toggle view for last active section
+    if (e.key === 'v' && !e.shiftKey) {
+      e.preventDefault();
+      const section = lastActiveSection === 'pub' ? pubsSection : reposSection;
+      if (section) {
+        const currentView = section.dataset.view;
+        const newView = currentView === 'list' ? 'cards' : 'list';
+        section.dataset.view = newView;
+        localStorage.setItem(lastActiveSection === 'pub' ? 'pubView' : 'repoView', newView);
+        updateViewButtons(section, newView);
+      }
+    }
+
+    // 'V' (Shift+v) - Toggle both sections together
+    if (e.key === 'V' && e.shiftKey) {
+      e.preventDefault();
+      const newView = (pubsSection?.dataset.view === 'list' && reposSection?.dataset.view === 'list')
+        ? 'cards' : 'list';
+
+      if (pubsSection) {
+        pubsSection.dataset.view = newView;
+        localStorage.setItem('pubView', newView);
+        updateViewButtons(pubsSection, newView);
+      }
+      if (reposSection) {
+        reposSection.dataset.view = newView;
+        localStorage.setItem('repoView', newView);
+        updateViewButtons(reposSection, newView);
+      }
+    }
+
+    // 'l' - Set list view for last active section
+    if (e.key === 'l' && !e.ctrlKey && !e.metaKey) {
+      e.preventDefault();
+      const section = lastActiveSection === 'pub' ? pubsSection : reposSection;
+      if (section && section.dataset.view !== 'list') {
+        section.dataset.view = 'list';
+        localStorage.setItem(lastActiveSection === 'pub' ? 'pubView' : 'repoView', 'list');
+        updateViewButtons(section, 'list');
+      }
+    }
+
+    // 'g' - Set cards/grid view for last active section
+    if (e.key === 'g') {
+      e.preventDefault();
+      const section = lastActiveSection === 'pub' ? pubsSection : reposSection;
+      if (section && section.dataset.view !== 'cards') {
+        section.dataset.view = 'cards';
+        localStorage.setItem(lastActiveSection === 'pub' ? 'pubView' : 'repoView', 'cards');
+        updateViewButtons(section, 'cards');
+      }
+    }
+  });
 }
