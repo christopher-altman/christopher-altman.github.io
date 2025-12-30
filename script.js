@@ -567,18 +567,6 @@ function handleTouchFeedback(container, itemSelector) {
 // iPadOS Safari doesn't reliably trigger :hover on trackpad mouseover for non-anchor elements
 // This JS bridge detects pointer devices (mouse/trackpad) and adds .pointer-hover class
 function initializePointerHover() {
-  let hasFinePointer = false;
-
-  // Detect if device has fine pointer capability (trackpad/mouse)
-  const detectPointer = (e) => {
-    if (e.pointerType === 'mouse' || e.pointerType === 'pen') {
-      hasFinePointer = true;
-      // Remove listener after first detection
-      document.removeEventListener('pointermove', detectPointer);
-    }
-  };
-  document.addEventListener('pointermove', detectPointer, { passive: true, once: true });
-
   // Publications list hover
   const pubsList = document.querySelector('.pubs-list');
   if (pubsList) {
@@ -594,6 +582,34 @@ function initializePointerHover() {
   function handlePointerHover(container, itemSelector) {
     let currentHoverItem = null;
 
+    // Use mouseover/mouseout as fallback for better compatibility
+    container.addEventListener('mouseover', (e) => {
+      const item = e.target.closest(itemSelector);
+      if (!item) return;
+
+      // Remove hover from previous item if different
+      if (currentHoverItem && currentHoverItem !== item) {
+        currentHoverItem.classList.remove('pointer-hover');
+      }
+
+      currentHoverItem = item;
+      item.classList.add('pointer-hover');
+    });
+
+    container.addEventListener('mouseout', (e) => {
+      const item = e.target.closest(itemSelector);
+      if (!item) return;
+
+      // Only remove if we're leaving the item entirely (not just entering a child)
+      if (!item.contains(e.relatedTarget)) {
+        item.classList.remove('pointer-hover');
+        if (currentHoverItem === item) {
+          currentHoverItem = null;
+        }
+      }
+    });
+
+    // Pointer events as primary
     container.addEventListener('pointerover', (e) => {
       // Only apply to mouse/trackpad pointers
       if (e.pointerType !== 'mouse' && e.pointerType !== 'pen') return;
