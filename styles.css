@@ -721,28 +721,14 @@ letter-spacing: 0.05em;
   }
 }
 
-/* Desktop hover (pointer devices) + JS pointer-hover class for iPadOS Safari */
-@media (hover: hover) and (pointer: fine) {
-  .theme-repos a:hover,
-  .theme-repos a.pointer-hover {
-    color: var(--item-title-hover);
-    background-color: var(--color-bg-alt);
-    border-color: var(--item-border-hover);
-    box-shadow: 0 0 0 1px var(--item-ring-hover), 0 2px 4px rgba(0, 0, 0, 0.05);
-    transform: translateY(-1px);
-  }
-}
-
-/* Touch devices (tap feedback) */
-@media (hover: none) and (pointer: coarse) {
-  .theme-repos a:active,
-  .theme-repos a.tap-active {
-    color: var(--item-title-hover);
-    background-color: var(--color-bg-alt);
-    border-color: var(--item-border-hover);
-    box-shadow: 0 0 0 1px var(--item-ring-hover), 0 2px 4px rgba(0, 0, 0, 0.05);
-    transform: translateY(-1px);
-  }
+/* Hover/active states (works on all devices for <a> elements) */
+.theme-repos a:hover,
+.theme-repos a:active {
+  color: var(--item-title-hover);
+  background-color: var(--color-bg-alt);
+  border-color: var(--item-border-hover);
+  box-shadow: 0 0 0 1px var(--item-ring-hover), 0 2px 4px rgba(0, 0, 0, 0.05);
+  transform: translateY(-1px);
 }
 
 /* Keyboard focus (all devices) */
@@ -758,8 +744,6 @@ letter-spacing: 0.05em;
 @media (prefers-reduced-motion: reduce) {
   .theme-repos a:hover,
   .theme-repos a:active,
-  .theme-repos a.tap-active,
-  .theme-repos a.pointer-hover,
   .theme-repos a:focus-visible {
     transform: none;
   }

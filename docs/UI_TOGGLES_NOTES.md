@@ -573,16 +573,17 @@ Applied prominent hover effects to Research Themes footer links with background,
 
 **CSS Strategy:**
 - Links styled as inline-block with padding and negative margins to expand hit area without affecting layout
-- Desktop: `@media (hover: hover) and (pointer: fine)` with `:hover` + `.pointer-hover` class
-- Touch: `@media (hover: none) and (pointer: coarse)` with `:active` + `.tap-active` class
+- Uses native `:hover` and `:active` pseudo-classes (no JavaScript needed for `<a>` elements)
+- `:hover` works reliably on all devices including iPadOS Safari because these are native anchor elements
+- `:active` provides tap feedback on touch devices automatically
 - Keyboard: `:focus-visible` applies same styling universally
 - Motion reduction: `prefers-reduced-motion: reduce` disables transform
 
-**JavaScript Integration:**
-- `initializeTouchFeedback()`: Added `.themes-section` container with `.theme-repos a` selector
-- `initializePointerHover()`: Added `.themes-section` container with `.theme-repos a` selector
-- Pointer detection for iPadOS Safari trackpad compatibility
-- Touch event handling for mobile tap feedback
+**Why No JavaScript Needed:**
+- Unlike `.pub-item` and `.repo-card` (which are `<article>`/`<div>` containers), Research Themes uses `<a>` elements
+- Native `<a>` elements support `:hover` on iPadOS Safari trackpad without JavaScript assistance
+- No pointer detection or touch event handlers required
+- Simpler, more performant solution leveraging browser defaults
 
 **Files Modified:**
 - `styles.css`:
