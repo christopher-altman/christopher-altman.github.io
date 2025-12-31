@@ -16,6 +16,21 @@ const repositories = [
     longDesc: 'Implements a falsification testbed for local functional recoverability in neural networks. Minimal matrix-to-RNN pipeline: Hermitian matrix evolves via Langevin dynamics, deterministically mapped into a cyclic RNN trained on self-reconstruction with a mutual-information proxy. After training: perturb weights with Gaussian noise; perform one constrained recovery step under different proxy families using a deterministic PRE→POST→RECOVER pipeline. Challenges locality assumptions in model editing/alignment; highlights functional aliasing.'
   },
   {
+    id: 'noise-aware-qnn-identifiability',
+    title: 'Noise-Aware QNN Identifiability',
+    url: 'https://github.com/christopher-altman/noise-aware-qnn-identifiability',
+    shortDesc: 'Accuracy is not evidence of learning. Under noise, performance can survive while recoverability collapses.',
+    methods: [
+      'Minimal QNN-style testbed: 2-qubit variational circuit with depolarizing noise and amplitude damping',
+      'Dense parameter grid sweeps (16×16, 256 points) over noise probability p and readout noise σ',
+      'Enhanced identifiability metrics: Hessian curvature, Fisher Information conditioning, effective rank',
+      'Deterministic experiments with YAML/JSON configuration and automated plotting'
+    ],
+    finding: 'ρ(acc, identifiability) ≈ 0.04 — accuracy decouples from recoverability; acc ≈ 0.887 at ident ≈ 0.000 demonstrates non-identifiable regime',
+    tags: ['Quantum ML', 'Identifiability', 'Noise', 'Verification'],
+    longDesc: 'This project demonstrates a concrete verification failure mode in noisy quantum (and quantum-inspired) learning systems: models can retain high predictive accuracy even as the underlying parameters become fundamentally unidentifiable. Using a minimal, fully reproducible QNN-style setup, the study shows how noise flattens the information geometry—measured via Hessian curvature and Fisher Information—destroying parameter recoverability without visibly harming task performance. The repository provides a complete research harness: command-line experiments, YAML/JSON configurations, enhanced identifiability metrics, automated plotting, and full test coverage. All results are deterministic, auditable, and easy to extend. Takeaway: accuracy alone is insufficient for verification. Identifiability must be measured explicitly if learned structure is meant to be trusted.'
+  },
+  {
     id: 'sqnt-hardware-demo',
     title: 'SQNT Hardware Demo: Superposed Quantum Network Topologies',
     url: 'https://github.com/christopher-altman/sqnt-hardware-demo',
@@ -114,7 +129,8 @@ const methods = [
   'Hamiltonian evolution',
   'Recoverability falsification',
   'Binarized networks',
-  'Adiabatic validation'
+  'Adiabatic validation',
+  'Identifiability metrics'
 ];
 
 // State
@@ -251,13 +267,14 @@ function getFilteredRepositories() {
       selectedTags.every(tag => repo.tags.includes(tag));
     
     // Method filter
-    const matchesMethod = !selectedMethod || 
+    const matchesMethod = !selectedMethod ||
       (selectedMethod === 'Quantum kernels' && (repo.id === 'qkernel-telemetry' || repo.id === 'quantum-kernel-expressivity')) ||
       (selectedMethod === 'One-class SVM' && repo.id === 'qkernel-telemetry') ||
       (selectedMethod === 'Hamiltonian evolution' && repo.id === 'quantum-decision-flow') ||
       (selectedMethod === 'Recoverability falsification' && repo.id === 'autodidactic-qml') ||
       (selectedMethod === 'Binarized networks' && repo.id === 'bqnn-benchmark') ||
-      (selectedMethod === 'Adiabatic validation' && repo.id === 'scqubits-fork');
+      (selectedMethod === 'Adiabatic validation' && repo.id === 'scqubits-fork') ||
+      (selectedMethod === 'Identifiability metrics' && repo.id === 'noise-aware-qnn-identifiability');
     
     return matchesSearch && matchesTags && matchesMethod;
   });

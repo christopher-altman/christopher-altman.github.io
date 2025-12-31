@@ -128,10 +128,19 @@
         </div>
 
         <figure class="hero-figure" aria-label="Example result figure">
+          <!-- Hero image candidates in assets/hero-candidates/noise-aware-qnn-identifiability/:
+               - fig_accuracy_vs_identifiability.png (current)
+               - combined_metrics.png
+               - heatmap_acc.png
+               - heatmap_ident_proxy.png
+               - fig_fisher_vs_identifiability.png
+               - fig_fisher_condition_vs_noise.png
+               Previous: assets/sqnt-convergence.png
+          -->
           <img
             class="hero-figure-img"
             src="assets/transmon.png"
-            alt="Transmon anharmonicity vs EJ/EC ratio (log-scale)"
+            alt="Transmon anharmonicity vs EJ/EC ratio"
             loading="lazy"
             decoding="async"
           />
@@ -283,8 +292,8 @@
           <div class="stat-label">BQNN parity advantage vs classical</div>
         </div>
         <div class="stat-item">
-          <div class="stat-value">~0.828</div>
-          <div class="stat-label">Heisenberg topology preservation</div>
+          <div class="stat-value">ρ ≈ 0.04</div>
+          <div class="stat-label">Accuracy decouples from recoverability</div>
         </div>
         <div class="stat-item">
           <div class="stat-value">CI ≈ 0</div>
@@ -376,6 +385,18 @@
           </ul>
         </div>
         <div class="theme-card">
+          <h4 class="theme-title">Noise & Identifiability</h4>
+          <ul class="theme-repos">
+            <li><a href="https://github.com/christopher-altman/noise-aware-qnn-identifiability" target="_blank" rel="noopener noreferrer">Noise-aware identifiability collapse</a></li>
+          </ul>
+          <ul class="theme-repos">
+            <li><a href="https://github.com/christopher-altman/noise-aware-qnn-identifiability" target="_blank" rel="noopener noreferrer">Fisher Information conditioning</a></li>
+          </ul>
+          <ul class="theme-repos">
+            <li><a href="https://github.com/christopher-altman/noise-aware-qnn-identifiability" target="_blank" rel="noopener noreferrer">Recoverability diagnostics under stochastic channels</a></li>
+          </ul>
+        </div>
+        <div class="theme-card">
           <h4 class="theme-title">Quantum Machine Learning</h4>
           <ul class="theme-repos">
             <li><a href="https://github.com/christopher-altman/sqnt-hardware-demo">Adaptive Quantum Networks</a></li>
@@ -417,7 +438,7 @@
             <li>
               <a href="https://github.com/christopher-altman/scqubits/tree/main/examples"
                 target="_blank" rel="noopener noreferrer">
-                Transmon anharmonicity vs <code>EJ/EC</code> 
+                Transmon anharmonicity vs <code>EJ/EC</code>
               </a>
             </li>
           </ul>
