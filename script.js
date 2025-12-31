@@ -19,7 +19,7 @@ const repositories = [
     id: 'noise-aware-qnn-identifiability',
     title: 'Noise-Aware QNN Identifiability',
     url: 'https://github.com/christopher-altman/noise-aware-qnn-identifiability',
-    shortDesc: 'Accuracy is not evidence of learning. Under noise, performance can survive while recoverability collapses.',
+    shortDesc: 'Accuracy does not guarantee recoverability. Under noise, performance can survive while recoverability collapses.',
     methods: [
       'Minimal QNN-style testbed: 2-qubit variational circuit with depolarizing noise and amplitude damping',
       'Dense parameter grid sweeps (16×16, 256 points) over noise probability p and readout noise σ',
@@ -173,6 +173,7 @@ document.addEventListener('DOMContentLoaded', () => {
   renderRepositories();
   updateCurrentYear();
   initializeThemeToggle();
+  initializeHeroImageSwap();
   initializeViewToggles();
   initializeKeyboardShortcuts();
   initializeTouchFeedback();
@@ -385,6 +386,38 @@ function toggleExpand(repoId) {
 // Update current year in footer
 function updateCurrentYear() {
   document.getElementById('currentYear').textContent = new Date().getFullYear();
+}
+
+// Hero Image Theme Swap (JPEG only for sharp text)
+function initializeHeroImageSwap() {
+  const heroFigure = document.getElementById('heroFigure');
+  if (!heroFigure) return;
+
+  const updateHeroImage = () => {
+    const currentTheme = document.documentElement.dataset.theme || 'light';
+    const variant = currentTheme === 'dark' ? 'dark' : 'light';
+
+    // Update JPEG src (best quality for sharp text)
+    heroFigure.src = `assets/accuracy-vs-identifiability-${variant}.jpeg`;
+    heroFigure.alt = `Accuracy vs Identifiability (${variant} mode)`;
+  };
+
+  // Set initial image based on current theme
+  updateHeroImage();
+
+  // Watch for theme changes via MutationObserver
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      if (mutation.type === 'attributes' && mutation.attributeName === 'data-theme') {
+        updateHeroImage();
+      }
+    });
+  });
+
+  observer.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ['data-theme']
+  });
 }
 
 // Theme Toggle

@@ -29,6 +29,10 @@
       }
     </script>
     
+    <!-- Preload hero images for instant theme swap (JPEG only for quality) -->
+    <link rel="preload" href="assets/accuracy-vs-identifiability-light.jpeg" as="image" type="image/jpeg" />
+    <link rel="preload" href="assets/accuracy-vs-identifiability-dark.jpeg" as="image" type="image/jpeg" />
+
     <link rel="stylesheet" href="styles.css" />
     <script>
       (function() {
@@ -138,17 +142,10 @@
                Previous: assets/sqnt-convergence.png
           -->
           <img
-            class="hero-figure-img hero-figure-img-light"
+            id="heroFigure"
+            class="hero-figure-img"
             src="assets/accuracy-vs-identifiability-light.jpeg"
-            alt="Accuracy vs Identifiability (light mode)"
-            loading="lazy"
-            decoding="async"
-          />
-          <img
-            class="hero-figure-img hero-figure-img-dark"
-            src="assets/accuracy-vs-identifiability-dark.jpeg"
-            alt="Accuracy vs Identifiability (dark mode)"
-            loading="lazy"
+            alt="Accuracy vs Identifiability"
             decoding="async"
           />
         </figure>

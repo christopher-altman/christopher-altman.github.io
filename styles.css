@@ -206,19 +206,7 @@ letter-spacing: 0.05em;
   box-shadow: 0 0px 0px rgba(0, 0, 0, 0.14);
 }
 
-/* Hero image theme swap */
-.hero-figure-img-dark {
-  display: none;
-}
-
-:root[data-theme="dark"] .hero-figure-img-light {
-  display: none;
-}
-
-:root[data-theme="dark"] .hero-figure-img-dark {
-  display: block;
-}
-
+/* Hero image theme swap (handled via JS src swap) */
 @media (prefers-reduced-motion: no-preference) {
   .hero-figure-img {
     transition: opacity 160ms ease-out;
