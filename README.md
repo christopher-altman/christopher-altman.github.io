@@ -47,7 +47,7 @@ npm run test:coverage
 npm run test:watch
 ```
 
-**Note:** Test files in `__tests__/` and `node_modules/` are not deployed to GitHub Pages.
+**Note:** Test files in `__tests__/` and `node_modules/` are not deployed to remote.
 
 ## Edit content
 

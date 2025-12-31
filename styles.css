@@ -194,6 +194,7 @@ letter-spacing: 0.05em;
 .hero-figure {
   margin-top: 3.5rem; /* tweak: 0.25rem–1rem */
   flex: 0 0 360px;  /* right column width */
+  position: relative;
 }
 
 .hero-figure-img {
@@ -203,6 +204,25 @@ letter-spacing: 0.05em;
   border-radius: 0.0rem;
   border: 0px solid var(--color-border);
   box-shadow: 0 0px 0px rgba(0, 0, 0, 0.14);
+}
+
+/* Hero image theme swap */
+.hero-figure-img-dark {
+  display: none;
+}
+
+:root[data-theme="dark"] .hero-figure-img-light {
+  display: none;
+}
+
+:root[data-theme="dark"] .hero-figure-img-dark {
+  display: block;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero-figure-img {
+    transition: opacity 160ms ease-out;
+  }
 }
 
 .hero-figure-caption {
