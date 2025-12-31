@@ -165,6 +165,9 @@ function toggleRepoCollapse(repoId, viewMode) {
 // Get all unique tags
 const allTags = [...new Set(repositories.flatMap(r => r.tags))].sort();
 
+// Define subject tags (first tag of each repo - only one can be active at a time)
+const subjectTags = new Set(['Alignment', 'Quantum ML', 'Quantum Dynamics', 'Superconducting Qubits']);
+
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
   initializeMethodsChips();
@@ -224,9 +227,17 @@ function initializeTagFilters() {
 }
 
 function toggleTag(tag) {
+  const isSubjectTag = subjectTags.has(tag);
+
   if (selectedTags.includes(tag)) {
+    // Deselect the clicked tag
     selectedTags = selectedTags.filter(t => t !== tag);
   } else {
+    if (isSubjectTag) {
+      // Remove any other subject tags (radio button behavior)
+      selectedTags = selectedTags.filter(t => !subjectTags.has(t));
+    }
+    // Add the new tag
     selectedTags.push(tag);
   }
   updateTagFilters();
