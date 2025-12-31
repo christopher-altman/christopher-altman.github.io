@@ -27,6 +27,28 @@ python -m http.server 8000
 
 Push to `main`. GitHub Pages serves `/` from `main`.
 
+## Development & Testing
+
+### Running Tests (Dev Only)
+
+The repository includes Jest unit tests for validating repository data and filtering logic.
+
+```bash
+# Install dev dependencies
+npm install
+
+# Run tests
+npm test
+
+# Run tests with coverage
+npm run test:coverage
+
+# Watch mode for development
+npm run test:watch
+```
+
+**Note:** Test files in `__tests__/` and `node_modules/` are not deployed to GitHub Pages.
+
 ## Edit content
 
 - Repository cards + tags: `script.js`

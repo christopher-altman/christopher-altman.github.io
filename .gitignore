@@ -38,3 +38,10 @@ __pycache__/
 
 # Claude tooling (local)
 .claude/
+
+# Node.js
+node_modules/
+
+# Jest
+coverage/
+.jest-cache/
