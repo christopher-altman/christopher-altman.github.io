@@ -227,19 +227,11 @@ function initializeTagFilters() {
 }
 
 function toggleTag(tag) {
-  const isSubjectTag = subjectTags.has(tag);
+  // Treat the tag row as true "radio" behavior:
+  // - clicking an inactive tag selects ONLY that tag
+  // - clicking the active tag clears the tag filter
+  selectedTags = (selectedTags.length === 1 && selectedTags[0] === tag) ? [] : [tag];
 
-  if (selectedTags.includes(tag)) {
-    // Deselect the clicked tag
-    selectedTags = selectedTags.filter(t => t !== tag);
-  } else {
-    if (isSubjectTag) {
-      // Remove any other subject tags (radio button behavior)
-      selectedTags = selectedTags.filter(t => !subjectTags.has(t));
-    }
-    // Add the new tag
-    selectedTags.push(tag);
-  }
   updateTagFilters();
   renderRepositories();
 }
