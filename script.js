@@ -321,7 +321,9 @@ function createRepoCard(repo) {
   card.innerHTML = `
     <div class="repo-header">
       <div class="repo-header-left">
-        <h4 class="repo-title">${repo.title}</h4>
+        <h4 class="repo-title">
+          <a href="${repo.url}" target="_blank" rel="noopener noreferrer" class="repo-title-link">${repo.title}</a>
+        </h4>
         <a href="${repo.url}" target="_blank" rel="noopener noreferrer" class="repo-link" aria-label="View repository on GitHub">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
