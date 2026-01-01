@@ -1,6 +1,23 @@
 // Repository Data
 const repositories = [
   {
+    id: 'qml-verification-lab',
+    title: 'QML Verification Lab',
+    url: 'https://github.com/christopher-altman/qml-verification-lab',
+    shortDesc: 'QML verification harness: when accuracy holds but epistemic metrics collapse under noise.',
+    heroLight: 'assets/figures/qml-verification-lab/hero_light.png',
+    heroDark: 'assets/figures/qml-verification-lab/hero_dark.png',
+    methods: [
+      'Canonical battery: noise × depth verification landscape',
+      'Metric registry: identifiability + curvature proxies',
+      'Backend plugins: template backend + drop-in extensibility',
+      'Reports: deterministic runs + CI-ready artifacts'
+    ],
+    finding: 'Accuracy can persist while identifiability and curvature collapse—verification needs epistemic metrics, not accuracy alone.',
+    tags: ['Quantum ML', 'Verification', 'Identifiability', 'Reproducibility'],
+    longDesc: 'A reproducible verification harness for quantum ML that measures when models stay accurate but become epistemically fragile under noise. Ships a canonical battery, a metric registry, backend plugins, and deterministic report outputs.'
+  },
+  {
     id: 'autodidactic-qml',
     title: 'Autodidactic Quantum Machine Learning Loop Falsifier',
     url: 'https://github.com/christopher-altman/autodidactic-qml',
@@ -278,7 +295,7 @@ function getFilteredRepositories() {
       (selectedMethod === 'Recoverability falsification' && repo.id === 'autodidactic-qml') ||
       (selectedMethod === 'Binarized networks' && repo.id === 'bqnn-benchmark') ||
       (selectedMethod === 'Adiabatic validation' && repo.id === 'scqubits-fork') ||
-      (selectedMethod === 'Identifiability metrics' && repo.id === 'noise-aware-qnn-identifiability');
+      (selectedMethod === 'Identifiability metrics' && (repo.id === 'noise-aware-qnn-identifiability' || repo.id === 'qml-verification-lab'));
     
     return matchesSearch && matchesTags && matchesMethod;
   });
@@ -318,6 +335,11 @@ function createRepoCard(repo) {
   card.dataset.repoId = repo.id;
   card.dataset.collapsed = isCollapsed;
 
+  const currentTheme = document.documentElement.dataset.theme || 'light';
+  const heroImageSrc = repo.heroDark && repo.heroLight
+    ? (currentTheme === 'dark' ? repo.heroDark : repo.heroLight)
+    : null;
+
   card.innerHTML = `
     <div class="repo-header">
       <div class="repo-header-left">
@@ -340,6 +362,19 @@ function createRepoCard(repo) {
     </div>
 
     <div class="repo-details">
+      ${heroImageSrc ? `
+      <figure class="repo-hero-figure">
+        <img
+          class="repo-hero-img"
+          src="${heroImageSrc}"
+          alt="${repo.title} hero image"
+          data-hero-light="${repo.heroLight}"
+          data-hero-dark="${repo.heroDark}"
+          decoding="async"
+        />
+      </figure>
+      ` : ''}
+
       <p class="repo-short-desc">${repo.shortDesc}</p>
 
       <div class="repo-methods">
@@ -396,18 +431,28 @@ function updateCurrentYear() {
 // Hero Image Theme Swap (JPEG only for sharp text)
 function initializeHeroImageSwap() {
   const heroFigure = document.getElementById('heroFigure');
-  if (!heroFigure) return;
 
   const updateHeroImage = () => {
     const currentTheme = document.documentElement.dataset.theme || 'light';
     const variant = currentTheme === 'dark' ? 'dark' : 'light';
 
-    // Update JPEG src (best quality for sharp text)
-    heroFigure.src = `assets/accuracy-vs-identifiability-${variant}.jpeg`;
-    heroFigure.alt = `Accuracy vs Identifiability (${variant} mode)`;
+    // Update main hero figure (JPEG only for sharp text)
+    if (heroFigure) {
+      heroFigure.src = `assets/accuracy-vs-identifiability-${variant}.jpeg`;
+      heroFigure.alt = `Accuracy vs Identifiability (${variant} mode)`;
+    }
+
+    // Update repo card hero images
+    document.querySelectorAll('.repo-hero-img').forEach(img => {
+      const lightSrc = img.dataset.heroLight;
+      const darkSrc = img.dataset.heroDark;
+      if (lightSrc && darkSrc) {
+        img.src = variant === 'dark' ? darkSrc : lightSrc;
+      }
+    });
   };
 
-  // Set initial image based on current theme
+  // Set initial images based on current theme
   updateHeroImage();
 
   // Watch for theme changes via MutationObserver
