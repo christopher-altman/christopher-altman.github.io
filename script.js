@@ -33,6 +33,22 @@ const repositories = [
     longDesc: 'Implements a falsification testbed for local functional recoverability in neural networks. Minimal matrix-to-RNN pipeline: Hermitian matrix evolves via Langevin dynamics, deterministically mapped into a cyclic RNN trained on self-reconstruction with a mutual-information proxy. After training: perturb weights with Gaussian noise; perform one constrained recovery step under different proxy families using a deterministic PRE→POST→RECOVER pipeline. Challenges locality assumptions in model editing/alignment; highlights functional aliasing.'
   },
   {
+    id: 'sat-qkd-security-curves',
+    title: 'Satellite QKD Security Curves',
+    url: 'https://github.com/christopher-altman/sat-qkd-security-curves',
+    shortDesc: 'Security-rate vs distance curves for satellite QKD under realistic loss/noise, with reproducible sweep figures.',
+    heroLight: 'assets/figures/sat-qkd-security-curves/hero_light.png',
+    heroDark: 'assets/figures/sat-qkd-security-curves/hero_dark.png',
+    methods: [
+      'Security curves: key rate vs distance under loss + background',
+      'Parameter sweeps: link budget regimes and breakpoints',
+      'Reproducible figures: deterministic plot generation'
+    ],
+    finding: 'Security rate collapses across identifiable distance/noise thresholds—curves expose operational margins, not just point estimates.',
+    tags: ['Quantum', 'Security', 'QKD', 'Satellite', 'Reproducibility'],
+    longDesc: 'A reproducible mini-lab for generating satellite QKD security-rate curves across realistic link conditions. Focuses on operational thresholds, parameter regimes, and figure-first validation.'
+  },
+  {
     id: 'noise-aware-qnn-identifiability',
     title: 'Noise-Aware QNN Identifiability',
     url: 'https://github.com/christopher-altman/noise-aware-qnn-identifiability',
