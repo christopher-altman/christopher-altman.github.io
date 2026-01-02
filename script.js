@@ -34,7 +34,7 @@ const repositories = [
   },
   {
     id: 'sat-qkd-security-curves',
-    title: 'Satellite QKD Security Curves',
+    title: 'Satellite QKD Security',
     url: 'https://github.com/christopher-altman/sat-qkd-security-curves',
     shortDesc: 'Security-rate vs distance curves for satellite QKD under realistic loss/noise, with reproducible sweep figures.',
     heroLight: 'assets/figures/sat-qkd-security-curves/hero_light.png',
