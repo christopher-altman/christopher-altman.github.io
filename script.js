@@ -380,14 +380,16 @@ function createRepoCard(repo) {
     <div class="repo-details">
       ${heroImageSrc ? `
       <figure class="repo-hero-figure">
-        <img
-          class="repo-hero-img"
-          src="${heroImageSrc}"
-          alt="${repo.title} hero image"
-          data-hero-light="${repo.heroLight}"
-          data-hero-dark="${repo.heroDark}"
-          decoding="async"
-        />
+        <a href="${repo.url}" target="_blank" rel="noopener noreferrer" aria-label="View ${repo.title} repository on GitHub">
+          <img
+            class="repo-hero-img"
+            src="${heroImageSrc}"
+            alt="${repo.title} hero image"
+            data-hero-light="${repo.heroLight}"
+            data-hero-dark="${repo.heroDark}"
+            decoding="async"
+          />
+        </a>
       </figure>
       ` : ''}
 
