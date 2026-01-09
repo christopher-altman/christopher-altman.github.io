@@ -2,7 +2,7 @@
 const repositories = [
   {
     id: 'qml-verification-lab',
-    title: 'QML Verification Lab',
+    title: 'Quantum Machine Learning (QML) Verification Lab',
     url: 'https://github.com/christopher-altman/qml-verification-lab',
     shortDesc: 'QML verification harness: when accuracy holds but epistemic metrics collapse under noise.',
     heroLight: 'assets/figures/qml-verification-lab/hero_light.png',
@@ -34,7 +34,7 @@ const repositories = [
   },
   {
     id: 'sat-qkd-security-curves',
-    title: 'Satellite QKD Security',
+    title: 'Satellite Quantum Key Distribution (QKD) Security Curves',
     url: 'https://github.com/christopher-altman/sat-qkd-security-curves',
     shortDesc: 'Security-rate vs distance curves for satellite QKD under realistic loss/noise, with reproducible sweep figures.',
     heroLight: 'assets/figures/sat-qkd-security-curves/hero_light.png',
@@ -50,7 +50,7 @@ const repositories = [
   },
   {
     id: 'noise-aware-qnn-identifiability',
-    title: 'Noise-Aware QNN Identifiability',
+    title: 'Noise-Aware Quantum Neural Networks (QNN) Identifiability',
     url: 'https://github.com/christopher-altman/noise-aware-qnn-identifiability',
     shortDesc: 'Accuracy does not guarantee recoverability. Under noise, performance can survive while recoverability collapses.',
     methods: [
