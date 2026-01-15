@@ -49,6 +49,23 @@ const repositories = [
     longDesc: 'A reproducible mini-lab for generating satellite QKD security-rate curves across realistic link conditions. Focuses on operational thresholds, parameter regimes, and figure-first validation.'
   },
   {
+    id: 'ibm-qml-kernel',
+    title: 'Quantum Kernel Estimation with IBM Hardware Noise',
+    url: 'https://github.com/christopher-altman/ibm-qml-kernel',
+    shortDesc: 'Validated quantum kernel methods under realistic 2026 IBM hardware noise.',
+    heroLight: 'assets/figures/ibm-qml-kernel/hero_light.png',
+    heroDark: 'assets/figures/ibm-qml-kernel/hero_dark.png',
+    methods: [
+      'Production-ready QML workflow with hardware-calibrated parameters from 127-qubit Eagle processors',
+      'Kernel alignment metrics (0.85–0.95) quantifying agreement between quantum and classical kernels',
+      'Noise impact quantification under realistic IBM hardware noise channels',
+      'Full IBM Quantum Platform integration with Qiskit runtime'
+    ],
+    finding: 'Kernel alignment 0.85–0.95 maintained under 2026 IBM Eagle hardware noise—validates kernel methods for NISQ deployment where theoretical noise models diverge from actual hardware.',
+    tags: ['Quantum ML', 'IBM Quantum', 'Kernels', 'Hardware Noise', 'NISQ', 'Calibration'],
+    longDesc: 'Production-ready QML workflow with hardware-calibrated parameters from 127-qubit Eagle processors. Demonstrates kernel alignment metrics (0.85–0.95), noise impact quantification, and full IBM Quantum Platform integration. Critical for NISQ-era deployment where theoretical noise models diverge from actual hardware.'
+  },
+  {
     id: 'noise-aware-qnn-identifiability',
     title: 'Noise-Aware Quantum Neural Networks (QNN) Identifiability',
     url: 'https://github.com/christopher-altman/noise-aware-qnn-identifiability',
@@ -305,7 +322,7 @@ function getFilteredRepositories() {
     
     // Method filter
     const matchesMethod = !selectedMethod ||
-      (selectedMethod === 'Quantum kernels' && (repo.id === 'qkernel-telemetry' || repo.id === 'quantum-kernel-expressivity')) ||
+      (selectedMethod === 'Quantum kernels' && (repo.id === 'qkernel-telemetry' || repo.id === 'quantum-kernel-expressivity' || repo.id === 'ibm-qml-kernel')) ||
       (selectedMethod === 'One-class SVM' && repo.id === 'qkernel-telemetry') ||
       (selectedMethod === 'Hamiltonian evolution' && repo.id === 'quantum-decision-flow') ||
       (selectedMethod === 'Recoverability falsification' && repo.id === 'autodidactic-qml') ||
