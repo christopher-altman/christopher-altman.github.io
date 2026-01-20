@@ -160,6 +160,8 @@ const repositories = [
     title: 'Superconducting Flux Qubits: Transmon Anharmonicity vs EJ/EC Ratio',
     url: 'https://github.com/christopher-altman/scqubits',
     shortDesc: 'Open-source Python library for superconducting qubit simulation',
+    heroLight: 'assets/figures/scqubits/IBM-Q_Coupler-Topology.jpg',
+    heroDark: 'assets/figures/scqubits/IBM-Q_Coupler-Topology.jpg',
     methods: [
       'Qubit energy spectra and Hamiltonian matrix elements',
       'QuTiP integration for open-system and dynamical simulations',
