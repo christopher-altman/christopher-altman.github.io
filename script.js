@@ -430,6 +430,13 @@ function createRepoCard(repo) {
       </figure>
       ` : ''}
 
+      ${repo.paperUrl || repo.repoUrl ? `
+      <div class="repo-cta-links">
+        ${repo.paperUrl ? `<a href="${repo.paperUrl}" target="_blank" rel="noopener noreferrer" class="repo-cta-link">→ arXiv</a>` : ''}
+        ${repo.repoUrl ? `<a href="${repo.repoUrl}" target="_blank" rel="noopener noreferrer" class="repo-cta-link">→ Repository</a>` : ''}
+      </div>
+      ` : ''}
+
       <p class="repo-short-desc">${repo.shortDesc}</p>
 
       <div class="repo-methods">
@@ -446,13 +453,6 @@ function createRepoCard(repo) {
       <div class="repo-tags">
         ${repo.tags.map(tag => `<span class="repo-tag">${tag}</span>`).join('')}
       </div>
-
-      ${repo.paperUrl || repo.repoUrl ? `
-      <div class="repo-cta-links">
-        ${repo.paperUrl ? `<a href="${repo.paperUrl}" target="_blank" rel="noopener noreferrer" class="repo-cta-link">→ arXiv</a>` : ''}
-        ${repo.repoUrl ? `<a href="${repo.repoUrl}" target="_blank" rel="noopener noreferrer" class="repo-cta-link">→ Repository</a>` : ''}
-      </div>
-      ` : ''}
 
       <button class="expand-btn ${expandedRepoId === repo.id ? 'expanded' : ''}" data-repo-id="${repo.id}" aria-expanded="${expandedRepoId === repo.id}">
         <svg class="expand-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
