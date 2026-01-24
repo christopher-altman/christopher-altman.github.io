@@ -18,6 +18,40 @@ const repositories = [
     longDesc: 'A reproducible verification harness for quantum ML that measures when models stay accurate but become epistemically fragile under noise. Ships a canonical battery, a metric registry, backend plugins, and deterministic report outputs.'
   },
   {
+    id: 'wigners-friend-branch-transfer',
+    title: 'Wigner\'s Friend: Inter-Branch Communication on IBM Quantum Hardware',
+    url: 'https://arxiv.org/abs/2601.16004',
+    shortDesc: 'Reproducible benchmark suite implementing many-worlds inter-branch “message-transfer” circuit primitives.',
+    heroLight: 'assets/branch.jpg',
+    heroDark: 'assets/branch.jpg',
+    methods: [
+      'IBM 156-qubit Heron, 20,000 shots per experiment',
+      'Coherence witnesses W_X/W_Y parity correlators; phase-robust C = 1.167 ± 0.004',
+      'Collapse-channel constraint: detectability threshold γ ≈ 0.05 (20k shots)'
+    ],
+    finding: 'Hardware visibility (V=0.877) backend-matched simulation (V=0.938); coherence magnitude C=1.167. Coherence witnesses detect dephasing at gamma=0.05 where visibility remains unchanged, providing complementary observables for constraining collapse-model parameter space.',
+    tags: ['Quantum Foundations', 'Wigner\'s Friend', 'Many-Worlds', 'Inter-Branch Communication', 'Benchmarks', 'IBM Quantum', 'Superconducting Qubits', 'Qiskit', 'Reproducibility', 'Noise Modeling'],
+    longDesc: 'Benchmarks Wigner’s-friend circuit on superconducting quantum hardware to estimate operational inter-branch communication witnesses from classical measurement correlations. Implements a five-qubit, branch-conditioned message-transfer protocol on IBM hardware with full provenance. Uses coherence witnesses to probe dephasing beyond visibility. Ships full reproducibility bundle: hardware + simulation artifacts, calibration snapshots, figures, manifest with SHA256. arXiv: 2601.16004.',
+    paperUrl: 'https://arxiv.org/abs/2601.16004',
+    repoUrl: 'https://github.com/christopher-altman/ibm-qml-kernel'
+  },
+  {
+    id: 'sat-qkd-security-curves',
+    title: 'Satellite Quantum Key Distribution (QKD)',
+    url: 'https://github.com/christopher-altman/sat-qkd-security-curves',
+    shortDesc: 'Security-rate vs distance curves for satellite QKD under realistic loss/noise, with reproducible sweep figures.',
+    heroLight: 'assets/figures/sat-qkd-security-curves/hero_light.png',
+    heroDark: 'assets/figures/sat-qkd-security-curves/hero_dark.png',
+    methods: [
+      'Security curves: key rate vs distance under loss + background',
+      'Parameter sweeps: link budget regimes and breakpoints',
+      'Reproducible figures: deterministic plot generation'
+    ],
+    finding: 'Security rate collapses across identifiable distance/noise thresholds—curves expose operational margins, not just point estimates.',
+    tags: ['Quantum', 'Security', 'QKD', 'Satellite', 'Reproducibility'],
+    longDesc: 'A reproducible mini-lab for generating satellite QKD security-rate curves across realistic link conditions. Focuses on operational thresholds, parameter regimes, and figure-first validation.'
+  },
+  {
     id: 'autodidactic-qml',
     title: 'Autodidactic Quantum Machine Learning Loop Falsifier',
     url: 'https://github.com/christopher-altman/autodidactic-qml',
@@ -31,22 +65,6 @@ const repositories = [
     finding: 'Restoring local geometry does not restore function—proxy metrics improve but behavior fails to return; parameter/representation/function distance decouple',
     tags: ['Alignment', 'Recoverability', 'Neural Networks', 'Falsification'],
     longDesc: 'Implements a falsification testbed for local functional recoverability in neural networks. Minimal matrix-to-RNN pipeline: Hermitian matrix evolves via Langevin dynamics, deterministically mapped into a cyclic RNN trained on self-reconstruction with a mutual-information proxy. After training: perturb weights with Gaussian noise; perform one constrained recovery step under different proxy families using a deterministic PRE→POST→RECOVER pipeline. Challenges locality assumptions in model editing/alignment; highlights functional aliasing.'
-  },
-  {
-    id: 'sat-qkd-security-curves',
-    title: 'Satellite Quantum Key Distribution (QKD) Security Curves',
-    url: 'https://github.com/christopher-altman/sat-qkd-security-curves',
-    shortDesc: 'Security-rate vs distance curves for satellite QKD under realistic loss/noise, with reproducible sweep figures.',
-    heroLight: 'assets/figures/sat-qkd-security-curves/hero_light.png',
-    heroDark: 'assets/figures/sat-qkd-security-curves/hero_dark.png',
-    methods: [
-      'Security curves: key rate vs distance under loss + background',
-      'Parameter sweeps: link budget regimes and breakpoints',
-      'Reproducible figures: deterministic plot generation'
-    ],
-    finding: 'Security rate collapses across identifiable distance/noise thresholds—curves expose operational margins, not just point estimates.',
-    tags: ['Quantum', 'Security', 'QKD', 'Satellite', 'Reproducibility'],
-    longDesc: 'A reproducible mini-lab for generating satellite QKD security-rate curves across realistic link conditions. Focuses on operational thresholds, parameter regimes, and figure-first validation.'
   },
   {
     id: 'ibm-qml-kernel',
@@ -218,7 +236,7 @@ function toggleRepoCollapse(repoId, viewMode) {
 const allTags = [...new Set(repositories.flatMap(r => r.tags))].sort();
 
 // Define subject tags (first tag of each repo - only one can be active at a time)
-const subjectTags = new Set(['Alignment', 'Quantum ML', 'Quantum Dynamics', 'Superconducting Qubits']);
+const subjectTags = new Set(['Alignment', 'Quantum ML', 'Quantum Dynamics', 'Superconducting Qubits', 'Quantum Foundations']);
 
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
@@ -428,6 +446,13 @@ function createRepoCard(repo) {
       <div class="repo-tags">
         ${repo.tags.map(tag => `<span class="repo-tag">${tag}</span>`).join('')}
       </div>
+
+      ${repo.paperUrl || repo.repoUrl ? `
+      <div class="repo-cta-links">
+        ${repo.paperUrl ? `<a href="${repo.paperUrl}" target="_blank" rel="noopener noreferrer" class="repo-cta-link">→ arXiv</a>` : ''}
+        ${repo.repoUrl ? `<a href="${repo.repoUrl}" target="_blank" rel="noopener noreferrer" class="repo-cta-link">→ Repository</a>` : ''}
+      </div>
+      ` : ''}
 
       <button class="expand-btn ${expandedRepoId === repo.id ? 'expanded' : ''}" data-repo-id="${repo.id}" aria-expanded="${expandedRepoId === repo.id}">
         <svg class="expand-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
