@@ -53,7 +53,7 @@ const repositories = [
   },
   {
     id: 'autodidactic-qml',
-    title: 'Autodidactic Quantum Machine Learning Loop Falsifier',
+    title: 'Autodidactic Quantum Machine Learning Loop',
     url: 'https://github.com/christopher-altman/autodidactic-qml',
     shortDesc: 'Falsification testbed for local functional recoverability in neural networks',
     methods: [
@@ -85,7 +85,7 @@ const repositories = [
   },
   {
     id: 'noise-aware-qnn-identifiability',
-    title: 'Noise-Aware Quantum Neural Networks (QNN) Identifiability',
+    title: 'Noise-Aware Quantum Neural Networks (QNN)',
     url: 'https://github.com/christopher-altman/noise-aware-qnn-identifiability',
     shortDesc: 'Accuracy does not guarantee recoverability. Under noise, performance can survive while recoverability collapses.',
     methods: [
