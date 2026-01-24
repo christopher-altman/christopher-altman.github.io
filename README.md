@@ -96,4 +96,4 @@ MIT License. See [LICENSE](LICENSE) for details.
 
 ---
 
-*Christopher Altman (2025)*
+*Christopher Altman (2026)*
