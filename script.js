@@ -85,9 +85,9 @@ const repositories = [
   },
   {
     id: 'noise-aware-qnn-identifiability',
-    title: 'Noise-Aware Quantum Neural Networks (QNN)',
+    title: 'Noise-Aware QNN Identifiability',
     url: 'https://github.com/christopher-altman/noise-aware-qnn-identifiability',
-    shortDesc: 'Accuracy does not guarantee recoverability. Under noise, performance can survive while recoverability collapses.',
+    shortDesc: 'Accuracy is not evidence of learning. Under noise, performance can survive while recoverability collapses.',
     methods: [
       'Minimal QNN-style testbed: 2-qubit variational circuit with depolarizing noise and amplitude damping',
       'Dense parameter grid sweeps (16×16, 256 points) over noise probability p and readout noise σ',
@@ -348,7 +348,7 @@ function getFilteredRepositories() {
       (selectedMethod === 'Recoverability falsification' && repo.id === 'autodidactic-qml') ||
       (selectedMethod === 'Binarized networks' && repo.id === 'bqnn-benchmark') ||
       (selectedMethod === 'Adiabatic validation' && repo.id === 'scqubits-fork') ||
-      (selectedMethod === 'Identifiability metrics' && (repo.id === 'noise-aware-qnn-identifiability' || repo.id === 'qml-verification-lab'));
+      (selectedMethod === 'Identifiability metrics' && repo.id === 'noise-aware-qnn-identifiability');
     
     return matchesSearch && matchesTags && matchesMethod;
   });
