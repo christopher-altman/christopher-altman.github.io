@@ -184,6 +184,11 @@ letter-spacing: 0.05em;
   margin-bottom: 1.5rem;
 }
 
+/* Word-by-word reveal spans in hero title */
+.hero-title .reveal {
+  display: inline;
+}
+
 
 .hero-hook {
   font-size: 1.2rem;
@@ -275,6 +280,14 @@ letter-spacing: 0.05em;
   font-weight: 300;
   color: var(--color-primary);
   margin-bottom: 0.5rem;
+}
+
+/* Stat: make "mag" subscript smaller + serif (only where class is used) */
+.stat-value sub.stat-sub {
+  font-family: ui-serif, Georgia, "Times New Roman", Times, serif;
+  font-size: 0.60em;     /* <sub> default is ~0.83em; this makes it visibly smaller */
+  font-weight: 400;
+  line-height: 0;        /* prevents extra vertical spacing */
 }
 
 .stat-label {
@@ -1208,5 +1221,39 @@ html.theme-transitions * {
 
   html.theme-transitions * {
     transition: none !important;
+  }
+}
+
+/* Reveal Animation (Magic.dev-style blur fade-in) */
+.reveal {
+  opacity: 0;
+  filter: blur(12px);
+  transform: translateY(10px);
+  transition:
+    opacity 700ms ease,
+    filter 700ms ease,
+    transform 700ms ease;
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, filter, transform;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  filter: blur(0);
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    filter: none;
+    transform: none;
+    transition: none;
+  }
+
+  .reveal.is-visible {
+    opacity: 1;
+    filter: none;
+    transform: none;
   }
 }

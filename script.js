@@ -251,6 +251,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initializeKeyboardShortcuts();
   initializeTouchFeedback();
   initializePointerHover();
+  initializeRevealAnimations();
 });
 
 // Methods Chips
@@ -819,4 +820,39 @@ function initializePointerHover() {
     window.addEventListener('scroll', cleanupHover, { passive: true });
     document.addEventListener('visibilitychange', cleanupHover);
   }
+}
+
+// Reveal Animations (Magic.dev-style blur fade-in)
+function initializeRevealAnimations() {
+  const revealElements = document.querySelectorAll('.reveal');
+
+  if (revealElements.length === 0) return;
+
+  // Set --reveal-delay from data-delay attribute
+  revealElements.forEach(el => {
+    const delay = el.dataset.delay;
+    if (delay) {
+      el.style.setProperty('--reveal-delay', `${delay}ms`);
+    }
+  });
+
+  // Fallback for browsers without IntersectionObserver
+  if (!('IntersectionObserver' in window)) {
+    revealElements.forEach(el => el.classList.add('is-visible'));
+    return;
+  }
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.15 }
+  );
+
+  revealElements.forEach(el => observer.observe(el));
 }
