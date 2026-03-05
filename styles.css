@@ -105,7 +105,7 @@ body::before {
     radial-gradient(ellipse 86vw 50vh at 8% 14%, rgba(44, 110, 194, 1) 0%, rgba(44, 110, 194, 0.742) 10%, rgba(44, 110, 194, 0.389) 36%, rgba(44, 110, 194, 0.16) 66%, rgba(44, 110, 194, 0) 100%),
     radial-gradient(ellipse 86vw 50vh at 92% 86%, rgba(44, 110, 194, 0.576) 0%, rgba(44, 110, 194, 0.408) 10%, rgba(44, 110, 194, 0.215) 36%, rgba(44, 110, 194, 0.088) 66%, rgba(44, 110, 194, 0) 100%);
   opacity: 1;
-  animation: ambientSpotlightLight 5s ease-in-out infinite alternate;
+  animation: ambientSpotlightLight 3s ease-in-out infinite alternate;
 }
 
 :root[data-theme="dark"] body::before {
@@ -117,7 +117,7 @@ body::before {
     radial-gradient(ellipse 90vw 54vh at 8% 14%, rgba(43, 102, 168, 1) 0%, rgba(43, 102, 168, 1) 11%, rgba(43, 102, 168, 0.917) 38%, rgba(43, 102, 168, 0.386) 68%, rgba(43, 102, 168, 0) 100%),
     radial-gradient(ellipse 90vw 54vh at 92% 86%, rgba(43, 102, 168, 0.6) 0%, rgba(43, 102, 168, 0.6) 11%, rgba(43, 102, 168, 0.504) 38%, rgba(43, 102, 168, 0.212) 68%, rgba(43, 102, 168, 0) 100%);
   opacity: 1;
-  animation: ambientSpotlightDark 6s ease-in-out infinite alternate;
+  animation: ambientSpotlightDark 3s ease-in-out infinite alternate;
 }
 
 @keyframes ambientSpotlightLight {
