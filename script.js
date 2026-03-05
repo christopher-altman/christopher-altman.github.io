@@ -40,8 +40,8 @@ const repositories = [
     title: 'Satellite Quantum Key Distribution (QKD)',
     url: 'https://github.com/christopher-altman/sat-qkd-security-curves',
     shortDesc: 'Security-rate vs distance curves for satellite QKD under realistic loss/noise, with reproducible sweep figures.',
-    heroLight: 'assets/figures/sat-qkd-security-curves/hero_light.png',
-    heroDark: 'assets/figures/sat-qkd-security-curves/hero_dark.png',
+    heroLight: 'assets/qkd.jpg',
+    heroDark: 'assets/qkd.jpg',
     methods: [
       'Security curves: key rate vs distance under loss + background',
       'Parameter sweeps: link budget regimes and breakpoints',
@@ -141,8 +141,8 @@ const repositories = [
     title: 'Benchmarks for Binarized Quantum Neural Networks (BQNNs)',
     url: 'https://github.com/christopher-altman/bqnn-benchmark',
     shortDesc: 'Benchmark harness for Binarized Quantum Neural Networks mixing binary classical layers with quantum circuits',
-    heroLight: 'assets/qnn.jpg',
-    heroDark: 'assets/qnn.jpg',
+    heroLight: 'assets/qnn2.jpg',
+    heroDark: 'assets/qnn2.jpg',
     methods: [
       'Binary classical layers + quantum circuits with quantumness parameter α',
       'RX encodings with trainable RZ phase layers and optional ring entanglement',
@@ -192,8 +192,8 @@ const repositories = [
     title: 'Superconducting Flux Qubits: Transmon Anharmonicity vs EJ/EC Ratio',
     url: 'https://github.com/christopher-altman/scqubits',
     shortDesc: 'Open-source Python library for superconducting qubit simulation',
-    heroLight: 'assets/figures/scqubits/IBM-Q_Coupler-Topology.jpg',
-    heroDark: 'assets/figures/scqubits/IBM-Q_Coupler-Topology.jpg',
+    heroLight: 'assets/qubit.jpg',
+    heroDark: 'assets/qubit.jpg',
     methods: [
       'Qubit energy spectra and Hamiltonian matrix elements',
       'QuTiP integration for open-system and dynamical simulations',
