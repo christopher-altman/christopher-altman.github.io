@@ -104,7 +104,7 @@ const repositories = [
   },
   {
     id: 'sqnt-hardware-demo',
-    title: 'Hardware Implementation of Superposed Quantum Network Topologies (SQNT)',
+    title: 'Hardware Implementation of Superposed Quantum Network Topologies',
     url: 'https://github.com/christopher-altman/sqnt-hardware-demo',
     shortDesc: 'Deterministic SQNT demo: ground-truth mixture recovery + topology sweeps with reproducible figures',
     heroLight: 'assets/sqnt.jpg',
