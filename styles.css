@@ -98,21 +98,25 @@ body::before {
 
 :root:not([data-theme="dark"]) body::before {
   background-image:
-    radial-gradient(ellipse 28vw 16vh at 50% 16%, rgba(37, 88, 150, 0.3) 0%, rgba(37, 88, 150, 0.22) 18%, rgba(37, 88, 150, 0.11) 48%, rgba(37, 88, 150, 0.036) 76%, rgba(37, 88, 150, 0) 100%),
-    radial-gradient(ellipse 42vw 26vh at 92% 86%, rgba(37, 88, 150, 0.26) 0%, rgba(37, 88, 150, 0.19) 18%, rgba(37, 88, 150, 0.096) 46%, rgba(37, 88, 150, 0.032) 74%, rgba(37, 88, 150, 0) 100%),
-    radial-gradient(ellipse 59vw 30vh at 50% 17%, rgba(37, 88, 150, 0.52) 0%, rgba(37, 88, 150, 0.372) 9%, rgba(37, 88, 150, 0.2) 38%, rgba(37, 88, 150, 0.08) 69%, rgba(37, 88, 150, 0) 100%),
-    radial-gradient(ellipse 86vw 50vh at 92% 86%, rgba(37, 88, 150, 0.46) 0%, rgba(37, 88, 150, 0.32) 10%, rgba(37, 88, 150, 0.168) 36%, rgba(37, 88, 150, 0.068) 66%, rgba(37, 88, 150, 0) 100%);
-  opacity: 0.94;
+    radial-gradient(ellipse 28vw 16vh at 50% 16%, rgba(44, 110, 194, 1) 0%, rgba(44, 110, 194, 0.92) 18%, rgba(44, 110, 194, 0.48) 48%, rgba(44, 110, 194, 0.156) 76%, rgba(44, 110, 194, 0) 100%),
+    radial-gradient(ellipse 42vw 26vh at 8% 14%, rgba(44, 110, 194, 0.619) 0%, rgba(44, 110, 194, 0.448) 18%, rgba(44, 110, 194, 0.225) 46%, rgba(44, 110, 194, 0.077) 74%, rgba(44, 110, 194, 0) 100%),
+    radial-gradient(ellipse 42vw 26vh at 92% 86%, rgba(44, 110, 194, 0.336) 0%, rgba(44, 110, 194, 0.246) 18%, rgba(44, 110, 194, 0.125) 46%, rgba(44, 110, 194, 0.042) 74%, rgba(44, 110, 194, 0) 100%),
+    radial-gradient(ellipse 59vw 30vh at 50% 17%, rgba(44, 110, 194, 1) 0%, rgba(44, 110, 194, 1) 9%, rgba(44, 110, 194, 0.84) 38%, rgba(44, 110, 194, 0.34) 69%, rgba(44, 110, 194, 0) 100%),
+    radial-gradient(ellipse 86vw 50vh at 8% 14%, rgba(44, 110, 194, 1) 0%, rgba(44, 110, 194, 0.742) 10%, rgba(44, 110, 194, 0.389) 36%, rgba(44, 110, 194, 0.16) 66%, rgba(44, 110, 194, 0) 100%),
+    radial-gradient(ellipse 86vw 50vh at 92% 86%, rgba(44, 110, 194, 0.576) 0%, rgba(44, 110, 194, 0.408) 10%, rgba(44, 110, 194, 0.215) 36%, rgba(44, 110, 194, 0.088) 66%, rgba(44, 110, 194, 0) 100%);
+  opacity: 1;
   animation: ambientSpotlightLight 10s ease-in-out infinite alternate;
 }
 
 :root[data-theme="dark"] body::before {
   background-image:
-    radial-gradient(ellipse 29vw 17vh at 50% 16%, rgba(43, 106, 188, 0.6) 0%, rgba(43, 106, 188, 0.44) 18%, rgba(43, 106, 188, 0.24) 48%, rgba(43, 106, 188, 0.088) 76%, rgba(43, 106, 188, 0) 100%),
-    radial-gradient(ellipse 44vw 28vh at 92% 86%, rgba(51, 122, 205, 0.56) 0%, rgba(51, 122, 205, 0.4) 18%, rgba(51, 122, 205, 0.22) 46%, rgba(51, 122, 205, 0.076) 74%, rgba(51, 122, 205, 0) 100%),
-    radial-gradient(ellipse 62vw 33vh at 50% 17%, rgba(37, 88, 150, 0.98) 0%, rgba(37, 88, 150, 0.72) 10%, rgba(37, 88, 150, 0.464) 40%, rgba(37, 88, 150, 0.204) 70%, rgba(37, 88, 150, 0) 100%),
-    radial-gradient(ellipse 90vw 54vh at 92% 86%, rgba(43, 102, 168, 0.9) 0%, rgba(43, 102, 168, 0.64) 11%, rgba(43, 102, 168, 0.41) 38%, rgba(43, 102, 168, 0.172) 68%, rgba(43, 102, 168, 0) 100%);
-  opacity: 0.96;
+    radial-gradient(ellipse 29vw 17vh at 50% 16%, rgba(43, 106, 188, 1) 0%, rgba(43, 106, 188, 0.88) 18%, rgba(43, 106, 188, 0.48) 48%, rgba(43, 106, 188, 0.176) 76%, rgba(43, 106, 188, 0) 100%),
+    radial-gradient(ellipse 44vw 28vh at 8% 14%, rgba(51, 122, 205, 1) 0%, rgba(51, 122, 205, 0.896) 18%, rgba(51, 122, 205, 0.503) 46%, rgba(51, 122, 205, 0.175) 74%, rgba(51, 122, 205, 0) 100%),
+    radial-gradient(ellipse 44vw 28vh at 92% 86%, rgba(51, 122, 205, 0.6) 0%, rgba(51, 122, 205, 0.492) 18%, rgba(51, 122, 205, 0.276) 46%, rgba(51, 122, 205, 0.096) 74%, rgba(51, 122, 205, 0) 100%),
+    radial-gradient(ellipse 62vw 33vh at 50% 17%, rgba(37, 88, 150, 1) 0%, rgba(37, 88, 150, 1) 10%, rgba(37, 88, 150, 0.928) 40%, rgba(37, 88, 150, 0.408) 70%, rgba(37, 88, 150, 0) 100%),
+    radial-gradient(ellipse 90vw 54vh at 8% 14%, rgba(43, 102, 168, 1) 0%, rgba(43, 102, 168, 1) 11%, rgba(43, 102, 168, 0.917) 38%, rgba(43, 102, 168, 0.386) 68%, rgba(43, 102, 168, 0) 100%),
+    radial-gradient(ellipse 90vw 54vh at 92% 86%, rgba(43, 102, 168, 0.6) 0%, rgba(43, 102, 168, 0.6) 11%, rgba(43, 102, 168, 0.504) 38%, rgba(43, 102, 168, 0.212) 68%, rgba(43, 102, 168, 0) 100%);
+  opacity: 1;
   animation: ambientSpotlightDark 12s ease-in-out infinite alternate;
 }
 
