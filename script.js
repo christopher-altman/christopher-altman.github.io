@@ -73,8 +73,8 @@ const repositories = [
     title: 'Quantum Kernel Estimation with IBM Hardware Noise',
     url: 'https://github.com/christopher-altman/ibm-qml-kernel',
     shortDesc: 'Validated quantum kernel methods under realistic 2026 IBM hardware noise.',
-    heroLight: 'assets/figures/ibm-qml-kernel/hero_light.png',
-    heroDark: 'assets/figures/ibm-qml-kernel/hero_dark.png',
+    heroLight: 'assets/gold.jpg',
+    heroDark: 'assets/gold.jpg',
     methods: [
       'Production-ready QML workflow with hardware-calibrated parameters from 127-qubit Eagle processors',
       'Kernel alignment metrics (0.85–0.95) quantifying agreement between quantum and classical kernels',
