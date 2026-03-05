@@ -105,7 +105,7 @@ body::before {
     radial-gradient(ellipse 86vw 50vh at 8% 14%, rgba(44, 110, 194, 1) 0%, rgba(44, 110, 194, 0.742) 10%, rgba(44, 110, 194, 0.389) 36%, rgba(44, 110, 194, 0.16) 66%, rgba(44, 110, 194, 0) 100%),
     radial-gradient(ellipse 86vw 50vh at 92% 86%, rgba(44, 110, 194, 0.576) 0%, rgba(44, 110, 194, 0.408) 10%, rgba(44, 110, 194, 0.215) 36%, rgba(44, 110, 194, 0.088) 66%, rgba(44, 110, 194, 0) 100%);
   opacity: 1;
-  animation: ambientSpotlightLight 10s ease-in-out infinite alternate;
+  animation: ambientSpotlightLight 5s ease-in-out infinite alternate;
 }
 
 :root[data-theme="dark"] body::before {
@@ -117,36 +117,36 @@ body::before {
     radial-gradient(ellipse 90vw 54vh at 8% 14%, rgba(43, 102, 168, 1) 0%, rgba(43, 102, 168, 1) 11%, rgba(43, 102, 168, 0.917) 38%, rgba(43, 102, 168, 0.386) 68%, rgba(43, 102, 168, 0) 100%),
     radial-gradient(ellipse 90vw 54vh at 92% 86%, rgba(43, 102, 168, 0.6) 0%, rgba(43, 102, 168, 0.6) 11%, rgba(43, 102, 168, 0.504) 38%, rgba(43, 102, 168, 0.212) 68%, rgba(43, 102, 168, 0) 100%);
   opacity: 1;
-  animation: ambientSpotlightDark 12s ease-in-out infinite alternate;
+  animation: ambientSpotlightDark 6s ease-in-out infinite alternate;
 }
 
 @keyframes ambientSpotlightLight {
   0% {
-    transform: translate3d(-2vmax, -2.5vmax, 0) scale(1);
-    opacity: 0.88;
+    transform: translate3d(-2.6vmax, -3vmax, 0) scale(0.985);
+    opacity: 0.74;
   }
   50% {
-    transform: translate3d(0.8vmax, -1.1vmax, 0) scale(1.025);
-    opacity: 0.95;
+    transform: translate3d(0.9vmax, -1.2vmax, 0) scale(1.04);
+    opacity: 0.93;
   }
   100% {
-    transform: translate3d(2.4vmax, 1vmax, 0) scale(1.04);
-    opacity: 0.9;
+    transform: translate3d(3.2vmax, 1.7vmax, 0) scale(1.075);
+    opacity: 1;
   }
 }
 
 @keyframes ambientSpotlightDark {
   0% {
-    transform: translate3d(-2vmax, -2.5vmax, 0) scale(1);
-    opacity: 0.9;
+    transform: translate3d(-2.5vmax, -2.9vmax, 0) scale(0.988);
+    opacity: 0.76;
   }
   50% {
-    transform: translate3d(0.7vmax, -1.2vmax, 0) scale(1.022);
-    opacity: 0.97;
+    transform: translate3d(0.8vmax, -1.3vmax, 0) scale(1.038);
+    opacity: 0.94;
   }
   100% {
-    transform: translate3d(2.2vmax, 1vmax, 0) scale(1.035);
-    opacity: 0.92;
+    transform: translate3d(3.1vmax, 1.6vmax, 0) scale(1.07);
+    opacity: 1;
   }
 }
 
