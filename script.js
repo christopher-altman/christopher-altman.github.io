@@ -56,6 +56,8 @@ const repositories = [
     title: 'Autodidactic Quantum Machine Learning Loop',
     url: 'https://github.com/christopher-altman/autodidactic-qml',
     shortDesc: 'Falsification testbed for local functional recoverability in neural networks',
+    heroLight: 'assets/exponential.jpg',
+    heroDark: 'assets/exponential.jpg',
     methods: [
       'Matrix-to-RNN pipeline with Hermitian Langevin dynamics',
       'Constrained recovery under multiple proxy families (weight proximity, spectral moments, representation similarity)',
@@ -88,6 +90,8 @@ const repositories = [
     title: 'Noise-Aware QNN Identifiability',
     url: 'https://github.com/christopher-altman/noise-aware-qnn-identifiability',
     shortDesc: 'Accuracy is not evidence of learning. Under noise, performance can survive while recoverability collapses.',
+    heroLight: 'assets/qnn.jpg',
+    heroDark: 'assets/qnn.jpg',
     methods: [
       'Minimal QNN-style testbed: 2-qubit variational circuit with depolarizing noise and amplitude damping',
       'Dense parameter grid sweeps (16×16, 256 points) over noise probability p and readout noise σ',
@@ -103,6 +107,8 @@ const repositories = [
     title: 'Hardware Implementation of Superposed Quantum Network Topologies (SQNT)',
     url: 'https://github.com/christopher-altman/sqnt-hardware-demo',
     shortDesc: 'Deterministic SQNT demo: ground-truth mixture recovery + topology sweeps with reproducible figures',
+    heroLight: 'assets/sqnt.jpg',
+    heroDark: 'assets/sqnt.jpg',
     methods: [
       'Ground-truth mixture generator (controlled interpolation across topology regimes)',
       'Alpha-sweep experiments with deterministic seeds and reproducible figures',
@@ -118,6 +124,8 @@ const repositories = [
     title: 'Quantum Kernel Telemetry Anomaly Detection',
     url: 'https://github.com/christopher-altman/qkernel-telemetry-anomaly',
     shortDesc: 'Reproducible anomaly detection in telemetry using quantum kernel methods',
+    heroLight: 'assets/telemetry.jpg',
+    heroDark: 'assets/telemetry.jpg',
     methods: [
       'Entanglement-based quantum kernels vs classical baselines (RBF-SVM, Isolation Forest)',
       'Data reuploading with ZZ entanglement and IQP rotations',
@@ -133,6 +141,8 @@ const repositories = [
     title: 'Benchmarks for Binarized Quantum Neural Networks (BQNNs)',
     url: 'https://github.com/christopher-altman/bqnn-benchmark',
     shortDesc: 'Benchmark harness for Binarized Quantum Neural Networks mixing binary classical layers with quantum circuits',
+    heroLight: 'assets/qnn.jpg',
+    heroDark: 'assets/qnn.jpg',
     methods: [
       'Binary classical layers + quantum circuits with quantumness parameter α',
       'RX encodings with trainable RZ phase layers and optional ring entanglement',
@@ -148,6 +158,8 @@ const repositories = [
     title: 'Hamiltonian Topology Augmentation: A Quantum-Inspired Geometric Transformation Toolkit',
     url: 'https://github.com/christopher-altman/quantum-decision-flow',
     shortDesc: 'Dynamics-as-augmentation: apply Hamiltonian time evolution to classical datasets',
+    heroLight: 'assets/topology.jpg',
+    heroDark: 'assets/topology.jpg',
     methods: [
       'Two-qubit state encoding with Hamiltonian time evolution',
       'Multiple Hamiltonians: ZZ_X, Heisenberg, Ising Transverse, XXZ',
@@ -163,6 +175,8 @@ const repositories = [
     title: 'Quantum Kernel Expressivity: Measuring Inductive Bias and Feature Complexity in Quantum Kernel Methods',
     url: 'https://github.com/christopher-altman/quantum-kernel',
     shortDesc: 'Studies how quantum-kernel expressivity affects inductive bias and generalization',
+    heroLight: 'assets/kernel.jpg',
+    heroDark: 'assets/kernel.jpg',
     methods: [
       'Multiple quantum kernel estimators in PennyLane/PyTorch',
       'Circuit depth/width/entanglement layout variation',
