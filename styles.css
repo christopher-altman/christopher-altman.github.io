@@ -82,13 +82,13 @@ body {
   background-image: linear-gradient(180deg, var(--dark-bg-start) 0%, #10213a 100%);
 }
 
-body::before {
+body::before,
+body::after {
   content: "";
   position: fixed;
   inset: -28vmax;
   z-index: -1;
   pointer-events: none;
-  transform: translate3d(-2vmax, -2.5vmax, 0) scale(1);
   transform-origin: center;
   background-repeat: no-repeat;
   background-size: 100% 100%;
@@ -96,57 +96,89 @@ body::before {
   will-change: transform, opacity;
 }
 
+/* Top-left orb (light mode) */
 :root:not([data-theme="dark"]) body::before {
   background-image:
     radial-gradient(ellipse 28vw 16vh at 50% 16%, rgba(44, 110, 194, 1) 0%, rgba(44, 110, 194, 0.92) 18%, rgba(44, 110, 194, 0.48) 48%, rgba(44, 110, 194, 0.156) 76%, rgba(44, 110, 194, 0) 100%),
     radial-gradient(ellipse 42vw 26vh at 8% 14%, rgba(44, 110, 194, 0.619) 0%, rgba(44, 110, 194, 0.448) 18%, rgba(44, 110, 194, 0.225) 46%, rgba(44, 110, 194, 0.077) 74%, rgba(44, 110, 194, 0) 100%),
-    radial-gradient(ellipse 42vw 26vh at 92% 86%, rgba(44, 110, 194, 0.336) 0%, rgba(44, 110, 194, 0.246) 18%, rgba(44, 110, 194, 0.125) 46%, rgba(44, 110, 194, 0.042) 74%, rgba(44, 110, 194, 0) 100%),
     radial-gradient(ellipse 59vw 30vh at 50% 17%, rgba(44, 110, 194, 1) 0%, rgba(44, 110, 194, 1) 9%, rgba(44, 110, 194, 0.84) 38%, rgba(44, 110, 194, 0.34) 69%, rgba(44, 110, 194, 0) 100%),
-    radial-gradient(ellipse 86vw 50vh at 8% 14%, rgba(44, 110, 194, 1) 0%, rgba(44, 110, 194, 0.742) 10%, rgba(44, 110, 194, 0.389) 36%, rgba(44, 110, 194, 0.16) 66%, rgba(44, 110, 194, 0) 100%),
-    radial-gradient(ellipse 86vw 50vh at 92% 86%, rgba(44, 110, 194, 0.576) 0%, rgba(44, 110, 194, 0.408) 10%, rgba(44, 110, 194, 0.215) 36%, rgba(44, 110, 194, 0.088) 66%, rgba(44, 110, 194, 0) 100%);
+    radial-gradient(ellipse 86vw 50vh at 8% 14%, rgba(44, 110, 194, 1) 0%, rgba(44, 110, 194, 0.742) 10%, rgba(44, 110, 194, 0.389) 36%, rgba(44, 110, 194, 0.16) 66%, rgba(44, 110, 194, 0) 100%);
   opacity: 1;
-  animation: ambientSpotlightLight 3s ease-in-out infinite alternate;
+  animation: breatheTopLight 4s ease-in-out infinite alternate;
 }
 
+/* Bottom-right orb (light mode) — more opaque/blue than before */
+:root:not([data-theme="dark"]) body::after {
+  background-image:
+    radial-gradient(ellipse 42vw 26vh at 92% 86%, rgba(44, 110, 194, 0.72) 0%, rgba(44, 110, 194, 0.54) 18%, rgba(44, 110, 194, 0.28) 46%, rgba(44, 110, 194, 0.095) 74%, rgba(44, 110, 194, 0) 100%),
+    radial-gradient(ellipse 86vw 50vh at 92% 86%, rgba(44, 110, 194, 0.88) 0%, rgba(44, 110, 194, 0.66) 10%, rgba(44, 110, 194, 0.36) 36%, rgba(44, 110, 194, 0.14) 66%, rgba(44, 110, 194, 0) 100%);
+  opacity: 1;
+  animation: breatheBottomRightLight 5.5s ease-in-out infinite alternate;
+}
+
+/* Top-left orb (dark mode) */
 :root[data-theme="dark"] body::before {
   background-image:
     radial-gradient(ellipse 29vw 17vh at 50% 16%, rgba(43, 106, 188, 1) 0%, rgba(43, 106, 188, 0.88) 18%, rgba(43, 106, 188, 0.48) 48%, rgba(43, 106, 188, 0.176) 76%, rgba(43, 106, 188, 0) 100%),
     radial-gradient(ellipse 44vw 28vh at 8% 14%, rgba(51, 122, 205, 1) 0%, rgba(51, 122, 205, 0.896) 18%, rgba(51, 122, 205, 0.503) 46%, rgba(51, 122, 205, 0.175) 74%, rgba(51, 122, 205, 0) 100%),
-    radial-gradient(ellipse 44vw 28vh at 92% 86%, rgba(51, 122, 205, 0.6) 0%, rgba(51, 122, 205, 0.492) 18%, rgba(51, 122, 205, 0.276) 46%, rgba(51, 122, 205, 0.096) 74%, rgba(51, 122, 205, 0) 100%),
     radial-gradient(ellipse 62vw 33vh at 50% 17%, rgba(37, 88, 150, 1) 0%, rgba(37, 88, 150, 1) 10%, rgba(37, 88, 150, 0.928) 40%, rgba(37, 88, 150, 0.408) 70%, rgba(37, 88, 150, 0) 100%),
-    radial-gradient(ellipse 90vw 54vh at 8% 14%, rgba(43, 102, 168, 1) 0%, rgba(43, 102, 168, 1) 11%, rgba(43, 102, 168, 0.917) 38%, rgba(43, 102, 168, 0.386) 68%, rgba(43, 102, 168, 0) 100%),
+    radial-gradient(ellipse 90vw 54vh at 8% 14%, rgba(43, 102, 168, 1) 0%, rgba(43, 102, 168, 1) 11%, rgba(43, 102, 168, 0.917) 38%, rgba(43, 102, 168, 0.386) 68%, rgba(43, 102, 168, 0) 100%);
+  opacity: 1;
+  animation: breatheTopDark 4s ease-in-out infinite alternate;
+}
+
+/* Bottom-right orb (dark mode) — original transparency */
+:root[data-theme="dark"] body::after {
+  background-image:
+    radial-gradient(ellipse 44vw 28vh at 92% 86%, rgba(51, 122, 205, 0.6) 0%, rgba(51, 122, 205, 0.492) 18%, rgba(51, 122, 205, 0.276) 46%, rgba(51, 122, 205, 0.096) 74%, rgba(51, 122, 205, 0) 100%),
     radial-gradient(ellipse 90vw 54vh at 92% 86%, rgba(43, 102, 168, 0.6) 0%, rgba(43, 102, 168, 0.6) 11%, rgba(43, 102, 168, 0.504) 38%, rgba(43, 102, 168, 0.212) 68%, rgba(43, 102, 168, 0) 100%);
   opacity: 1;
-  animation: ambientSpotlightDark 3s ease-in-out infinite alternate;
+  animation: breatheBottomRightDark 5.5s ease-in-out infinite alternate;
 }
 
-@keyframes ambientSpotlightLight {
+/* Top-left orb breathes in (expands) while bottom-right breathes out (contracts) */
+@keyframes breatheTopLight {
   0% {
-    transform: translate3d(-2.6vmax, -3vmax, 0) scale(0.985);
-    opacity: 0.74;
-  }
-  50% {
-    transform: translate3d(0.9vmax, -1.2vmax, 0) scale(1.04);
-    opacity: 0.93;
+    transform: translate3d(-0.6vmax, -0.6vmax, 0) scale(0.96);
+    opacity: 0.80;
   }
   100% {
-    transform: translate3d(3.2vmax, 1.7vmax, 0) scale(1.075);
+    transform: translate3d(0.6vmax, 0.4vmax, 0) scale(1.07);
     opacity: 1;
   }
 }
 
-@keyframes ambientSpotlightDark {
+@keyframes breatheTopDark {
   0% {
-    transform: translate3d(-2.5vmax, -2.9vmax, 0) scale(0.988);
+    transform: translate3d(-0.5vmax, -0.5vmax, 0) scale(0.962);
+    opacity: 0.82;
+  }
+  100% {
+    transform: translate3d(0.5vmax, 0.35vmax, 0) scale(1.065);
+    opacity: 1;
+  }
+}
+
+/* Bottom-right orb starts expanded and contracts — opposite phase to top orb */
+@keyframes breatheBottomRightLight {
+  0% {
+    transform: scale(1.09);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.91);
     opacity: 0.76;
   }
-  50% {
-    transform: translate3d(0.8vmax, -1.3vmax, 0) scale(1.038);
-    opacity: 0.94;
+}
+
+@keyframes breatheBottomRightDark {
+  0% {
+    transform: scale(1.08);
+    opacity: 1;
   }
   100% {
-    transform: translate3d(3.1vmax, 1.6vmax, 0) scale(1.07);
-    opacity: 1;
+    transform: scale(0.92);
+    opacity: 0.78;
   }
 }
 
@@ -1443,11 +1475,13 @@ html.theme-transitions * {
     transition-duration: 0.01ms !important;
   }
 
-  :root:not([data-theme="dark"]) body::before {
+  :root:not([data-theme="dark"]) body::before,
+  :root:not([data-theme="dark"]) body::after {
     animation: none !important;
   }
 
-  :root[data-theme="dark"] body::before {
+  :root[data-theme="dark"] body::before,
+  :root[data-theme="dark"] body::after {
     animation: none !important;
   }
 
