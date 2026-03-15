@@ -139,45 +139,45 @@ body::after {
 /* Both orbs start fully expanded, contract together, then expand together */
 @keyframes breatheTopLight {
   0% {
-    transform: translate3d(0.6vmax, 0.4vmax, 0) scale(1.07);
+    transform: translate3d(0.6vmax, 0.4vmax, 0) scale(1.09);
     opacity: 1;
   }
   100% {
-    transform: translate3d(-0.6vmax, -0.6vmax, 0) scale(0.96);
-    opacity: 0.80;
+    transform: translate3d(-0.6vmax, -0.6vmax, 0) scale(0.945);
+    opacity: 0.78;
   }
 }
 
 @keyframes breatheTopDark {
   0% {
-    transform: translate3d(0.5vmax, 0.35vmax, 0) scale(1.065);
+    transform: translate3d(0.5vmax, 0.35vmax, 0) scale(1.085);
     opacity: 1;
   }
   100% {
-    transform: translate3d(-0.5vmax, -0.5vmax, 0) scale(0.962);
-    opacity: 0.82;
+    transform: translate3d(-0.5vmax, -0.5vmax, 0) scale(0.947);
+    opacity: 0.80;
   }
 }
 
 @keyframes breatheBottomRightLight {
   0% {
-    transform: scale(1.09);
+    transform: scale(1.11);
     opacity: 1;
   }
   100% {
-    transform: scale(0.91);
-    opacity: 0.76;
+    transform: scale(0.892);
+    opacity: 0.74;
   }
 }
 
 @keyframes breatheBottomRightDark {
   0% {
-    transform: scale(1.08);
+    transform: scale(1.10);
     opacity: 1;
   }
   100% {
-    transform: scale(0.92);
-    opacity: 0.78;
+    transform: scale(0.902);
+    opacity: 0.76;
   }
 }
 
