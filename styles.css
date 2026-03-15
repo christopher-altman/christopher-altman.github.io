@@ -113,7 +113,7 @@ body::after {
     radial-gradient(ellipse 42vw 26vh at 92% 86%, rgba(44, 110, 194, 0.72) 0%, rgba(44, 110, 194, 0.54) 18%, rgba(44, 110, 194, 0.28) 46%, rgba(44, 110, 194, 0.095) 74%, rgba(44, 110, 194, 0) 100%),
     radial-gradient(ellipse 86vw 50vh at 92% 86%, rgba(44, 110, 194, 0.88) 0%, rgba(44, 110, 194, 0.66) 10%, rgba(44, 110, 194, 0.36) 36%, rgba(44, 110, 194, 0.14) 66%, rgba(44, 110, 194, 0) 100%);
   opacity: 1;
-  animation: breatheBottomRightLight 5.5s ease-in-out infinite alternate;
+  animation: breatheBottomRightLight 4s ease-in-out infinite alternate;
 }
 
 /* Top-left orb (dark mode) */
@@ -133,33 +133,32 @@ body::after {
     radial-gradient(ellipse 44vw 28vh at 92% 86%, rgba(51, 122, 205, 0.6) 0%, rgba(51, 122, 205, 0.492) 18%, rgba(51, 122, 205, 0.276) 46%, rgba(51, 122, 205, 0.096) 74%, rgba(51, 122, 205, 0) 100%),
     radial-gradient(ellipse 90vw 54vh at 92% 86%, rgba(43, 102, 168, 0.6) 0%, rgba(43, 102, 168, 0.6) 11%, rgba(43, 102, 168, 0.504) 38%, rgba(43, 102, 168, 0.212) 68%, rgba(43, 102, 168, 0) 100%);
   opacity: 1;
-  animation: breatheBottomRightDark 5.5s ease-in-out infinite alternate;
+  animation: breatheBottomRightDark 4s ease-in-out infinite alternate;
 }
 
-/* Top-left orb breathes in (expands) while bottom-right breathes out (contracts) */
+/* Both orbs start fully expanded, contract together, then expand together */
 @keyframes breatheTopLight {
   0% {
-    transform: translate3d(-0.6vmax, -0.6vmax, 0) scale(0.96);
-    opacity: 0.80;
-  }
-  100% {
     transform: translate3d(0.6vmax, 0.4vmax, 0) scale(1.07);
     opacity: 1;
+  }
+  100% {
+    transform: translate3d(-0.6vmax, -0.6vmax, 0) scale(0.96);
+    opacity: 0.80;
   }
 }
 
 @keyframes breatheTopDark {
   0% {
-    transform: translate3d(-0.5vmax, -0.5vmax, 0) scale(0.962);
-    opacity: 0.82;
-  }
-  100% {
     transform: translate3d(0.5vmax, 0.35vmax, 0) scale(1.065);
     opacity: 1;
   }
+  100% {
+    transform: translate3d(-0.5vmax, -0.5vmax, 0) scale(0.962);
+    opacity: 0.82;
+  }
 }
 
-/* Bottom-right orb starts expanded and contracts — opposite phase to top orb */
 @keyframes breatheBottomRightLight {
   0% {
     transform: scale(1.09);
