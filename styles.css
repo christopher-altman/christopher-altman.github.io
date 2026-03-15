@@ -104,7 +104,7 @@ body::after {
     radial-gradient(ellipse 59vw 30vh at 50% 17%, rgba(44, 110, 194, 1) 0%, rgba(44, 110, 194, 1) 9%, rgba(44, 110, 194, 0.84) 38%, rgba(44, 110, 194, 0.34) 69%, rgba(44, 110, 194, 0) 100%),
     radial-gradient(ellipse 86vw 50vh at 8% 14%, rgba(44, 110, 194, 1) 0%, rgba(44, 110, 194, 0.742) 10%, rgba(44, 110, 194, 0.389) 36%, rgba(44, 110, 194, 0.16) 66%, rgba(44, 110, 194, 0) 100%);
   opacity: 1;
-  animation: breatheTopLight 4s ease-in-out infinite alternate;
+  animation: breatheTopLight 3s ease-in-out infinite alternate;
 }
 
 /* Bottom-right orb (light mode) — more opaque/blue than before */
@@ -113,7 +113,7 @@ body::after {
     radial-gradient(ellipse 42vw 26vh at 92% 86%, rgba(44, 110, 194, 0.72) 0%, rgba(44, 110, 194, 0.54) 18%, rgba(44, 110, 194, 0.28) 46%, rgba(44, 110, 194, 0.095) 74%, rgba(44, 110, 194, 0) 100%),
     radial-gradient(ellipse 86vw 50vh at 92% 86%, rgba(44, 110, 194, 0.88) 0%, rgba(44, 110, 194, 0.66) 10%, rgba(44, 110, 194, 0.36) 36%, rgba(44, 110, 194, 0.14) 66%, rgba(44, 110, 194, 0) 100%);
   opacity: 1;
-  animation: breatheBottomRightLight 4s ease-in-out infinite alternate;
+  animation: breatheBottomRightLight 3s ease-in-out infinite alternate;
 }
 
 /* Top-left orb (dark mode) */
@@ -124,7 +124,7 @@ body::after {
     radial-gradient(ellipse 62vw 33vh at 50% 17%, rgba(37, 88, 150, 1) 0%, rgba(37, 88, 150, 1) 10%, rgba(37, 88, 150, 0.928) 40%, rgba(37, 88, 150, 0.408) 70%, rgba(37, 88, 150, 0) 100%),
     radial-gradient(ellipse 90vw 54vh at 8% 14%, rgba(43, 102, 168, 1) 0%, rgba(43, 102, 168, 1) 11%, rgba(43, 102, 168, 0.917) 38%, rgba(43, 102, 168, 0.386) 68%, rgba(43, 102, 168, 0) 100%);
   opacity: 1;
-  animation: breatheTopDark 4s ease-in-out infinite alternate;
+  animation: breatheTopDark 3s ease-in-out infinite alternate;
 }
 
 /* Bottom-right orb (dark mode) — original transparency */
@@ -133,7 +133,7 @@ body::after {
     radial-gradient(ellipse 44vw 28vh at 92% 86%, rgba(51, 122, 205, 0.6) 0%, rgba(51, 122, 205, 0.492) 18%, rgba(51, 122, 205, 0.276) 46%, rgba(51, 122, 205, 0.096) 74%, rgba(51, 122, 205, 0) 100%),
     radial-gradient(ellipse 90vw 54vh at 92% 86%, rgba(43, 102, 168, 0.6) 0%, rgba(43, 102, 168, 0.6) 11%, rgba(43, 102, 168, 0.504) 38%, rgba(43, 102, 168, 0.212) 68%, rgba(43, 102, 168, 0) 100%);
   opacity: 1;
-  animation: breatheBottomRightDark 4s ease-in-out infinite alternate;
+  animation: breatheBottomRightDark 3s ease-in-out infinite alternate;
 }
 
 /* Both orbs start fully expanded, contract together, then expand together */
