@@ -15,7 +15,7 @@ set -e
 
 ASSETS_DIR="assets"
 LIGHT_JPEG="${ASSETS_DIR}/accuracy-vs-identifiability-light.jpeg"
-DARK_JPEG="${ASSETS_DIR}/accuracy-vs-identifiability-dark.jpeg"
+DARK_JPEG="${ASSETS_DIR}/accuracy-vs-identifiability-dark.png"
 
 # Color codes for output
 GREEN='\033[0;32m'

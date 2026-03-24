@@ -505,7 +505,7 @@ function updateCurrentYear() {
   document.getElementById('currentYear').textContent = new Date().getFullYear();
 }
 
-// Hero Image Theme Swap (JPEG only for sharp text)
+// Keep the landing hero on its default asset; only repo cards are theme-swapped.
 function initializeHeroImageSwap() {
   const heroFigure = document.getElementById('heroFigure');
 
@@ -513,10 +513,11 @@ function initializeHeroImageSwap() {
     const currentTheme = document.documentElement.dataset.theme || 'light';
     const variant = currentTheme === 'dark' ? 'dark' : 'light';
 
-    // Update main hero figure (JPEG only for sharp text)
+    // Preserve the default landing hero image from the markup.
     if (heroFigure) {
-      heroFigure.src = `assets/accuracy-vs-identifiability-${variant}.jpeg`;
-      heroFigure.alt = `Accuracy vs Identifiability (${variant} mode)`;
+      const defaultSrc = heroFigure.dataset.heroDefault || heroFigure.getAttribute('src');
+      heroFigure.src = defaultSrc;
+      heroFigure.alt = 'Accuracy vs Identifiability';
     }
 
     // Update repo card hero images
