@@ -505,7 +505,7 @@ function updateCurrentYear() {
   document.getElementById('currentYear').textContent = new Date().getFullYear();
 }
 
-// Keep the landing hero on its default asset; only repo cards are theme-swapped.
+// Theme-swap the landing hero and repo cards using explicit asset paths.
 function initializeHeroImageSwap() {
   const heroFigure = document.getElementById('heroFigure');
 
@@ -513,11 +513,13 @@ function initializeHeroImageSwap() {
     const currentTheme = document.documentElement.dataset.theme || 'light';
     const variant = currentTheme === 'dark' ? 'dark' : 'light';
 
-    // Preserve the default landing hero image from the markup.
+    // Update main hero figure using explicit asset paths from the markup.
     if (heroFigure) {
       const defaultSrc = heroFigure.dataset.heroDefault || heroFigure.getAttribute('src');
-      heroFigure.src = defaultSrc;
-      heroFigure.alt = 'Accuracy vs Identifiability';
+      const lightSrc = heroFigure.dataset.heroLight || defaultSrc;
+      const darkSrc = heroFigure.dataset.heroDark || defaultSrc;
+      heroFigure.src = variant === 'dark' ? darkSrc : lightSrc;
+      heroFigure.alt = `Accuracy vs Identifiability (${variant} mode)`;
     }
 
     // Update repo card hero images
