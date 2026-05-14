@@ -51,11 +51,16 @@
     <link rel="preload" href="assets/accuracy-vs-identifiability-light.jpeg" as="image" type="image/jpeg" />
     <link rel="preload" href="assets/accuracy-vs-identifiability-dark.png" as="image" type="image/png" />
     
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="styles.css?v=20260515" />
     
     <script>
       (function() {
-        const stored = localStorage.getItem('theme');
+        let stored = null;
+        try {
+          stored = localStorage.getItem('theme');
+        } catch (error) {
+          stored = null;
+        }
         const theme = stored || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
         document.documentElement.dataset.theme = theme;
       })();
@@ -441,7 +446,7 @@
   </section>
 
   <!-- Featured Repositories -->
-  <section class="repos-section" data-view="list">
+  <section class="repos-section" id="featured-projects" data-view="list">
     <div class="container">
       <div class="section-header">
         <h3 class="section-title reveal" data-delay="0">Featured Projects</h3>
@@ -487,9 +492,29 @@
         <!-- Populated by JavaScript -->
       </div>
 
-      <div id="noResults" class="no-results" style="display: none;">
-        No repositories match your current filters
+      <div id="projectsStatus" class="projects-status" role="status" aria-live="polite">
+        Loading featured projects...
       </div>
+
+      <div id="noResults" class="no-results" style="display: none;" aria-live="polite">
+      </div>
+
+      <div id="projectsUnavailable" class="no-results" style="display: none;" aria-live="polite">
+        Featured projects are temporarily unavailable.
+        <a href="https://github.com/christopher-altman" target="_blank" rel="noopener noreferrer">View GitHub directly.</a>
+      </div>
+
+      <noscript>
+        <div class="repo-static-fallback" aria-label="Featured projects fallback">
+          <p>Featured projects are available on GitHub:</p>
+          <ul>
+            <li><a href="https://github.com/christopher-altman/qml-verification-lab">Quantum Machine Learning (QML) Verification Lab</a></li>
+            <li><a href="https://github.com/christopher-altman/autodidactic-qml">Autodidactic Quantum Machine Learning Loop</a></li>
+            <li><a href="https://github.com/christopher-altman/noise-aware-qnn-identifiability">Noise-Aware QNN Identifiability</a></li>
+            <li><a href="https://github.com/christopher-altman/qkernel-telemetry-anomaly">Quantum Kernel Telemetry Anomaly Detection</a></li>
+          </ul>
+        </div>
+      </noscript>
     </div>
   </section>
 
@@ -658,6 +683,6 @@
   </div>
 </footer>
 
-  <script src="script.js"></script>
+  <script src="script.js?v=20260515"></script>
 </body>
 </html>

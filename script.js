@@ -217,6 +217,19 @@ const methods = [
   'Identifiability metrics'
 ];
 
+const DEBUG_PROJECTS = typeof window !== 'undefined' &&
+  new URLSearchParams(window.location.search).has('debugProjects');
+
+const GITHUB_PROFILE_URL = 'https://github.com/christopher-altman';
+
+const repositoryState = {
+  status: 'loading',
+  source: 'static-inline',
+  data: repositories,
+  error: null,
+  fallbackUsed: true
+};
+
 // State
 let searchTerm = '';
 let selectedTags = [];
@@ -224,14 +237,53 @@ let selectedMethod = null;
 let expandedRepoId = null;
 let lastActiveSection = 'repo'; // Track which section was last interacted with
 
+function debugProjects(event, details = {}) {
+  if (!DEBUG_PROJECTS) return;
+
+  const safeDetails = { ...details };
+  delete safeDetails.headers;
+  delete safeDetails.authorization;
+  delete safeDetails.cookie;
+
+  console.info('[featured-projects]', event, safeDetails);
+}
+
+function readLocalStorage(key) {
+  try {
+    return localStorage.getItem(key);
+  } catch (error) {
+    debugProjects('localStorage read failed', { key, message: error.message });
+    return null;
+  }
+}
+
+function writeLocalStorage(key, value) {
+  try {
+    localStorage.setItem(key, value);
+  } catch (error) {
+    debugProjects('localStorage write failed', { key, message: error.message });
+  }
+}
+
 // Repo collapse state per view mode
 function getRepoCollapseState() {
-  const stored = localStorage.getItem('repoCollapseState');
-  return stored ? JSON.parse(stored) : { cards: {}, list: {} };
+  const stored = readLocalStorage('repoCollapseState');
+  if (!stored) return { cards: {}, list: {} };
+
+  try {
+    const parsed = JSON.parse(stored);
+    return {
+      cards: parsed.cards && typeof parsed.cards === 'object' ? parsed.cards : {},
+      list: parsed.list && typeof parsed.list === 'object' ? parsed.list : {}
+    };
+  } catch (error) {
+    debugProjects('repo collapse state reset', { message: error.message });
+    return { cards: {}, list: {} };
+  }
 }
 
 function setRepoCollapseState(state) {
-  localStorage.setItem('repoCollapseState', JSON.stringify(state));
+  writeLocalStorage('repoCollapseState', JSON.stringify(state));
 }
 
 function isRepoCollapsed(repoId, viewMode) {
@@ -254,10 +306,19 @@ const subjectTags = new Set(['Alignment', 'Quantum ML', 'Quantum Dynamics', 'Sup
 
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
+  debugProjects('repository data start', {
+    source: repositoryState.source,
+    status: repositoryState.status
+  });
+
   initializeMethodsChips();
   initializeTagFilters();
   initializeSearch();
   renderRepositories();
+  hydrateRepositories(repositories, {
+    source: 'static-inline',
+    fallbackUsed: true
+  });
   updateCurrentYear();
   initializeThemeToggle();
   initializeHeroImageSwap();
@@ -343,7 +404,11 @@ function initializeSearch() {
 
 // Filter Repositories
 function getFilteredRepositories() {
-  return repositories.filter(repo => {
+  const sourceRepositories = (typeof repositoryState !== 'undefined' && Array.isArray(repositoryState.data))
+    ? repositoryState.data
+    : repositories;
+
+  return sourceRepositories.filter(repo => {
     // Search filter
     const matchesSearch = searchTerm === '' || 
       repo.title.toLowerCase().includes(searchTerm) ||
@@ -369,26 +434,157 @@ function getFilteredRepositories() {
   });
 }
 
+function getRepositoryElements() {
+  return {
+    section: document.querySelector('.repos-section'),
+    container: document.getElementById('reposGrid'),
+    status: document.getElementById('projectsStatus'),
+    noResults: document.getElementById('noResults'),
+    unavailable: document.getElementById('projectsUnavailable')
+  };
+}
+
+function hideRepositoryMessages(elements) {
+  if (elements.status) {
+    elements.status.style.display = 'none';
+  }
+  if (elements.noResults) {
+    elements.noResults.style.display = 'none';
+    elements.noResults.textContent = '';
+  }
+  if (elements.unavailable) {
+    elements.unavailable.style.display = 'none';
+  }
+}
+
+function showRepositoryLoading(elements) {
+  if (elements.container) {
+    elements.container.innerHTML = '';
+    elements.container.style.display = 'none';
+  }
+  hideRepositoryMessages(elements);
+  if (elements.section) elements.section.dataset.projectsState = 'loading';
+  if (elements.status) {
+    elements.status.textContent = 'Loading featured projects...';
+    elements.status.style.display = 'block';
+  }
+  debugProjects('render loading', {
+    source: repositoryState.source,
+    fallbackUsed: repositoryState.fallbackUsed
+  });
+}
+
+function showRepositoryUnavailable(elements) {
+  if (elements.container) {
+    elements.container.innerHTML = '';
+    elements.container.style.display = 'none';
+  }
+  hideRepositoryMessages(elements);
+  if (elements.section) elements.section.dataset.projectsState = 'unavailable';
+  if (elements.unavailable) {
+    elements.unavailable.style.display = 'block';
+  }
+  debugProjects('render unavailable', {
+    source: repositoryState.source,
+    status: repositoryState.status,
+    error: repositoryState.error ? repositoryState.error.message : null
+  });
+}
+
+function hydrateRepositories(nextRepositories, meta = {}) {
+  repositoryState.status = 'loaded';
+  repositoryState.data = Array.isArray(nextRepositories) ? nextRepositories : [];
+  repositoryState.error = null;
+  repositoryState.source = meta.source || repositoryState.source;
+  repositoryState.fallbackUsed = meta.fallbackUsed === true;
+
+  debugProjects('repository data success', {
+    source: repositoryState.source,
+    count: repositoryState.data.length,
+    fallbackUsed: repositoryState.fallbackUsed
+  });
+
+  renderRepositories();
+}
+
+function setRepositoriesLoading(meta = {}) {
+  repositoryState.status = 'loading';
+  repositoryState.error = null;
+  repositoryState.source = meta.source || repositoryState.source;
+  repositoryState.fallbackUsed = meta.fallbackUsed === true;
+  renderRepositories();
+}
+
+function failRepositories(error, meta = {}) {
+  repositoryState.status = 'error';
+  repositoryState.error = error instanceof Error ? error : new Error(String(error || 'Unknown repository load failure'));
+  repositoryState.source = meta.source || repositoryState.source;
+  repositoryState.fallbackUsed = meta.fallbackUsed === true;
+
+  debugProjects('repository data failure', {
+    source: repositoryState.source,
+    statusCode: meta.statusCode,
+    retryAfter: meta.retryAfter,
+    rateLimitLimit: meta.rateLimitLimit,
+    rateLimitRemaining: meta.rateLimitRemaining,
+    rateLimitReset: meta.rateLimitReset,
+    message: repositoryState.error.message
+  });
+
+  renderRepositories();
+}
+
 // Render Repositories
 function renderRepositories() {
-  const container = document.getElementById('reposGrid');
-  const noResults = document.getElementById('noResults');
+  const elements = getRepositoryElements();
+  const { section, container, noResults } = elements;
+
+  if (!container || !noResults) return;
+
+  if (repositoryState.status === 'loading') {
+    showRepositoryLoading(elements);
+    return;
+  }
+
+  if (repositoryState.status === 'error') {
+    showRepositoryUnavailable(elements);
+    return;
+  }
+
   const filtered = getFilteredRepositories();
   
   container.innerHTML = '';
+  hideRepositoryMessages(elements);
   
   if (filtered.length === 0) {
     container.style.display = 'none';
+    if (section) section.dataset.projectsState = 'empty';
+    noResults.textContent = 'No repositories match your current filters.';
     noResults.style.display = 'block';
+    debugProjects('render empty', {
+      searchTerm,
+      selectedTags,
+      selectedMethod,
+      sourceCount: repositoryState.data.length
+    });
     return;
   }
   
   container.style.display = 'grid';
-  noResults.style.display = 'none';
+  if (section) section.dataset.projectsState = 'loaded';
   
   filtered.forEach(repo => {
     const card = createRepoCard(repo);
     container.appendChild(card);
+  });
+
+  debugProjects('render cards', {
+    searchTerm,
+    selectedTags,
+    selectedMethod,
+    renderedCardCount: filtered.length,
+    source: repositoryState.source,
+    fallbackUsed: repositoryState.fallbackUsed
   });
 }
 
@@ -570,7 +766,7 @@ function initializeThemeToggle() {
     const currentTheme = document.documentElement.dataset.theme || 'light';
     const newTheme = currentTheme === 'light' ? 'dark' : 'light';
     document.documentElement.dataset.theme = newTheme;
-    localStorage.setItem('theme', newTheme);
+    writeLocalStorage('theme', newTheme);
     updateToggleLabel();
   });
 }
@@ -580,7 +776,7 @@ function initializeViewToggles() {
   // Publications view toggle
   const pubsSection = document.getElementById('publications');
   if (pubsSection) {
-    const savedPubView = localStorage.getItem('pubView') || 'list';
+    const savedPubView = readLocalStorage('pubView') || 'list';
     pubsSection.dataset.view = savedPubView;
     updateViewButtons(pubsSection, savedPubView);
 
@@ -589,7 +785,7 @@ function initializeViewToggles() {
         lastActiveSection = 'pub';
         const view = btn.dataset.view;
         pubsSection.dataset.view = view;
-        localStorage.setItem('pubView', view);
+        writeLocalStorage('pubView', view);
         updateViewButtons(pubsSection, view);
       });
     });
@@ -603,7 +799,7 @@ function initializeViewToggles() {
   // Repositories view toggle
   const reposSection = document.querySelector('.repos-section');
   if (reposSection) {
-    const savedRepoView = localStorage.getItem('repoView') || 'list';
+    const savedRepoView = readLocalStorage('repoView') || 'list';
     reposSection.dataset.view = savedRepoView;
     updateViewButtons(reposSection, savedRepoView);
 
@@ -612,7 +808,7 @@ function initializeViewToggles() {
         lastActiveSection = 'repo';
         const view = btn.dataset.view;
         reposSection.dataset.view = view;
-        localStorage.setItem('repoView', view);
+        writeLocalStorage('repoView', view);
         updateViewButtons(reposSection, view);
       });
     });
@@ -650,7 +846,7 @@ function initializeKeyboardShortcuts() {
         const currentView = section.dataset.view;
         const newView = currentView === 'list' ? 'cards' : 'list';
         section.dataset.view = newView;
-        localStorage.setItem(lastActiveSection === 'pub' ? 'pubView' : 'repoView', newView);
+        writeLocalStorage(lastActiveSection === 'pub' ? 'pubView' : 'repoView', newView);
         updateViewButtons(section, newView);
       }
     }
@@ -663,12 +859,12 @@ function initializeKeyboardShortcuts() {
 
       if (pubsSection) {
         pubsSection.dataset.view = newView;
-        localStorage.setItem('pubView', newView);
+        writeLocalStorage('pubView', newView);
         updateViewButtons(pubsSection, newView);
       }
       if (reposSection) {
         reposSection.dataset.view = newView;
-        localStorage.setItem('repoView', newView);
+        writeLocalStorage('repoView', newView);
         updateViewButtons(reposSection, newView);
       }
     }
@@ -679,7 +875,7 @@ function initializeKeyboardShortcuts() {
       const section = lastActiveSection === 'pub' ? pubsSection : reposSection;
       if (section && section.dataset.view !== 'list') {
         section.dataset.view = 'list';
-        localStorage.setItem(lastActiveSection === 'pub' ? 'pubView' : 'repoView', 'list');
+        writeLocalStorage(lastActiveSection === 'pub' ? 'pubView' : 'repoView', 'list');
         updateViewButtons(section, 'list');
       }
     }
@@ -690,7 +886,7 @@ function initializeKeyboardShortcuts() {
       const section = lastActiveSection === 'pub' ? pubsSection : reposSection;
       if (section && section.dataset.view !== 'cards') {
         section.dataset.view = 'cards';
-        localStorage.setItem(lastActiveSection === 'pub' ? 'pubView' : 'repoView', 'cards');
+        writeLocalStorage(lastActiveSection === 'pub' ? 'pubView' : 'repoView', 'cards');
         updateViewButtons(section, 'cards');
       }
     }

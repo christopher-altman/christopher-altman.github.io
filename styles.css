@@ -940,10 +940,36 @@ letter-spacing: 0.05em;
   }
 }
 
-.no-results {
+.projects-status,
+.no-results,
+.repo-static-fallback {
   text-align: center;
   padding: 3rem 0;
   color: var(--color-text-light);
+}
+
+.projects-status {
+  display: block;
+}
+
+.projects-status[hidden],
+.no-results[hidden] {
+  display: none;
+}
+
+.no-results a,
+.repo-static-fallback a {
+  color: var(--color-primary);
+}
+
+.repo-static-fallback ul {
+  display: inline-block;
+  margin-top: 0.75rem;
+  text-align: left;
+}
+
+.repo-static-fallback li {
+  margin-bottom: 0.375rem;
 }
 
 /* Research Themes */
