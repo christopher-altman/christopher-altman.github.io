@@ -89,7 +89,7 @@ MIT License. See [LICENSE](LICENSE) for details.
 
 ## Contact
 
-[Frontier Research Lab](https://lab.christopheraltman.com) ・ [Continuation Observatory](https://continuationobservatory.org) ・ [Official Homepage](https://christopheraltman.com) ・ [GitHub](https://github.com/christopher-altman) ・ [Google Scholar](https://scholar.google.com/citations?user=tvwpCcgAAAAJ) ・ [Biography](https://th-pedia.org/wiki/Christopher_Altman) ・ [Email](mailto:x@christopheraltman.com)
+[Frontier Research Lab](https://lab.christopheraltman.com) ・ [Continuation Observatory](https://continuationobservatory.org) ・ [Personal Website](https://christopheraltman.com) ・ [GitHub](https://github.com/christopher-altman) ・ [Google Scholar](https://scholar.google.com/citations?user=tvwpCcgAAAAJ) ・ [Biography](https://th-pedia.org/wiki/Christopher_Altman) ・ [Email](mailto:x@christopheraltman.com)
 
 
 ---
