@@ -1,6 +1,6 @@
 # Christopher Altman - Research Portfolio
 
-*Personal research website featuring quantum machine learning and AI alignment projects.*
+*Personal research website featuring quantum machine learning, measurement science, and AI alignment projects.*
 
 <br>
 
