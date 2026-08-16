@@ -58,6 +58,7 @@ npm run test:watch
 ## Structure
 
 - `index.html` - Main HTML structure
+- `bio/` - Canonical professional biography route and page-specific styling
 - `assets/` - Avatar/image assets
 - `styles.css` - All styling
 - `script.js` - Interactive functionality (search, filters, expand/collapse)
