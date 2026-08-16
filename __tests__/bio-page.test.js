@@ -66,8 +66,17 @@ test('biography uses direct factual framing without defensive disclaimers', () =
     expect(bioHtml).not.toContain(phrase);
   }
 
-  expect(bioHtml).toContain('The result defines a falsifiable structural hypothesis in a controlled regime.');
-  expect(bioHtml).toContain("preserving each result's protocol, metric version, and falsification context");
+  expect(bioHtml).toContain('The controlled experiments establish a structural separation between terminal and instrumental continuation.');
+  expect(bioHtml).toContain('with every claim tied to inspectable evidence and explicit failure criteria');
+});
+
+test('application-domain sentence closes the frontier-AI evaluation section', () => {
+  const document = new JSDOM(bioHtml).window.document;
+  const frontierParagraphs = [...document.querySelectorAll('#frontier-ai > p')];
+
+  expect(frontierParagraphs.at(-1).textContent.trim()).toBe(
+    'The resulting measurement infrastructure has direct application to frontier-lab safety evaluation, national-security analysis, and assurance of autonomous systems, where surface compliance cannot substitute for structural evidence.'
+  );
 });
 
 test('opening profile closes its professional link row with Hugging Face', () => {
@@ -87,4 +96,59 @@ test('opening name uses the second quarter reduction without wrapping', () => {
   expect(bioCss).toMatch(/\.bio-hero h1\s*\{[^}]*font-size:\s*clamp\(1\.828125rem,\s*5\.0625vw,\s*4\.21875rem\);/s);
   expect(bioCss).toMatch(/\.bio-hero h1\s*\{[^}]*letter-spacing:\s*0\.045em;/s);
   expect(bioCss).toMatch(/\.bio-hero h1\s*\{[^}]*white-space:\s*nowrap;/s);
+});
+
+test('patent status has a dedicated source and the career narrative returns to UCIP', () => {
+  const document = new JSDOM(bioHtml).window.document;
+  const patentSource = document.querySelector('#ref-28 a');
+  const frontierAi = document.querySelector('#frontier-ai');
+  const leadership = document.querySelector('#leadership');
+  const publications = document.querySelector('#publications');
+
+  expect(patentSource.href).toBe('https://continuationobservatory.org/ucip/patent/');
+  expect(document.querySelector('a[href="#ref-28"]')).not.toBeNull();
+  expect(frontierAi.textContent).toContain('Each model generation becomes another observation point');
+  expect(leadership.textContent).toContain('Continuation Observatory brings these threads together');
+  expect(leadership.textContent).toContain('the methodological undercurrent running through Altman\'s career');
+  expect(leadership.textContent).toContain('where it becomes operational');
+  expect(leadership.compareDocumentPosition(publications) & 4).toBeTruthy();
+});
+
+test('why-now framing connects present capability thresholds to operational measurement', () => {
+  const document = new JSDOM(bioHtml).window.document;
+  const whyNow = document.querySelector('#frontier-ai .bio-why-now');
+  const expectedSources = new Map([
+    ['30', 'https://metr.org/time-horizons/'],
+    ['31', 'https://openai.com/index/updating-our-preparedness-framework/'],
+    ['32', 'https://www.anthropic.com/responsible-scaling-policy/roadmap'],
+    ['33', 'https://deepmind.google/blog/strengthening-our-frontier-safety-framework/'],
+  ]);
+
+  expect(whyNow.querySelector('strong').textContent).toBe('Why this matters now.');
+  expect(whyNow.textContent).toContain('recursive operational loop');
+  expectedSources.forEach((href, reference) => {
+    expect(whyNow.querySelector(`a[href="#ref-${reference}"]`)).not.toBeNull();
+    expect(document.querySelector(`#ref-${reference} a`).href).toBe(href);
+  });
+  expect(bioCss).toMatch(/\.bio-prose \.bio-why-now\s*\{[^}]*border-left:\s*2px solid var\(--color-accent\);/s);
+});
+
+test('space-deployable quantum communications cite the satellite-QKD framework', () => {
+  const document = new JSDOM(bioHtml).window.document;
+  const satelliteQkdSource = document.querySelector('#ref-29 a');
+  const overview = document.querySelector('#overview');
+
+  expect(satelliteQkdSource.href)
+    .toBe('https://github.com/christopher-altman/sat-qkd-security-curves');
+  expect(overview.textContent).toContain('space-deployable quantum-communication architectures');
+  expect(overview.querySelector('a[href="#ref-29"]')).not.toBeNull();
+});
+
+test('machine-readable backend identifier uses inline code semantics', () => {
+  const document = new JSDOM(bioHtml).window.document;
+  const backendIdentifier = document.querySelector('#quantum code');
+
+  expect(backendIdentifier.textContent).toBe('ibm_fez');
+  expect(bioCss).toMatch(/\.bio-prose code\s*\{[^}]*background:\s*color-mix\(/s);
+  expect(bioCss).toMatch(/\.bio-prose code\s*\{[^}]*border-radius:\s*0\.3rem;/s);
 });

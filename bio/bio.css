@@ -203,6 +203,31 @@
   line-height: 1.83;
 }
 
+.bio-prose .bio-why-now {
+  margin: 1.75rem 0 2rem;
+  padding: 0.15rem 0 0.15rem 1.15rem;
+  border-left: 2px solid var(--color-accent);
+}
+
+.bio-why-now strong {
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.bio-prose code {
+  padding: 0.08em 0.32em;
+  color: var(--color-primary);
+  background: color-mix(in srgb, var(--color-accent) 8%, var(--color-bg));
+  border: 1px solid color-mix(in srgb, var(--color-accent) 20%, var(--color-border));
+  border-radius: 0.3rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 0.9em;
+  font-weight: 500;
+  white-space: nowrap;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
 .bio-prose a {
   color: var(--color-accent);
   text-decoration-color: color-mix(in srgb, var(--color-accent) 45%, transparent);
