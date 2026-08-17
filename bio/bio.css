@@ -191,6 +191,12 @@
   line-height: 1.15;
 }
 
+#starlab > h2,
+#astronautics > h2,
+#leadership > h2 {
+  max-width: none;
+}
+
 .bio-prose p,
 .bio-publications li,
 .bio-sources li {

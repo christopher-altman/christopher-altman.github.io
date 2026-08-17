@@ -230,6 +230,12 @@ test('opening name uses the second quarter reduction without wrapping', () => {
   expect(bioCss).toMatch(/\.bio-hero h1\s*\{[^}]*white-space:\s*nowrap;/s);
 });
 
+test('long biography headings use the full prose width before wrapping', () => {
+  expect(bioCss).toMatch(
+    /#starlab > h2,\s*#astronautics > h2,\s*#leadership > h2\s*\{[^}]*max-width:\s*none;/s
+  );
+});
+
 test('patent status has a dedicated source and the career narrative returns to UCIP', () => {
   const document = new JSDOM(bioHtml).window.document;
   const patentSource = document.querySelector('#ref-3 a');
