@@ -133,6 +133,14 @@ test('biography presents the research arc without overstating institutional scop
   expect(starlab.textContent).toContain(
     'Recruited in 2000, Altman joined the CAM-Brain project at Starlab, the multidisciplinary “Deep Future” research institute outside Brussels.'
   );
+  const starlabImage = starlab.querySelector('.bio-figure img');
+  expect(starlabImage.getAttribute('src')).toBe('../assets/Starlab-Composite.webp');
+  expect(starlabImage.getAttribute('alt')).toBe(
+    'Starlab composite showing the “Deep Future” facade inscription, Starlab wordmark, and Brussels headquarters.'
+  );
+  expect(starlabImage.getAttribute('width')).toBe('1500');
+  expect(starlabImage.getAttribute('height')).toBe('300');
+  expect(starlabImage.getAttribute('src')).not.toContain('Starlab-Space-3k2k.webp');
   expect(starlab.textContent).toContain('the program’s flagship experimental platform');
   expect(starlab.textContent).toContain(
     'Altman originated the idea of treating network topology itself — not only its parameters — as a trainable variable and further developed the resulting adaptive quantum-network formalism with Roman R. Zapatrin.'
