@@ -83,6 +83,8 @@ test('biography presents the research arc without overstating institutional scop
   const document = new JSDOM(bioHtml).window.document;
   const overview = document.querySelector('#overview');
   const quantum = document.querySelector('#quantum');
+  const starlab = document.querySelector('#starlab');
+  const astronautics = document.querySelector('#astronautics');
 
   expect(overview.textContent).toContain(
     'Christopher Altman is an American physicist and frontier AI researcher.'
@@ -92,25 +94,35 @@ test('biography presents the research arc without overstating institutional scop
   );
   expect(overview.textContent).not.toContain('national-security benchmarking');
   expect(quantum.textContent).toContain(
-    "Although UCIP is computed classically, its use of density-matrix formalism has a methodological antecedent in Altman's earlier quantum-information research."
+    "Although UCIP is computed classically, its use of density-matrix formalism has a methodological antecedent in Altman’s earlier quantum-information research."
   );
   expect(quantum.textContent).toContain('the clearest methodological precursor to his present work');
   expect(quantum.textContent).not.toContain('the closest precursor to his present work');
   expect(quantum.textContent).toContain(
-    'His applied quantum-information work subsequently extended into companion quantum-communications proposals for NASA Innovative Advanced Concepts (NIAC) and DARPA Quiness. He served as principal investigator and program lead for the NIAC Phase I proposal'
+    'In 2004, representing the Quantum Information Science and Technology (QuIST) Project, he attended the invitation-only Gordon Research Conference on Quantum Information Science in Ventura, California.'
+  );
+  expect(quantum.textContent).not.toContain('2003 Gordon Research Conference');
+  expect(quantum.textContent).toContain(
+    'At Quantum Structures ’08 in Sopot, Altman spent much of the week in extended discussions on quantum information theory with Lev Levitin during walks along the Baltic coast, while continuing the development of adaptive quantum networks with Zapatrin.'
   );
   expect(quantum.textContent).toContain(
-    'The companion Quiness proposal called for a global, multimodal quantum-communications network integrating an intercontinental fiber backbone with a satellite constellation; free-space nodes aboard autonomous drones, high-altitude blimps, and weather balloons; and underwater optical links between U.S. Navy submarines.'
+    'During the Traunkirchen residency, he held extended discussions on quantum foundations with Daniel Greenberger, Anton Zeilinger, Rupert Ursin, Časlav Brukner, and other fellows and researchers.'
   );
   expect(quantum.textContent).toContain(
-    "Altman's role centered both on SCUBA-supported installation and field testing of a blue-green underwater laser coupled to QuintessenceLabs transmitter-and-receiver hardware for the submarine links and on providing PISCES access, facilities, support, and logistics for a Hawaiʻi Island–Maui free-space demonstration."
+    'That work extended into companion quantum-communications proposals for NASA Innovative Advanced Concepts (NIAC) and DARPA Quiness. Altman was principal investigator and program lead on the NIAC Phase I proposal'
+  );
+  expect(quantum.textContent).toContain(
+    'The companion Quiness proposal called for a global, multimodal quantum-communications network: an intercontinental fiber backbone joined to a satellite constellation, free-space nodes aboard autonomous drones, high-altitude blimps, and weather balloons, and underwater optical links between U.S. Navy submarines.'
+  );
+  expect(quantum.textContent).toContain(
+    "Altman’s role had two parts: SCUBA-supported installation and field testing of a blue-green underwater laser coupled to QuintessenceLabs transmitter-and-receiver hardware for the submarine links, and provision of PISCES access, facilities, support, and logistics for a Hawaiʻi Island–Maui free-space demonstration."
   );
   expect(quantum.textContent).toContain(
     'Following the Quiness submission, discussions continued toward experimental implementation using QuintessenceLabs quantum-cryptography hardware at Boeing.'
   );
   expect(quantum.textContent).not.toContain("Altman's proposed role centered both");
   expect(quantum.textContent).toContain(
-    "The NIAC proposal was subsequently referred to NASA's Office of the Chief Technologist."
+    "NASA referred the proposal to its Office of the Chief Technologist."
   );
   expect(quantum.textContent).not.toContain('NASA NIAC/OCT');
   expect(quantum.textContent).not.toMatch(/program lead[^.]*Quiness|Quiness[^.]*program lead/i);
@@ -118,14 +130,47 @@ test('biography presents the research arc without overstating institutional scop
   expect(quantum.textContent).not.toMatch(/principal investigator[^.]*Quiness|Quiness[^.]*principal investigator/i);
   expect(quantum.textContent).not.toContain('carried the same architecture into two proposals');
 
-  expect(quantum.querySelector('a[href="#ref-34"]')).not.toBeNull();
-  expect(quantum.querySelector('a[href="#ref-35"]')).not.toBeNull();
-  expect(quantum.querySelector('a[href="#ref-36"]')).not.toBeNull();
-  expect(quantum.querySelector('a[href="#ref-37"]')).not.toBeNull();
-  expect(document.querySelector('#ref-34').textContent).toContain('NASA NSPIRES');
-  expect(document.querySelector('#ref-35 a').href).toBe('https://thpedia.org/wiki/Quiness');
-  expect(document.querySelector('#ref-36 a').href).toBe('https://www.darpa.mil/research/programs/quiness');
-  expect(document.querySelector('#ref-37').textContent).toContain('QUINESS Underwater Laser');
+  expect(starlab.textContent).toContain(
+    'Recruited in 2000, Altman joined the CAM-Brain project at Starlab, the multidisciplinary “Deep Future” research institute outside Brussels.'
+  );
+  expect(starlab.textContent).toContain('the program’s flagship experimental platform');
+  expect(starlab.textContent).toContain(
+    'Altman originated the idea of treating network topology itself — not only its parameters — as a trainable variable and further developed the resulting adaptive quantum-network formalism with Roman R. Zapatrin.'
+  );
+  expect(starlab.textContent).toContain('Superpositional Quantum Network Topologies');
+  expect(starlab.textContent).toContain('Accelerated Training Convergence in Superposed Quantum Networks');
+  expect(starlab.textContent).toContain('Backpropagation Training in Adaptive Quantum Networks');
+  expect(starlab.textContent).not.toContain('first met at Starlab');
+  expect(starlab.textContent).not.toContain('remotely');
+  expect(starlab.textContent).not.toContain('April 2001');
+  expect(starlab.textContent).not.toContain('November');
+  expect(astronautics.textContent).toContain(
+    'From 2009 to 2013 he was a senior research scientist with the Pacific International Space Center for Exploration Systems, a University of Hawaiʻi program for lunar- and Mars-analogue research and astronaut field training.'
+  );
+  expect(astronautics.textContent).toContain(
+    'Its Mauna Kea analogue site—terrain NASA had used for Apollo-era field-geology training—was proposed for the quantum-communications tests.'
+  );
+
+  expect(quantum.querySelector('a[href="#ref-21"]')).not.toBeNull();
+  expect(quantum.querySelector('a[href="#ref-23"]')).not.toBeNull();
+  expect(quantum.querySelector('a[href="#ref-24"]')).not.toBeNull();
+  expect(quantum.querySelector('a[href="#ref-22"]')).not.toBeNull();
+  expect(quantum.querySelector('a[href="#ref-11"]')).not.toBeNull();
+  expect(quantum.querySelector('a[href="#ref-16"]')).not.toBeNull();
+  expect(quantum.querySelector('a[href="#ref-20"]')).not.toBeNull();
+  expect(document.querySelector('#ref-21').textContent).toContain('NASA NSPIRES');
+  expect(document.querySelector('#ref-23 a').href).toBe('https://thpedia.org/wiki/Quiness');
+  expect(document.querySelector('#ref-24 a').href).toBe('https://www.darpa.mil/research/programs/quiness');
+  expect(document.querySelector('#ref-22').textContent).toContain('QUINESS Underwater Laser');
+  expect(document.querySelector('#ref-11 a').href).toBe(
+    'https://www.grc.org/quantum-information-science-conference/2004/'
+  );
+  expect(document.querySelector('#ref-16 a').href).toBe(
+    'https://www.christopheraltman.com/2008/08/progress-in-quantum-computing-iqsa-lt25.html'
+  );
+  expect(document.querySelector('#ref-20 a').href).toBe(
+    'https://www.christopheraltman.com/2010/'
+  );
 
   expect(homeHtml).toContain(
     "companion quantum-communications proposal materials for NASA Innovative Advanced Concepts (NIAC) and DARPA Quiness (Macroscopic Quantum Communications); the NIAC proposal was subsequently referred to NASA's Office of the Chief Technologist"
@@ -163,6 +208,13 @@ test('opening profile closes its professional link row with Hugging Face', () =>
   expect(topNavigationLabels).not.toContain('Hugging Face');
 });
 
+test('page header identifies the profile as a research biography', () => {
+  const document = new JSDOM(bioHtml).window.document;
+  const tagline = document.querySelector('.bio-home-link .tagline');
+
+  expect(tagline.textContent.trim()).toBe('Research biography');
+});
+
 test('opening name uses the second quarter reduction without wrapping', () => {
   expect(bioCss).toMatch(/\.bio-hero h1\s*\{[^}]*max-width:\s*none;/s);
   expect(bioCss).toMatch(/\.bio-hero h1\s*\{[^}]*font-size:\s*clamp\(1\.828125rem,\s*5\.0625vw,\s*4\.21875rem\);/s);
@@ -172,16 +224,16 @@ test('opening name uses the second quarter reduction without wrapping', () => {
 
 test('patent status has a dedicated source and the career narrative returns to UCIP', () => {
   const document = new JSDOM(bioHtml).window.document;
-  const patentSource = document.querySelector('#ref-28 a');
+  const patentSource = document.querySelector('#ref-3 a');
   const frontierAi = document.querySelector('#frontier-ai');
   const leadership = document.querySelector('#leadership');
   const publications = document.querySelector('#publications');
 
   expect(patentSource.href).toBe('https://continuationobservatory.org/ucip/patent/');
-  expect(document.querySelector('a[href="#ref-28"]')).not.toBeNull();
+  expect(document.querySelector('a[href="#ref-3"]')).not.toBeNull();
   expect(frontierAi.textContent).toContain('Each model generation becomes another observation point');
   expect(leadership.textContent).toContain('Continuation Observatory brings these threads together');
-  expect(leadership.textContent).toContain('the methodological undercurrent running through Altman\'s career');
+  expect(leadership.textContent).toContain('the methodological undercurrent running through Altman’s career');
   expect(leadership.textContent).toContain('where it becomes operational');
   expect(leadership.compareDocumentPosition(publications) & 4).toBeTruthy();
 });
@@ -190,15 +242,15 @@ test('why-now framing connects present capability thresholds to operational meas
   const document = new JSDOM(bioHtml).window.document;
   const whyNow = document.querySelector('#frontier-ai .bio-why-now');
   const expectedSources = new Map([
-    ['30', 'https://metr.org/time-horizons/'],
-    ['31', 'https://openai.com/index/updating-our-preparedness-framework/'],
-    ['32', 'https://www.anthropic.com/responsible-scaling-policy/roadmap'],
-    ['33', 'https://deepmind.google/blog/strengthening-our-frontier-safety-framework/'],
+    ['6', 'https://metr.org/time-horizons/'],
+    ['7', 'https://openai.com/index/updating-our-preparedness-framework/'],
+    ['8', 'https://www.anthropic.com/responsible-scaling-policy/roadmap'],
+    ['9', 'https://deepmind.google/blog/strengthening-our-frontier-safety-framework/'],
   ]);
 
   expect(whyNow.querySelector('strong').textContent).toBe('Why this matters now.');
   expect(whyNow.textContent).toContain(
-    'The objective is to establish such instrumentation before AI-mediated research acceleration substantially compresses the interval between capability gain, evaluation, and deployment.'
+    'The objective is to establish the necessary instrumentation before AI-mediated research acceleration substantially compresses the interval between capability gain, evaluation, and deployment—when surface compliance and retrospective diagnosis become least reliable.'
   );
   expect(whyNow.textContent).not.toContain('recursive operational loop');
   expectedSources.forEach((href, reference) => {
@@ -208,15 +260,40 @@ test('why-now framing connects present capability thresholds to operational meas
   expect(bioCss).toMatch(/\.bio-prose \.bio-why-now\s*\{[^}]*border-left:\s*2px solid var\(--color-accent\);/s);
 });
 
-test('space-deployable quantum communications cite the satellite-QKD framework', () => {
+test('numbered references are contiguous and follow first-appearance order', () => {
   const document = new JSDOM(bioHtml).window.document;
-  const satelliteQkdSource = document.querySelector('#ref-29 a');
+  const definitions = [...document.querySelectorAll('#sources li[id^="ref-"]')];
+  const citations = [...document.querySelectorAll('article section:not(#sources) a[href^="#ref-"]')];
+  const definitionNumbers = definitions.map(({ id }) => Number(id.slice(4)));
+  const citationNumbers = citations.map(link => Number(link.getAttribute('href').slice(5)));
+  const firstAppearance = [...new Set(citationNumbers)];
+  const expected = Array.from({ length: definitions.length }, (_, index) => index + 1);
+
+  expect(definitionNumbers).toEqual(expected);
+  expect(firstAppearance).toEqual(expected);
+  citations.forEach(link => {
+    expect(document.querySelector(link.getAttribute('href'))).not.toBeNull();
+  });
+});
+
+test('satellite-QKD security analysis cites its framework', () => {
+  const document = new JSDOM(bioHtml).window.document;
+  const satelliteQkdSource = document.querySelector('#ref-5 a');
   const overview = document.querySelector('#overview');
 
   expect(satelliteQkdSource.href)
     .toBe('https://github.com/christopher-altman/sat-qkd-security-curves');
-  expect(overview.textContent).toContain('space-deployable quantum-communication architectures');
-  expect(overview.querySelector('a[href="#ref-29"]')).not.toBeNull();
+  expect(overview.textContent).toContain(
+    'His experimental and applied work runs from quantum-optical entanglement and coherence in superconducting devices to satellite quantum-key-distribution security analysis that models quantum links under operational atmospheric and orbital constraints in support of ongoing live entangled-photon experiments'
+  );
+  expect(overview.textContent).toContain(
+    'Each turns a structural question into a measurement, and each rehearses the problem UCIP now addresses'
+  );
+  expect(overview.textContent).not.toContain('His experimental and applied work ran from');
+  expect(overview.textContent).not.toContain('Each turned a structural question');
+  expect(overview.textContent).not.toContain('each rehearsed the problem UCIP now addresses');
+  expect(overview.textContent).not.toContain('space-deployable quantum-communication architectures');
+  expect(overview.querySelector('a[href="#ref-5"]')).not.toBeNull();
 });
 
 test('machine-readable backend identifier uses inline code semantics', () => {
