@@ -79,6 +79,58 @@ test('application-domain sentence closes the frontier-AI evaluation section', ()
   );
 });
 
+test('biography presents the research arc without overstating institutional scope or technical lineage', () => {
+  const document = new JSDOM(bioHtml).window.document;
+  const overview = document.querySelector('#overview');
+  const quantum = document.querySelector('#quantum');
+
+  expect(overview.textContent).toContain(
+    'a live public research platform that publishes and tracks structural measurements of continuation behavior across frontier model generations'
+  );
+  expect(overview.textContent).not.toContain('national-security benchmarking');
+  expect(quantum.textContent).toContain(
+    "Although UCIP is computed classically, its use of density-matrix formalism has a methodological antecedent in Altman's earlier quantum-information research."
+  );
+  expect(quantum.textContent).toContain('the clearest methodological precursor to his present work');
+  expect(quantum.textContent).not.toContain('the closest precursor to his present work');
+  expect(quantum.textContent).toContain(
+    'His applied quantum-information work subsequently extended into companion quantum-communications proposals for NASA Innovative Advanced Concepts (NIAC) and DARPA Quiness. He served as principal investigator and program lead for the NIAC Phase I proposal'
+  );
+  expect(quantum.textContent).toContain(
+    'The companion Quiness proposal called for a global, multimodal quantum-communications network integrating an intercontinental fiber backbone with a satellite constellation; free-space nodes aboard autonomous drones, high-altitude blimps, and weather balloons; and underwater optical links between U.S. Navy submarines.'
+  );
+  expect(quantum.textContent).toContain(
+    "Altman's role centered both on SCUBA-supported installation and field testing of a blue-green underwater laser coupled to QuintessenceLabs transmitter-and-receiver hardware for the submarine links and on providing PISCES access, facilities, support, and logistics for a Hawaiʻi Island–Maui free-space demonstration."
+  );
+  expect(quantum.textContent).toContain(
+    'Following the Quiness submission, discussions continued toward experimental implementation using QuintessenceLabs quantum-cryptography hardware at Boeing.'
+  );
+  expect(quantum.textContent).not.toContain("Altman's proposed role centered both");
+  expect(quantum.textContent).toContain(
+    "The NIAC proposal was subsequently referred to NASA's Office of the Chief Technologist."
+  );
+  expect(quantum.textContent).not.toContain('NASA NIAC/OCT');
+  expect(quantum.textContent).not.toMatch(/program lead[^.]*Quiness|Quiness[^.]*program lead/i);
+  expect(quantum.textContent).not.toContain('on both of which he was principal investigator');
+  expect(quantum.textContent).not.toMatch(/principal investigator[^.]*Quiness|Quiness[^.]*principal investigator/i);
+  expect(quantum.textContent).not.toContain('carried the same architecture into two proposals');
+
+  expect(quantum.querySelector('a[href="#ref-34"]')).not.toBeNull();
+  expect(quantum.querySelector('a[href="#ref-35"]')).not.toBeNull();
+  expect(quantum.querySelector('a[href="#ref-36"]')).not.toBeNull();
+  expect(quantum.querySelector('a[href="#ref-37"]')).not.toBeNull();
+  expect(document.querySelector('#ref-34').textContent).toContain('NASA NSPIRES');
+  expect(document.querySelector('#ref-35 a').href).toBe('https://thpedia.org/wiki/Quiness');
+  expect(document.querySelector('#ref-36 a').href).toBe('https://www.darpa.mil/research/programs/quiness');
+  expect(document.querySelector('#ref-37').textContent).toContain('QUINESS Underwater Laser');
+
+  expect(homeHtml).toContain(
+    "companion quantum-communications proposal materials for NASA Innovative Advanced Concepts (NIAC) and DARPA Quiness (Macroscopic Quantum Communications); the NIAC proposal was subsequently referred to NASA's Office of the Chief Technologist"
+  );
+  expect(homeHtml).not.toContain('NASA NIAC/OCT');
+  expect(homeHtml).toContain('<i>Principal Investigator and Program Lead, NIAC proposal</i>');
+});
+
 test('opening profile closes its professional link row with Hugging Face', () => {
   const document = new JSDOM(bioHtml).window.document;
   const professionalLinks = [...document.querySelectorAll('.bio-primary-links a')];
@@ -125,7 +177,10 @@ test('why-now framing connects present capability thresholds to operational meas
   ]);
 
   expect(whyNow.querySelector('strong').textContent).toBe('Why this matters now.');
-  expect(whyNow.textContent).toContain('recursive operational loop');
+  expect(whyNow.textContent).toContain(
+    'The objective is to establish such instrumentation before AI-mediated research acceleration substantially compresses the interval between capability gain, evaluation, and deployment.'
+  );
+  expect(whyNow.textContent).not.toContain('recursive operational loop');
   expectedSources.forEach((href, reference) => {
     expect(whyNow.querySelector(`a[href="#ref-${reference}"]`)).not.toBeNull();
     expect(document.querySelector(`#ref-${reference} a`).href).toBe(href);
