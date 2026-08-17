@@ -18,7 +18,7 @@ const sitemap = fs.readFileSync(path.join(root, 'sitemap.xml'), 'utf8');
 test('biography is a canonical, indexable profile page', () => {
   const document = new JSDOM(bioHtml).window.document;
 
-  expect(document.title).toBe('Christopher Altman — Physicist, AI Researcher & Quantum Scientist');
+  expect(document.title).toBe('Christopher Altman — Physicist, Frontier AI Researcher & Quantum Scientist');
   expect(document.querySelector('link[rel="canonical"]').href)
     .toBe('https://lab.christopheraltman.com/bio/');
   expect(document.querySelector('meta[name="robots"]').content).toBe('index,follow');
@@ -85,7 +85,10 @@ test('biography presents the research arc without overstating institutional scop
   const quantum = document.querySelector('#quantum');
 
   expect(overview.textContent).toContain(
-    'a live public research platform that publishes and tracks structural measurements of continuation behavior across frontier model generations'
+    'Christopher Altman is an American physicist and frontier AI researcher.'
+  );
+  expect(overview.textContent).toContain(
+    'a live public research platform that publishes and tracks structural measurements of continuation behavior across successive model generations'
   );
   expect(overview.textContent).not.toContain('national-security benchmarking');
   expect(quantum.textContent).toContain(
@@ -129,6 +132,23 @@ test('biography presents the research arc without overstating institutional scop
   );
   expect(homeHtml).not.toContain('NASA NIAC/OCT');
   expect(homeHtml).toContain('<i>Principal Investigator and Program Lead, NIAC proposal</i>');
+});
+
+test('opening biography lede and metadata use a consistent frontier-AI presentation', () => {
+  const document = new JSDOM(bioHtml).window.document;
+  const title = 'Christopher Altman — Physicist, Frontier AI Researcher & Quantum Scientist';
+  const structuredData = JSON.parse(
+    document.querySelector('script[type="application/ld+json"]').textContent
+  );
+  const profilePage = structuredData['@graph'].find(entry => entry['@type'] === 'ProfilePage');
+
+  expect(document.title).toBe(title);
+  expect(document.querySelector('meta[property="og:title"]').content).toBe(title);
+  expect(document.querySelector('meta[name="twitter:title"]').content).toBe(title);
+  expect(profilePage.name).toBe(title);
+  expect(bioCss).toMatch(
+    /\.bio-prose #overview > p:first-of-type\s*\{[^}]*font-size:\s*1\.14rem;[^}]*line-height:\s*1\.88;/s
+  );
 });
 
 test('opening profile closes its professional link row with Hugging Face', () => {

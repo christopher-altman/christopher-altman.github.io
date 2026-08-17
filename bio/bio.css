@@ -203,6 +203,11 @@
   line-height: 1.83;
 }
 
+.bio-prose #overview > p:first-of-type {
+  font-size: 1.14rem;
+  line-height: 1.88;
+}
+
 .bio-prose .bio-why-now {
   margin: 1.75rem 0 2rem;
   padding: 0.15rem 0 0.15rem 1.15rem;
