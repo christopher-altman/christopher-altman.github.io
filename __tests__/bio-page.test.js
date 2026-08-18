@@ -308,8 +308,14 @@ test('satellite-QKD security analysis cites its framework', () => {
   expect(satelliteQkdSource.href)
     .toBe('https://github.com/christopher-altman/sat-qkd-security-curves');
   expect(overview.textContent).toContain(
-    'His experimental and applied work runs from quantum-optical entanglement and coherence in superconducting devices to satellite quantum-key-distribution security analysis that models quantum links under operational atmospheric and orbital constraints in support of ongoing live entangled-photon experiments'
+    'His experimental and applied work runs from quantum-optical entanglement and coherence in superconducting devices to satellite quantum-key-distribution security analysis that models live quantum links under real-world atmospheric and orbital constraints in support of ongoing entangled-photon experiments'
   );
+  const liveQuantumLinksSource = [...overview.querySelectorAll('a')]
+    .find((link) => link.textContent.trim() === 'live quantum links');
+  expect(liveQuantumLinksSource.href).toBe(
+    'https://speqtralquantum.com/newsroom/its-time-to-secure-the-worlds-communications-from-the-quantum-computing-threat'
+  );
+  expect(overview.textContent).not.toContain('ongoing live entangled-photon experiments');
   expect(overview.textContent).toContain(
     'Each turns a structural question into a measurement, and each rehearses the problem UCIP now addresses'
   );
