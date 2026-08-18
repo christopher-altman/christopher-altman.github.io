@@ -325,7 +325,7 @@ test('why-now framing connects present capability thresholds to operational meas
 
   expect(whyNow.querySelector('strong').textContent).toBe('Why this matters now.');
   expect(whyNow.textContent).toContain(
-    'The objective is to establish the necessary instrumentation before AI-mediated research acceleration substantially compresses the interval between capability gain, evaluation, and deployment—when surface compliance and retrospective diagnosis become least reliable.'
+    'The objective is to establish the necessary instrumentation before AI-mediated research acceleration substantially compresses the cycle from capability gain through evaluation to deployment—when surface compliance and retrospective diagnosis become least reliable.'
   );
   expect(whyNow.textContent).not.toContain('recursive operational loop');
   expectedSources.forEach((href, reference) => {
