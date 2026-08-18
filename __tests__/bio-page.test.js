@@ -178,8 +178,9 @@ test('biography presents the research arc without overstating institutional scop
     'From 2009 to 2013 he was a senior research scientist with the Pacific International Space Center for Exploration Systems, a University of Hawaiʻi program for lunar- and Mars-analogue research and astronaut field training.'
   );
   expect(astronautics.textContent).toContain(
-    'Its Mauna Kea analogue site—terrain NASA had used for Apollo-era field-geology training—was proposed for the quantum-communications tests.'
+    'Its Mauna Kea lunar-analogue site—terrain NASA had used for Apollo-era field-geology training—was proposed for the quantum-communications tests.'
   );
+  expect(astronautics.textContent).not.toContain('Its Mauna Kea analogue site');
 
   expect(quantum.querySelector('a[href="#ref-22"]')).not.toBeNull();
   expect(quantum.querySelector('a[href="#ref-24"]')).not.toBeNull();
