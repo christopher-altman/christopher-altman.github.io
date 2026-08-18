@@ -231,6 +231,12 @@ test('institutional research assessments identify their documented recipients an
   expect(leadership.textContent).not.toContain(
     'senior leadership at U.S. policy, scientific, and research-funding agencies'
   );
+  expect(leadershipWithoutCitations.textContent).toContain(
+    'In 2004 Altman received the European Information Security Award'
+  );
+  expect(leadershipWithoutCitations.textContent).not.toContain(
+    'In 2004 he received the European Information Security Award'
+  );
   expect(assessmentSource.querySelector('a[href="https://www.academia.edu/611982/Korean_Quantum_Information_Research"]')).not.toBeNull();
   expect(collinsSource.querySelector('a[href="https://www.nationalacademies.org/read/13540/chapter/5"]')).not.toBeNull();
   expect(roadmapSource.querySelector('a[href="https://qist.lanl.gov/pdfs/whole_roadmap.pdf"]')).not.toBeNull();
