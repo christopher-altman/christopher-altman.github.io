@@ -171,6 +171,10 @@ test('biography presents the research arc without overstating institutional scop
   expect(starlab.textContent).not.toContain('April 2001');
   expect(starlab.textContent).not.toContain('November');
   expect(astronautics.textContent).toContain(
+    'The NIAC proposal drew on a parallel line of work: Altman trained as a scientist-astronaut and conducted human-spaceflight research in lunar and Mars analogue environments.'
+  );
+  expect(astronautics.textContent).not.toContain('worked in analogue-field research');
+  expect(astronautics.textContent).toContain(
     'From 2009 to 2013 he was a senior research scientist with the Pacific International Space Center for Exploration Systems, a University of Hawaiʻi program for lunar- and Mars-analogue research and astronaut field training.'
   );
   expect(astronautics.textContent).toContain(
