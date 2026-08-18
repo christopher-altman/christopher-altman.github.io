@@ -103,6 +103,11 @@ test('biography presents the research arc without overstating institutional scop
   expect(quantum.textContent).toContain(
     "Although UCIP is computed classically, its use of density-matrix formalism has a methodological antecedent in Altman’s earlier quantum-information research."
   );
+  expect(document.querySelector('#frontier-ai').textContent).toContain(
+    'The implementation is classical; the quantum formalism supplies the representation.'
+  );
+  expect(document.querySelector('#frontier-ai').textContent)
+    .not.toContain('Every computation is classical');
   expect(quantum.textContent).toContain('the clearest methodological precursor to his present work');
   expect(quantum.textContent).not.toContain('the closest precursor to his present work');
   expect(quantum.textContent).toContain(
