@@ -143,6 +143,14 @@ test('biography presents the research arc without overstating institutional scop
   expect(starlab.textContent).toContain(
     'Recruited in 2000, Altman joined the CAM-Brain project at Starlab, the multidisciplinary “Deep Future” research institute outside Brussels.'
   );
+  const siftedSource = document.querySelector('#ref-27 a');
+  expect(starlab.querySelector('a[href="#ref-27"]')).not.toBeNull();
+  expect(siftedSource.href).toBe(
+    'https://sifted.eu/articles/starlab-deeptech-university-spinouts-europe'
+  );
+  expect(siftedSource.closest('li').textContent).toContain(
+    'Independent retrospective on Starlab’s Brussels institute, research culture, and alumni.'
+  );
   const starlabImage = starlab.querySelector('.bio-figure img');
   expect(starlabImage.getAttribute('src')).toBe('../assets/Starlab-Composite.webp');
   expect(starlabImage.getAttribute('alt')).toBe(
@@ -169,24 +177,24 @@ test('biography presents the research arc without overstating institutional scop
     'Its Mauna Kea analogue site—terrain NASA had used for Apollo-era field-geology training—was proposed for the quantum-communications tests.'
   );
 
-  expect(quantum.querySelector('a[href="#ref-21"]')).not.toBeNull();
-  expect(quantum.querySelector('a[href="#ref-23"]')).not.toBeNull();
-  expect(quantum.querySelector('a[href="#ref-24"]')).not.toBeNull();
   expect(quantum.querySelector('a[href="#ref-22"]')).not.toBeNull();
-  expect(quantum.querySelector('a[href="#ref-11"]')).not.toBeNull();
-  expect(quantum.querySelector('a[href="#ref-16"]')).not.toBeNull();
-  expect(quantum.querySelector('a[href="#ref-20"]')).not.toBeNull();
-  expect(document.querySelector('#ref-21').textContent).toContain('NASA NSPIRES');
-  expect(document.querySelector('#ref-23 a').href).toBe('https://thpedia.org/wiki/Quiness');
-  expect(document.querySelector('#ref-24 a').href).toBe('https://www.darpa.mil/research/programs/quiness');
-  expect(document.querySelector('#ref-22').textContent).toContain('QUINESS Underwater Laser');
-  expect(document.querySelector('#ref-11 a').href).toBe(
+  expect(quantum.querySelector('a[href="#ref-24"]')).not.toBeNull();
+  expect(quantum.querySelector('a[href="#ref-25"]')).not.toBeNull();
+  expect(quantum.querySelector('a[href="#ref-23"]')).not.toBeNull();
+  expect(quantum.querySelector('a[href="#ref-12"]')).not.toBeNull();
+  expect(quantum.querySelector('a[href="#ref-17"]')).not.toBeNull();
+  expect(quantum.querySelector('a[href="#ref-21"]')).not.toBeNull();
+  expect(document.querySelector('#ref-22').textContent).toContain('NASA NSPIRES');
+  expect(document.querySelector('#ref-24 a').href).toBe('https://thpedia.org/wiki/Quiness');
+  expect(document.querySelector('#ref-25 a').href).toBe('https://www.darpa.mil/research/programs/quiness');
+  expect(document.querySelector('#ref-23').textContent).toContain('QUINESS Underwater Laser');
+  expect(document.querySelector('#ref-12 a').href).toBe(
     'https://www.grc.org/quantum-information-science-conference/2004/'
   );
-  expect(document.querySelector('#ref-16 a').href).toBe(
+  expect(document.querySelector('#ref-17 a').href).toBe(
     'https://www.christopheraltman.com/2008/08/progress-in-quantum-computing-iqsa-lt25.html'
   );
-  expect(document.querySelector('#ref-20 a').href).toBe(
+  expect(document.querySelector('#ref-21 a').href).toBe(
     'https://www.christopheraltman.com/2010/'
   );
 
@@ -266,10 +274,10 @@ test('why-now framing connects present capability thresholds to operational meas
   const document = new JSDOM(bioHtml).window.document;
   const whyNow = document.querySelector('#frontier-ai .bio-why-now');
   const expectedSources = new Map([
-    ['6', 'https://metr.org/time-horizons/'],
-    ['7', 'https://openai.com/index/updating-our-preparedness-framework/'],
-    ['8', 'https://www.anthropic.com/responsible-scaling-policy/roadmap'],
-    ['9', 'https://deepmind.google/blog/strengthening-our-frontier-safety-framework/'],
+    ['7', 'https://metr.org/time-horizons/'],
+    ['8', 'https://openai.com/index/updating-our-preparedness-framework/'],
+    ['9', 'https://www.anthropic.com/responsible-scaling-policy/roadmap'],
+    ['10', 'https://deepmind.google/blog/strengthening-our-frontier-safety-framework/'],
   ]);
 
   expect(whyNow.querySelector('strong').textContent).toBe('Why this matters now.');
@@ -300,9 +308,12 @@ test('numbered references are contiguous and follow first-appearance order', () 
   });
 });
 
-test('satellite-QKD security analysis cites its framework', () => {
+test('satellite-QKD security analysis cites its framework and mission context', () => {
   const document = new JSDOM(bioHtml).window.document;
   const satelliteQkdSource = document.querySelector('#ref-5 a');
+  const speqtralMissionSource = document.querySelector(
+    '#ref-6 a[href="https://speqtralquantum.com/newsroom/its-time-to-secure-the-worlds-communications-from-the-quantum-computing-threat"]'
+  );
   const overview = document.querySelector('#overview');
 
   expect(satelliteQkdSource.href)
@@ -310,11 +321,13 @@ test('satellite-QKD security analysis cites its framework', () => {
   expect(overview.textContent).toContain(
     'His experimental and applied work runs from quantum-optical entanglement and coherence in superconducting devices to satellite quantum-key-distribution security analysis that models live quantum links under real-world atmospheric and orbital constraints in support of ongoing entangled-photon experiments'
   );
-  const liveQuantumLinksSource = [...overview.querySelectorAll('a')]
-    .find((link) => link.textContent.trim() === 'live quantum links');
-  expect(liveQuantumLinksSource.href).toBe(
+  expect(speqtralMissionSource.href).toBe(
     'https://speqtralquantum.com/newsroom/its-time-to-secure-the-worlds-communications-from-the-quantum-computing-threat'
   );
+  expect(document.querySelectorAll('#ref-6 a')).toHaveLength(1);
+  expect(document.querySelector('#ref-5').textContent).not.toContain('SpeQtral');
+  expect([...overview.querySelectorAll('a')]
+    .some((link) => link.textContent.trim() === 'live quantum links')).toBe(false);
   expect(overview.textContent).not.toContain('ongoing live entangled-photon experiments');
   expect(overview.textContent).toContain(
     'Each turns a structural question into a measurement, and each rehearses the problem UCIP now addresses'
@@ -324,6 +337,7 @@ test('satellite-QKD security analysis cites its framework', () => {
   expect(overview.textContent).not.toContain('each rehearsed the problem UCIP now addresses');
   expect(overview.textContent).not.toContain('space-deployable quantum-communication architectures');
   expect(overview.querySelector('a[href="#ref-5"]')).not.toBeNull();
+  expect(overview.querySelector('a[href="#ref-6"]')).not.toBeNull();
 });
 
 test('machine-readable backend identifier uses inline code semantics', () => {
