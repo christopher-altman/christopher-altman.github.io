@@ -92,6 +92,10 @@ test('biography presents the research arc without overstating institutional scop
   expect(overview.textContent).toContain(
     'a live public research platform that publishes and tracks structural measurements of continuation behavior across successive model generations'
   );
+  expect(overview.textContent).toContain(
+    'built on the expectation that rigorously designed and calibrated instruments will become increasingly critical as capabilities advance'
+  );
+  expect(overview.textContent).not.toContain('more instruments will be needed as capabilities advance');
   expect(overview.textContent).not.toContain('national-security benchmarking');
   expect(quantum.textContent).toContain(
     "Although UCIP is computed classically, its use of density-matrix formalism has a methodological antecedent in Altman’s earlier quantum-information research."
