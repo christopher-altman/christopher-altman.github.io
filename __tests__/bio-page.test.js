@@ -218,17 +218,23 @@ test('biography presents the research arc without overstating institutional scop
 test('institutional research assessments identify their documented recipients and roadmap influence', () => {
   const document = new JSDOM(bioHtml).window.document;
   const leadership = document.querySelector('#leadership');
-  const source = document.querySelector('#ref-41');
+  const leadershipWithoutCitations = leadership.cloneNode(true);
+  leadershipWithoutCitations.querySelectorAll('sup').forEach(citation => citation.remove());
+  const assessmentSource = document.querySelector('#ref-41');
+  const collinsSource = document.querySelector('#ref-42');
+  const roadmapSource = document.querySelector('#ref-43');
+  const meetingSource = document.querySelector('#ref-44');
 
-  expect(leadership.textContent).toContain(
-    'From 2003 to 2004, while based in Tokyo with the Asian Technology Information Program’s Quantum Information Science and Technology project, Altman prepared national-level assessments of East Asian quantum-information research for senior figures across U.S. policy, scientific, and research-funding institutions, including Dean Collins, director of the Advanced Research and Development Activity (ARDA), and Richard J. Hughes of Los Alamos National Laboratory, chair of the 2004 QIST Quantum Cryptography Roadmap. At their first meeting, Hughes mentioned that Altman’s East Asia assessments had influenced the U.S. national QIST roadmapping initiative he led.'
+  expect(leadershipWithoutCitations.textContent).toContain(
+    'From 2003 to 2004, while based in Tokyo with the Asian Technology Information Program’s Quantum Information Science and Technology project, Altman prepared national-level assessments of East Asian quantum-information research for senior figures across U.S. policy, scientific, and research-funding institutions, including Dean Collins, director of the Advanced Research and Development Activity (ARDA), and Richard J. Hughes of Los Alamos National Laboratory, who chaired the Technology Experts Panel for the 2004 QIST Quantum Cryptography Roadmap. At their first meeting, Hughes mentioned that Altman’s East Asia assessments had influenced the U.S. national QIST roadmapping initiative he led.'
   );
   expect(leadership.textContent).not.toContain(
     'senior leadership at U.S. policy, scientific, and research-funding agencies'
   );
-  expect(source.querySelector('a[href="https://www.nationalacademies.org/read/13540/chapter/5"]')).not.toBeNull();
-  expect(source.querySelector('a[href="https://qist.lanl.gov/pdfs/whole_roadmap.pdf"]')).not.toBeNull();
-  expect(source.querySelector('a[href="https://www.christopheraltman.com/2013/08/"]')).not.toBeNull();
+  expect(assessmentSource.querySelector('a[href="https://www.academia.edu/611982/Korean_Quantum_Information_Research"]')).not.toBeNull();
+  expect(collinsSource.querySelector('a[href="https://www.nationalacademies.org/read/13540/chapter/5"]')).not.toBeNull();
+  expect(roadmapSource.querySelector('a[href="https://qist.lanl.gov/pdfs/whole_roadmap.pdf"]')).not.toBeNull();
+  expect(meetingSource.querySelector('a[href="https://www.christopheraltman.com/2013/08/"]')).not.toBeNull();
 });
 
 test('opening biography lede and metadata use a consistent frontier-AI presentation', () => {
