@@ -272,11 +272,13 @@ test('opening profile closes its professional link row with Hugging Face', () =>
   expect(topNavigationLabels).not.toContain('Hugging Face');
 });
 
-test('page header identifies the profile as a research biography', () => {
+test('page header identifies the research biography and uses a compact lab label', () => {
   const document = new JSDOM(bioHtml).window.document;
   const tagline = document.querySelector('.bio-home-link .tagline');
+  const labLink = document.querySelector('.bio-nav a[href="../"]');
 
   expect(tagline.textContent.trim()).toBe('Research biography');
+  expect(labLink.textContent.trim()).toBe('Frontier Lab');
 });
 
 test('opening name uses the second quarter reduction without wrapping', () => {
