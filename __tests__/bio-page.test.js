@@ -109,7 +109,10 @@ test('biography presents the research arc without overstating institutional scop
     'During the Traunkirchen residency, he held extended discussions on quantum foundations with Daniel Greenberger, Anton Zeilinger, Rupert Ursin, Časlav Brukner, and other fellows and researchers.'
   );
   expect(quantum.textContent).toContain(
-    'That work extended into companion quantum-communications proposals for NASA Innovative Advanced Concepts (NIAC) and DARPA Quiness. Altman was principal investigator and program lead on the NIAC Phase I proposal'
+    'That work extended into companion quantum-communications proposals for NASA Innovative Advanced Concepts (NIAC) and an invited DARPA Quiness submission. Altman was principal investigator and program lead on the NIAC Phase I proposal'
+  );
+  expect(quantum.textContent).toContain(
+    'The design built on the European collaborators’ 144-kilometer Canary Islands free-space demonstration by making astronaut setup and calibration of a continuous-variable quantum terminal part of the Hawaiʻi lunar-analogue field test, explicitly echoing Apollo 11’s deployment of the Lunar Laser Ranging Retroreflector Array during humanity’s first crewed lunar landing.'
   );
   expect(quantum.textContent).toContain(
     'The companion Quiness proposal called for a global, multimodal quantum-communications network: an intercontinental fiber backbone joined to a satellite constellation, free-space nodes aboard autonomous drones, high-altitude blimps, and weather balloons, and underwater optical links between U.S. Navy submarines.'
