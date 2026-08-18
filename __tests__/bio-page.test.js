@@ -215,6 +215,22 @@ test('biography presents the research arc without overstating institutional scop
   expect(homeHtml).toContain('<i>Principal Investigator and Program Lead, NIAC proposal</i>');
 });
 
+test('institutional research assessments identify their documented recipients and roadmap influence', () => {
+  const document = new JSDOM(bioHtml).window.document;
+  const leadership = document.querySelector('#leadership');
+  const source = document.querySelector('#ref-41');
+
+  expect(leadership.textContent).toContain(
+    'From 2003 to 2004, while based in Tokyo with the Asian Technology Information Program’s Quantum Information Science and Technology project, Altman prepared national-level assessments of East Asian quantum-information research for senior figures across U.S. policy, scientific, and research-funding institutions, including Dean Collins, director of the Advanced Research and Development Activity (ARDA), and Richard J. Hughes of Los Alamos National Laboratory, chair of the 2004 QIST Quantum Cryptography Roadmap, who at their first meeting mentioned the influence of the assessments on the development of the broader ARDA-sponsored QIST roadmaps.'
+  );
+  expect(leadership.textContent).not.toContain(
+    'senior leadership at U.S. policy, scientific, and research-funding agencies'
+  );
+  expect(source.querySelector('a[href="https://www.nationalacademies.org/read/13540/chapter/5"]')).not.toBeNull();
+  expect(source.querySelector('a[href="https://qist.lanl.gov/pdfs/whole_roadmap.pdf"]')).not.toBeNull();
+  expect(source.querySelector('a[href="https://www.christopheraltman.com/2013/08/"]')).not.toBeNull();
+});
+
 test('opening biography lede and metadata use a consistent frontier-AI presentation', () => {
   const document = new JSDOM(bioHtml).window.document;
   const title = 'Christopher Altman — Physicist, Frontier AI Researcher & Quantum Scientist';
@@ -281,6 +297,7 @@ test('patent status has a dedicated source and the career narrative returns to U
   const patentSource = document.querySelector('#ref-3 a');
   const frontierAi = document.querySelector('#frontier-ai');
   const leadership = document.querySelector('#leadership');
+  const closingParagraph = [...leadership.querySelectorAll('p')].at(-1);
   const publications = document.querySelector('#publications');
 
   expect(patentSource.href).toBe('https://continuationobservatory.org/ucip/patent/');
@@ -289,6 +306,10 @@ test('patent status has a dedicated source and the career narrative returns to U
   expect(leadership.textContent).toContain('Continuation Observatory brings these threads together');
   expect(leadership.textContent).toContain('the methodological undercurrent running through Altman’s career');
   expect(leadership.textContent).toContain('where it becomes operational');
+  expect(closingParagraph.textContent.trim()).toMatch(
+    /At its widest horizon, the objective is to ensure that increasingly capable, distributed autonomous systems remain subject to reliable measurement and effective governance as they gain the capacity to accelerate both their own development and the broader pace of scientific and technological change—preserving meaningful human agency through a civilization-scale transition\.$/
+  );
+  expect(closingParagraph.textContent).not.toContain('capacity to both accelerate');
   expect(leadership.compareDocumentPosition(publications) & 4).toBeTruthy();
 });
 
@@ -341,7 +362,7 @@ test('satellite-QKD security analysis cites its framework and mission context', 
   expect(satelliteQkdSource.href)
     .toBe('https://github.com/christopher-altman/sat-qkd-security-curves');
   expect(overview.textContent).toContain(
-    'His experimental and applied work runs from quantum-optical entanglement and coherence in superconducting devices to satellite quantum-key-distribution security analysis that models live quantum links under real-world atmospheric and orbital constraints in support of ongoing entangled-photon experiments'
+    'His experimental and applied contributions range from quantum-optical entanglement and coherence in superconducting devices to satellite quantum-key-distribution security analysis that models live quantum links under real-world atmospheric and orbital constraints in support of ongoing entangled-photon experiments'
   );
   expect(speqtralMissionSource.href).toBe(
     'https://speqtralquantum.com/newsroom/its-time-to-secure-the-worlds-communications-from-the-quantum-computing-threat'
