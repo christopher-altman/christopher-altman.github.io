@@ -220,10 +220,10 @@ test('institutional research assessments identify their documented recipients an
   const leadership = document.querySelector('#leadership');
   const leadershipWithoutCitations = leadership.cloneNode(true);
   leadershipWithoutCitations.querySelectorAll('sup').forEach(citation => citation.remove());
-  const assessmentSource = document.querySelector('#ref-41');
-  const collinsSource = document.querySelector('#ref-42');
-  const roadmapSource = document.querySelector('#ref-43');
-  const meetingSource = document.querySelector('#ref-44');
+  const assessmentSource = document.querySelector('#ref-42');
+  const collinsSource = document.querySelector('#ref-43');
+  const roadmapSource = document.querySelector('#ref-44');
+  const meetingSource = document.querySelector('#ref-45');
 
   expect(leadershipWithoutCitations.textContent).toContain(
     'From 2003 to 2004, while based in Tokyo with the Asian Technology Information Program’s Quantum Information Science and Technology project, Altman prepared national-level assessments of East Asian quantum-information research for senior figures across U.S. policy, scientific, and research-funding institutions, including Dean Collins, director of the Advanced Research and Development Activity (ARDA), and Richard J. Hughes of Los Alamos National Laboratory, who chaired the Technology Experts Panel for the 2004 QIST Quantum Cryptography Roadmap. At their first meeting, Hughes mentioned that Altman’s East Asia assessments had influenced the U.S. national QIST roadmapping initiative he led.'
@@ -241,6 +241,19 @@ test('institutional research assessments identify their documented recipients an
   expect(collinsSource.querySelector('a[href="https://www.nationalacademies.org/read/13540/chapter/5"]')).not.toBeNull();
   expect(roadmapSource.querySelector('a[href="https://qist.lanl.gov/pdfs/whole_roadmap.pdf"]')).not.toBeNull();
   expect(meetingSource.querySelector('a[href="https://www.christopheraltman.com/2013/08/"]')).not.toBeNull();
+});
+
+test('research leadership includes current OASA teaching and mentorship', () => {
+  const document = new JSDOM(bioHtml).window.document;
+  const leadership = document.querySelector('#leadership');
+  const oasaSource = document.querySelector('#ref-39');
+
+  expect(leadership.textContent).toContain(
+    'Alongside his research, Altman serves on the International Council of Advisors of the Orion Astropreneur Space Academy in Hong Kong, teaching and mentoring students and aspiring space-sector professionals in commercial astronautics and the future of human spaceflight.'
+  );
+  expect(leadership.querySelector('a[href="#ref-39"]')).not.toBeNull();
+  expect(oasaSource.querySelector('a[href="https://www.oasahk.org/team-oasa"]')).not.toBeNull();
+  expect(oasaSource.querySelector('a[href="https://www.oasahk.org/summer-boot-camp2025"]')).not.toBeNull();
 });
 
 test('opening biography lede and metadata use a consistent frontier-AI presentation', () => {
