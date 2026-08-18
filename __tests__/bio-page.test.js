@@ -118,7 +118,7 @@ test('biography presents the research arc without overstating institutional scop
     'At Quantum Structures ’08 in Sopot, Altman spent much of the week in extended discussions on quantum information theory with Lev Levitin during walks along the Baltic coast, while continuing the development of adaptive quantum networks with Zapatrin.'
   );
   expect(quantum.textContent).toContain(
-    'During the Traunkirchen residency, he held extended discussions on quantum foundations with Daniel Greenberger, Anton Zeilinger, Rupert Ursin, Časlav Brukner, and other fellows and researchers.'
+    'During the Traunkirchen residency, he engaged in extended discussions on quantum foundations with Daniel Greenberger, Anton Zeilinger, Rupert Ursin, Časlav Brukner, and other fellows and researchers.'
   );
   expect(quantum.textContent).toContain(
     'That work extended into companion quantum-communications proposals for NASA Innovative Advanced Concepts (NIAC) and an invited DARPA Quiness submission. Altman was principal investigator and program lead on the NIAC Phase I proposal'
