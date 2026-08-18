@@ -306,8 +306,8 @@ test('patent status has a dedicated source and the career narrative returns to U
   expect(leadership.textContent).toContain('Continuation Observatory brings these threads together');
   expect(leadership.textContent).toContain('the methodological undercurrent running through Altman’s career');
   expect(leadership.textContent).toContain('where it becomes operational');
-  expect(closingParagraph.textContent.trim()).toMatch(
-    /At its widest horizon, the objective is to ensure that increasingly capable, distributed autonomous systems remain subject to reliable measurement and effective governance as they gain the capacity to accelerate both their own development and the broader pace of scientific and technological change—preserving meaningful human agency through a civilization-scale transition\.$/
+  expect(closingParagraph.textContent.trim()).toBe(
+    'At its widest horizon, the objective is to ensure that increasingly capable, distributed autonomous systems remain subject to reliable measurement and effective governance as they gain the capacity to accelerate both their own development and the broader pace of scientific and technological progress—preserving meaningful human agency through a civilization-scale transition.'
   );
   expect(closingParagraph.textContent).not.toContain('capacity to both accelerate');
   expect(leadership.compareDocumentPosition(publications) & 4).toBeTruthy();
