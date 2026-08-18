@@ -357,6 +357,10 @@
   line-height: 1.65;
 }
 
+.bio-sources li[id^="ref-"] {
+  scroll-margin-top: 9.5rem;
+}
+
 .bio-source-note {
   margin-top: 2rem;
   padding-top: 1.5rem;
@@ -380,6 +384,10 @@
 }
 
 @media (max-width: 900px) {
+  .bio-sources li[id^="ref-"] {
+    scroll-margin-top: 10.5rem;
+  }
+
   .bio-header-content {
     align-items: flex-start;
     gap: 1rem;
@@ -407,6 +415,10 @@
 }
 
 @media (max-width: 640px) {
+  .bio-sources li[id^="ref-"] {
+    scroll-margin-top: 13rem;
+  }
+
   .bio-header-content {
     flex-direction: column;
   }

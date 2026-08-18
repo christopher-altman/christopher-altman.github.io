@@ -254,6 +254,18 @@ test('long biography headings use the full prose width before wrapping', () => {
   );
 });
 
+test('citation anchors clear the sticky header at responsive navigation heights', () => {
+  expect(bioCss).toMatch(
+    /\.bio-sources li\[id\^="ref-"\]\s*\{[^}]*scroll-margin-top:\s*9\.5rem;/s
+  );
+  expect(bioCss).toMatch(
+    /@media \(max-width: 900px\)[\s\S]*?\.bio-sources li\[id\^="ref-"\]\s*\{[^}]*scroll-margin-top:\s*10\.5rem;/
+  );
+  expect(bioCss).toMatch(
+    /@media \(max-width: 640px\)[\s\S]*?\.bio-sources li\[id\^="ref-"\]\s*\{[^}]*scroll-margin-top:\s*13rem;/
+  );
+});
+
 test('patent status has a dedicated source and the career narrative returns to UCIP', () => {
   const document = new JSDOM(bioHtml).window.document;
   const patentSource = document.querySelector('#ref-3 a');
