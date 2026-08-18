@@ -95,6 +95,9 @@ test('biography presents the research arc without overstating institutional scop
   expect(overview.textContent).toContain(
     'built on the expectation that rigorously designed and calibrated instruments will become increasingly critical as capabilities advance'
   );
+  const overviewStarlabLink = [...overview.querySelectorAll('a')]
+    .find((link) => link.textContent.trim() === 'Starlab');
+  expect(overviewStarlabLink.href).toBe('https://youtu.be/0X_HDSQXMI0');
   expect(overview.textContent).not.toContain('more instruments will be needed as capabilities advance');
   expect(overview.textContent).not.toContain('national-security benchmarking');
   expect(quantum.textContent).toContain(
