@@ -395,6 +395,21 @@ test('numbered references are contiguous and follow first-appearance order', () 
   });
 });
 
+test('THPedia profile is presented only as an understated numbered source', () => {
+  const document = new JSDOM(bioHtml).window.document;
+  const thpediaSource = document.querySelector('#ref-49');
+  const profileLink = thpediaSource.querySelector(
+    'a[href="https://thpedia.org/wiki/Christopher_Altman"]'
+  );
+
+  expect(document.querySelector('#leadership a[href="#ref-49"]')).not.toBeNull();
+  expect(profileLink).not.toBeNull();
+  expect(thpediaSource.textContent).toContain(
+    'Extended biographical profile and historical source compilation.'
+  );
+  expect(document.querySelector('.bio-source-note')).toBeNull();
+});
+
 test('satellite-QKD security analysis cites its framework and mission context', () => {
   const document = new JSDOM(bioHtml).window.document;
   const satelliteQkdSource = document.querySelector('#ref-5 a');
