@@ -223,10 +223,12 @@ test('institutional research assessments identify their documented recipients an
   const assessmentSource = document.querySelector('#ref-42');
   const collinsSource = document.querySelector('#ref-43');
   const roadmapSource = document.querySelector('#ref-44');
-  const meetingSource = document.querySelector('#ref-45');
+  const conferenceSource = document.querySelector('#ref-45');
+  const ursinSource = document.querySelector('#ref-46');
+  const meetingSource = document.querySelector('#ref-47');
 
   expect(leadershipWithoutCitations.textContent).toContain(
-    'From 2003 to 2004, while based in Tokyo with the Asian Technology Information Program’s Quantum Information Science and Technology project, Altman prepared national-level assessments of East Asian quantum-information research for senior figures across U.S. policy, scientific, and research-funding institutions, including Dean Collins, director of the Advanced Research and Development Activity (ARDA), and Richard J. Hughes of Los Alamos National Laboratory, who chaired the Technology Experts Panel for the 2004 QIST Quantum Cryptography Roadmap. At their first meeting, Hughes mentioned that Altman’s East Asia assessments had influenced the development of the U.S. national QIST roadmapping initiative he led.'
+    'From 2003 to 2004, while based in Tokyo with the Asian Technology Information Program’s Quantum Information Science and Technology project, Altman prepared national-level assessments of East Asian quantum-information research for senior figures across U.S. policy, scientific, and research-funding institutions, including Dean Collins, director of the Advanced Research and Development Activity (ARDA), and Richard J. Hughes of Los Alamos National Laboratory, who chaired the Technology Experts Panel for the 2004 QIST Quantum Cryptography Roadmap. Altman first met Hughes at the 2013 IEEE Photonics Society Summer Topical Meeting on Quantum Photonics and Communications in Waikoloa, Hawaiʻi, where he also continued discussions with Rupert Ursin on free-space quantum communication toward satellites. Hughes mentioned that Altman’s East Asia assessments had influenced the development of the U.S. national QIST roadmapping initiative he led.'
   );
   expect(leadership.textContent).not.toContain(
     'senior leadership at U.S. policy, scientific, and research-funding agencies'
@@ -240,6 +242,8 @@ test('institutional research assessments identify their documented recipients an
   expect(assessmentSource.querySelector('a[href="https://www.academia.edu/611982/Korean_Quantum_Information_Research"]')).not.toBeNull();
   expect(collinsSource.querySelector('a[href="https://www.nationalacademies.org/read/13540/chapter/5"]')).not.toBeNull();
   expect(roadmapSource.querySelector('a[href="https://qist.lanl.gov/pdfs/whole_roadmap.pdf"]')).not.toBeNull();
+  expect(conferenceSource.querySelector('a[href="https://web.archive.org/web/20130209212255/http://www.sum-ieee.org/"]')).not.toBeNull();
+  expect(ursinSource.querySelector('a[href="https://www.christopheraltman.com/2013/07/l-istening-to-rupert-ursin-s-closing.html"]')).not.toBeNull();
   expect(meetingSource.querySelector('a[href="https://www.christopheraltman.com/2013/08/"]')).not.toBeNull();
 });
 
