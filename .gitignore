@@ -48,3 +48,7 @@ coverage/
 
 # Test outputs
 TEST_SUMMARY.md
+
+# Runtime logs (directory kept via .gitkeep)
+logs/*
+!logs/.gitkeep
