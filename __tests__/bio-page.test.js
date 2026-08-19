@@ -226,7 +226,7 @@ test('institutional research assessments identify their documented recipients an
   const meetingSource = document.querySelector('#ref-45');
 
   expect(leadershipWithoutCitations.textContent).toContain(
-    'From 2003 to 2004, while based in Tokyo with the Asian Technology Information Program’s Quantum Information Science and Technology project, Altman prepared national-level assessments of East Asian quantum-information research for senior figures across U.S. policy, scientific, and research-funding institutions, including Dean Collins, director of the Advanced Research and Development Activity (ARDA), and Richard J. Hughes of Los Alamos National Laboratory, who chaired the Technology Experts Panel for the 2004 QIST Quantum Cryptography Roadmap. At their first meeting, Hughes mentioned that Altman’s East Asia assessments had influenced the U.S. national QIST roadmapping initiative he led.'
+    'From 2003 to 2004, while based in Tokyo with the Asian Technology Information Program’s Quantum Information Science and Technology project, Altman prepared national-level assessments of East Asian quantum-information research for senior figures across U.S. policy, scientific, and research-funding institutions, including Dean Collins, director of the Advanced Research and Development Activity (ARDA), and Richard J. Hughes of Los Alamos National Laboratory, who chaired the Technology Experts Panel for the 2004 QIST Quantum Cryptography Roadmap. At their first meeting, Hughes mentioned that Altman’s East Asia assessments had influenced the development of the U.S. national QIST roadmapping initiative he led.'
   );
   expect(leadership.textContent).not.toContain(
     'senior leadership at U.S. policy, scientific, and research-funding agencies'
