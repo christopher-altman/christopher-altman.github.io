@@ -166,7 +166,7 @@ test('biography presents the research arc without overstating institutional scop
   expect(starlabImage.getAttribute('src')).not.toContain('Starlab-Space-3k2k.webp');
   expect(starlab.textContent).toContain('the program’s flagship experimental platform');
   expect(starlab.textContent).toContain(
-    'Altman originated the idea of treating network topology itself — not only its parameters — as a trainable variable and further developed the resulting adaptive quantum-network formalism with Roman R. Zapatrin.'
+    'Altman originated the idea of treating network topology itself—not only its parameters—as a trainable variable and further developed the resulting adaptive quantum-network formalism with Roman R. Zapatrin.'
   );
   expect(starlab.textContent).toContain('Superpositional Quantum Network Topologies');
   expect(starlab.textContent).toContain('Accelerated Training Convergence in Superposed Quantum Networks');
@@ -275,6 +275,19 @@ test('opening biography lede and metadata use a consistent frontier-AI presentat
   expect(bioCss).toMatch(
     /\.bio-prose #overview > p:first-of-type\s*\{[^}]*font-size:\s*1\.14rem;[^}]*line-height:\s*1\.88;/s
   );
+});
+
+test('biography narrative uses closed em dashes while preserving title typography', () => {
+  const document = new JSDOM(bioHtml).window.document;
+  const narrative = [
+    document.querySelector('.bio-deck'),
+    ...document.querySelectorAll('.bio-prose > section:not(#sources)'),
+  ].map((element) => element.textContent).join('\n');
+
+  expect(narrative).not.toContain(' — ');
+  expect(document.title).toContain(' — ');
+  expect(document.querySelector('#ref-21').textContent)
+    .toContain('Traunkirchen — Quantum Physics and the Nature of Reality');
 });
 
 test('opening profile closes its professional link row with Hugging Face', () => {
