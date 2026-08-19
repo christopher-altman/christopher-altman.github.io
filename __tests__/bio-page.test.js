@@ -180,7 +180,7 @@ test('biography presents the research arc without overstating institutional scop
   );
   expect(astronautics.textContent).not.toContain('worked in analogue-field research');
   expect(astronautics.textContent).toContain(
-    'From 2009 to 2013 he was a senior research scientist with the Pacific International Space Center for Exploration Systems, a University of Hawaiʻi program for lunar- and Mars-analogue research and astronaut field training.'
+    'From 2009 to 2013 he was a senior research scientist with the Pacific International Space Center for Exploration Systems (PISCES), a University of Hawaiʻi program for lunar- and Mars-analogue research and astronaut field training.'
   );
   expect(astronautics.textContent).toContain(
     'Its Mauna Kea lunar-analogue site—terrain NASA had used for Apollo-era field-geology training—was proposed for the quantum-communications tests.'
@@ -351,7 +351,7 @@ test('patent status has a dedicated source and the career narrative returns to U
   expect(leadership.textContent).toContain('the methodological undercurrent running through Altman’s career');
   expect(leadership.textContent).toContain('where it becomes operational');
   expect(closingParagraph.textContent.trim()).toBe(
-    'At its widest horizon, the program seeks to ensure that increasingly capable, distributed autonomous systems remain subject to reliable measurement and effective governance as they gain the capacity to accelerate both their own development and the broader pace of scientific and technological progress—preserving meaningful human agency through a civilization-scale transition.'
+    'The wider aim follows from the same logic. As autonomous systems gain the capacity to recursively accelerate their own research and development—and with it the pace of scientific progress—the instruments for measuring them must advance on the same curve. Instruments are what keep human judgment decisive.'
   );
   expect(closingParagraph.textContent).not.toContain('capacity to both accelerate');
   expect(leadership.compareDocumentPosition(publications) & 4).toBeTruthy();
@@ -369,7 +369,7 @@ test('why-now framing connects present capability thresholds to operational meas
 
   expect(whyNow.querySelector('strong').textContent).toBe('Why this matters now.');
   expect(whyNow.textContent).toContain(
-    'The objective is to establish the necessary instrumentation before AI-mediated research acceleration substantially compresses the cycle from capability gain through evaluation to deployment—when surface compliance and retrospective diagnosis become least reliable.'
+    'The objective is to establish the necessary instrumentation before AI-mediated research acceleration compresses the interval from capability gain through evaluation to deployment—when surface compliance and retrospective diagnosis become least reliable.'
   );
   expect(whyNow.textContent).not.toContain('recursive operational loop');
   expectedSources.forEach((href, reference) => {
