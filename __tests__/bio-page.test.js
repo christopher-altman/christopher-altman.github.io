@@ -326,6 +326,24 @@ test('research leadership includes current OASA teaching and mentorship', () => 
   expect(oasaSource.querySelector('a[href="https://www.oasahk.org/summer-boot-camp2025"]')).not.toBeNull();
 });
 
+test('education records undergraduate research leadership and the Salishan fellowship cohort', () => {
+  const document = new JSDOM(bioHtml).window.document;
+  const leadership = document.querySelector('#leadership');
+  const salishanSource = document.querySelector('#ref-50');
+
+  expect(leadership.textContent).toContain(
+    'Altman studied philosophy at the Pierre Laclede Honors College of the University of Missouri–St. Louis. As an undergraduate honors research fellow, he co-directed experimental neuroscience studies supported by National Science Foundation funding, contributing original study designs and supervising undergraduate and graduate research assistants.'
+  );
+  expect(leadership.textContent).toContain(
+    'In April 2001, Altman was selected as one of three student fellows for the invitation-only Salishan Conference on High-Speed Computing, alongside MIT Media Lab doctoral researchers H. Shrikumar and Bill Butera.'
+  );
+  expect(leadership.querySelector('a[href="#ref-49"]')).not.toBeNull();
+  expect(leadership.querySelector('a[href="#ref-50"]')).not.toBeNull();
+  expect(salishanSource.querySelector('a').href).toBe(
+    'https://www.christopheraltman.com/2001/05/salishan.html'
+  );
+});
+
 test('opening biography lede and metadata use a consistent frontier-AI presentation', () => {
   const document = new JSDOM(bioHtml).window.document;
   const title = 'Christopher Altman — Physicist, Frontier AI Researcher & Quantum Scientist';
