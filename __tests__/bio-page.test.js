@@ -44,6 +44,50 @@ test('lab homepage points semantic biography links to the first-party route', ()
   expect(homeHtml).not.toContain('www.th-pedia.org/wiki/Christopher_Altman');
 });
 
+test('first-party documents and photographs are served from repository assets', () => {
+  const pdfAssets = [
+    'spacetime-from-quantum-topology.pdf',
+    'accelerated-training-convergence-in-superposed-quantum-networks.pdf',
+    'astronaut-development-and-deployment-of-a-secure-quantum-space-channel-prototype.pdf',
+    'quantum-information-science-and-technology-project-atip.pdf',
+    'gordon-research-conference-quantum-information-science-2004.pdf',
+    'korean-quantum-information-research.pdf',
+  ];
+
+  for (const filename of pdfAssets) {
+    const assetPath = path.join(root, 'assets', 'documents', filename);
+    const contents = fs.readFileSync(assetPath);
+    expect(contents.length).toBeGreaterThan(0);
+    expect(contents.subarray(0, 5).toString('ascii')).toBe('%PDF-');
+  }
+
+  const photoPath = path.join(
+    root,
+    'assets',
+    'photos',
+    'daniel-greenberger-traunkirchen-2010.jpg'
+  );
+  const photo = fs.readFileSync(photoPath);
+  expect(photo.length).toBeGreaterThan(0);
+  expect([...photo.subarray(0, 3)]).toEqual([0xff, 0xd8, 0xff]);
+
+  for (const filename of pdfAssets.slice(0, 4)) {
+    expect(homeHtml).toContain(`assets/documents/${filename}`);
+  }
+  expect(bioHtml).toContain(
+    '../assets/documents/gordon-research-conference-quantum-information-science-2004.pdf'
+  );
+  expect(bioHtml).toContain('../assets/documents/korean-quantum-information-research.pdf');
+  expect(bioHtml).toContain('../assets/photos/daniel-greenberger-traunkirchen-2010.jpg');
+
+  expect(homeHtml).not.toContain('drive.google.com');
+  expect(bioHtml).not.toContain('drive.google.com');
+  expect(bioHtml).not.toContain('flickr.com');
+  expect(bioHtml).not.toContain('academia.edu');
+  expect(homeHtml).toContain('https://doi.org/10.5281/zenodo.18426410');
+  expect(bioHtml).toContain('https://www.grc.org/quantum-information-science-conference/2004/');
+});
+
 
 test('sitemap exposes the canonical biography route', () => {
   expect(sitemap).toContain('<loc>https://lab.christopheraltman.com/bio/</loc>');
@@ -104,10 +148,21 @@ test('biography presents the research arc without overstating institutional scop
     "Although UCIP is computed classically, its use of density-matrix formalism has a methodological antecedent in Altman’s earlier quantum-information research."
   );
   expect(document.querySelector('#frontier-ai').textContent).toContain(
-    'The implementation is classical; the quantum formalism supplies the representation.'
+    'The protocol encodes agent trajectories with a quantum Boltzmann machine—a Hamiltonian-based model whose thermal states are represented by density matrices—and measures the von Neumann entropy of the reduced density matrix induced by a hidden-unit bipartition.'
+  );
+  expect(document.querySelector('#frontier-ai').textContent).toContain(
+    'The underlying computation is classical; the quantum formalism supplies the representation.'
   );
   expect(document.querySelector('#frontier-ai').textContent)
+    .not.toContain('a classical model built on density-matrix formalism');
+  expect(document.querySelector('#frontier-ai').textContent)
     .not.toContain('Every computation is classical');
+  expect(document.querySelector('#frontier-ai').textContent)
+    .not.toContain('The implementation is classical');
+  const ucipFigure = document.querySelector('#frontier-ai .bio-figure');
+  expect(ucipFigure.querySelector('img').getAttribute('alt')).toContain('QBM bipartition entropy');
+  expect(ucipFigure.querySelector('figcaption').textContent).toContain('QBM bipartition entropy under UCIP');
+  expect(ucipFigure.textContent).not.toContain('Entanglement entropy under UCIP');
   expect(quantum.textContent).toContain('the clearest methodological precursor to his present work');
   expect(quantum.textContent).not.toContain('the closest precursor to his present work');
   expect(quantum.textContent).toContain(
@@ -115,11 +170,11 @@ test('biography presents the research arc without overstating institutional scop
   );
   expect(quantum.textContent).not.toContain('2003 Gordon Research Conference');
   expect(quantum.textContent).toContain(
-    'At Quantum Structures ’08 in Sopot, Altman spent much of the week in extended discussions on quantum information theory with Lev Levitin during walks along the Baltic coast, while continuing the development of adaptive quantum networks with Zapatrin.'
+    'At Quantum Structures ’08 in Sopot, Altman continued developing adaptive quantum networks with Zapatrin while discussing quantum information theory with Lev Levitin over walks along the Baltic coast.'
   );
-  expect(quantum.textContent).toContain(
-    'During the Traunkirchen residency, he engaged in extended discussions on quantum foundations with Daniel Greenberger, Anton Zeilinger, Rupert Ursin, Časlav Brukner, and other fellows and researchers.'
-  );
+  expect(quantum.textContent).not.toContain('spent much of the week in extended discussions');
+  expect(quantum.textContent).not.toContain('During the Traunkirchen residency');
+  expect(quantum.textContent).not.toContain('Časlav Brukner');
   expect(quantum.textContent).toContain(
     'That work extended into companion quantum-communications proposals for NASA Innovative Advanced Concepts (NIAC) and an invited DARPA Quiness submission. Altman was principal investigator and program lead on the NIAC Phase I proposal'
   );
@@ -166,8 +221,9 @@ test('biography presents the research arc without overstating institutional scop
   expect(starlabImage.getAttribute('src')).not.toContain('Starlab-Space-3k2k.webp');
   expect(starlab.textContent).toContain('the program’s flagship experimental platform');
   expect(starlab.textContent).toContain(
-    'Altman originated the idea of treating network topology itself—not only its parameters—as a trainable variable and further developed the resulting adaptive quantum-network formalism with Roman R. Zapatrin.'
+    'Altman originated the idea of placing distinct network topologies in quantum superposition and training the topology itself—not only its transition functions—and further developed the resulting adaptive quantum-network formalism with Roman R. Zapatrin.'
   );
+  expect(starlab.textContent).not.toContain('originated the idea of treating network topology itself');
   expect(starlab.textContent).toContain('Superpositional Quantum Network Topologies');
   expect(starlab.textContent).toContain('Accelerated Training Convergence in Superposed Quantum Networks');
   expect(starlab.textContent).toContain('Backpropagation Training in Adaptive Quantum Networks');
@@ -201,13 +257,21 @@ test('biography presents the research arc without overstating institutional scop
   expect(document.querySelector('#ref-12 a').href).toBe(
     'https://www.grc.org/quantum-information-science-conference/2004/'
   );
+  expect(document.querySelectorAll('#ref-12 a')[1].getAttribute('href')).toBe(
+    '../assets/documents/gordon-research-conference-quantum-information-science-2004.pdf'
+  );
   expect(document.querySelector('#ref-17 a').href).toBe(
     'https://www.christopheraltman.com/2008/08/progress-in-quantum-computing-iqsa-lt25.html'
   );
   expect(document.querySelector('#ref-21 a').href).toBe(
     'https://www.christopheraltman.com/2010/'
   );
+  expect(document.querySelectorAll('#ref-21 a')[1].getAttribute('href')).toBe(
+    '../assets/photos/daniel-greenberger-traunkirchen-2010.jpg'
+  );
 
+  expect(homeHtml).toContain('<div class="pub-title">Backpropagation Training in Adaptive Quantum Networks</div>');
+  expect(homeHtml).not.toContain('<div class="pub-title">Backpropagation in Adaptive Quantum Networks</div>');
   expect(homeHtml).toContain(
     "companion quantum-communications proposal materials for NASA Innovative Advanced Concepts (NIAC) and DARPA Quiness (Macroscopic Quantum Communications); the NIAC proposal was subsequently referred to NASA's Office of the Chief Technologist"
   );
@@ -228,7 +292,7 @@ test('institutional research assessments identify their documented recipients an
   const ursinSource = document.querySelector('#ref-47');
 
   expect(leadershipWithoutCitations.textContent).toContain(
-    'From 2003 to 2004, while based in Tokyo with the Asian Technology Information Program’s Quantum Information Science and Technology project, Altman prepared national-level assessments of East Asian quantum-information research for senior figures across U.S. policy, scientific, and research-funding institutions, including Dean Collins, director of the Advanced Research and Development Activity (ARDA), and Richard J. Hughes of Los Alamos National Laboratory, who chaired the Technology Experts Panel for the 2004 QIST Quantum Cryptography Roadmap. Altman and Hughes first met in person at the 2013 IEEE Photonics Society Summer Topical Meeting on Quantum Photonics and Communications in Waikoloa, Hawaiʻi. At that meeting, Hughes mentioned that Altman’s East Asia assessments had influenced the development of the U.S. national QIST roadmapping initiative he led. During the same week, Altman continued wide-ranging discussions with Rupert Ursin on free-space quantum communication toward satellites, amid excursions from the summit of Mauna Kea through Hawaiʻi Island’s rainforest, beaches, and active volcanic coast.'
+    'From 2003 to 2004, while based in Tokyo with the Asian Technology Information Program’s Quantum Information Science and Technology project, Altman prepared national-level assessments of East Asian quantum-information research for senior figures across U.S. policy, scientific, and research-funding institutions, including Dean Collins, director of the Advanced Research and Development Activity (ARDA), and Richard J. Hughes of Los Alamos National Laboratory, who chaired the Technology Experts Panel for the 2004 QIST Quantum Cryptography Roadmap. Altman and Hughes first met in person at the 2013 IEEE Photonics Society Summer Topical Meeting on Quantum Photonics and Communications in Waikoloa, Hawaiʻi. At that meeting, Hughes mentioned that Altman’s East Asia assessments had influenced the development of the U.S. national QIST roadmapping initiative he led. During the same week, Altman continued discussions with NIAC collaborator Rupert Ursin on free-space quantum communication toward satellites, in settings ranging from Mauna Kea to Hawaiʻi Island’s rainforest, beaches, and volcanic coast.'
   );
   expect(leadership.textContent).not.toContain(
     'senior leadership at U.S. policy, scientific, and research-funding agencies'
@@ -239,7 +303,9 @@ test('institutional research assessments identify their documented recipients an
   expect(leadershipWithoutCitations.textContent).not.toContain(
     'In 2004 he received the European Information Security Award'
   );
-  expect(assessmentSource.querySelector('a[href="https://www.academia.edu/611982/Korean_Quantum_Information_Research"]')).not.toBeNull();
+  expect(assessmentSource.querySelector('a').getAttribute('href')).toBe(
+    '../assets/documents/korean-quantum-information-research.pdf'
+  );
   expect(collinsSource.querySelector('a[href="https://www.nationalacademies.org/read/13540/chapter/5"]')).not.toBeNull();
   expect(roadmapSource.querySelector('a[href="https://qist.lanl.gov/pdfs/whole_roadmap.pdf"]')).not.toBeNull();
   expect(conferenceSource.querySelector('a[href="https://web.archive.org/web/20130209212255/http://www.sum-ieee.org/"]')).not.toBeNull();
