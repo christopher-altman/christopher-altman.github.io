@@ -371,10 +371,10 @@ test('technology assessment is promoted between frontier-AI evaluation and quant
     'From 2003 to 2004, Altman was based in Tokyo with the Asian Technology Information Program’s Quantum Information Science and Technology project, where he conducted recurring assessments of quantum-information research across Japan and Korea.'
   );
   expect(paragraphs[0].textContent).toContain(
-    'The findings were reported to Dean Collins, director of the Advanced Research and Development Activity (ARDA), and to DARPA QuIST program managers, then disseminated to scientists and researchers across U.S. government agencies and national laboratories, including Los Alamos, the institutional home of the U.S. national roadmap initiative.'
+    'Those findings were reported to Dean Collins, director of the Advanced Research and Development Activity (ARDA), and to DARPA QuIST program managers, then disseminated to scientists and researchers across U.S. government agencies and national laboratories, including Los Alamos, the institutional home of the U.S. national roadmap initiative.'
   );
   expect(paragraphs[1].textContent).toBe(
-    'A National Academies volume documents Collins’s leadership of ARDA and its quantum-information-science effort. Altman’s reports ran contemporaneously with the 2004 QIST quantum-cryptography roadmapping effort.'
+    'A National Academies volume documents Collins’s leadership of ARDA and its quantum-information-science effort. Altman’s reports were produced contemporaneously with the 2004 QIST quantum-cryptography roadmap.'
   );
   expect(technologyAssessment.textContent).not.toContain('Stuart Wolf');
   expect(technologyAssessment.textContent).not.toContain('Michael Foster');
