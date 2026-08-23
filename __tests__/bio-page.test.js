@@ -727,6 +727,24 @@ test('satellite-QKD security analysis cites its framework and mission context', 
   expect(overview.querySelector('a[href="#ref-6"]')).not.toBeNull();
 });
 
+test('multi-part biography headings keep subject terms together when wrapping', () => {
+  const document = new JSDOM(bioHtml).window.document;
+  const groupedHeadings = [
+    ['#starlab', 'Starlab and the CAM-Brain program', 'CAM-Brain program'],
+    ['#astronautics', 'Astronautics and spaceflight training', 'spaceflight training'],
+    ['#leadership', 'Research leadership and institutional work', 'institutional work'],
+  ];
+
+  groupedHeadings.forEach(([sectionSelector, fullHeading, groupedTerm]) => {
+    const heading = document.querySelector(`${sectionSelector} > h2`);
+    expect(heading.textContent).toBe(fullHeading);
+    expect(heading.querySelector('.bio-heading-term').textContent).toBe(groupedTerm);
+    expect(heading.querySelector('br')).toBeNull();
+  });
+
+  expect(bioCss).toMatch(/\.bio-heading-term\s*\{[^}]*white-space:\s*nowrap;/s);
+});
+
 test('synthetic validation reports results in evidential order and states sample scope', () => {
   const document = new JSDOM(bioHtml).window.document;
   const frontierAi = document.querySelector('#frontier-ai');

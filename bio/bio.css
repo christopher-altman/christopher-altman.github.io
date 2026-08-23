@@ -170,6 +170,10 @@
   white-space: nowrap;
 }
 
+.bio-heading-term {
+  white-space: nowrap;
+}
+
 .bio-prose p,
 .bio-publications li,
 .bio-sources li {
