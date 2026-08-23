@@ -371,11 +371,14 @@ test('technology assessment is promoted between frontier-AI evaluation and quant
     'From 2003 to 2004, Altman was based in Tokyo with the Asian Technology Information Program’s Quantum Information Science and Technology project, where he conducted recurring assessments of quantum-information research across Japan and Korea.'
   );
   expect(paragraphs[0].textContent).toContain(
-    'The resulting reports were subsequently disseminated to scientists and researchers across U.S. government agencies and national laboratories, including Los Alamos, the institutional home of the U.S. national roadmap initiative.'
+    'The findings were reported to Dean Collins, director of the Advanced Research and Development Activity (ARDA), and to DARPA QuIST program managers, then disseminated to scientists and researchers across U.S. government agencies and national laboratories, including Los Alamos, the institutional home of the U.S. national roadmap initiative.'
   );
   expect(paragraphs[1].textContent).toBe(
-    'A National Academies volume independently documents Collins’s leadership of ARDA and its quantum-information-science effort. The series ran contemporaneously with the 2004 QIST quantum-cryptography roadmapping effort.'
+    'A National Academies volume documents Collins’s leadership of ARDA and its quantum-information-science effort. Altman’s reports ran contemporaneously with the 2004 QIST quantum-cryptography roadmapping effort.'
   );
+  expect(technologyAssessment.textContent).not.toContain('Stuart Wolf');
+  expect(technologyAssessment.textContent).not.toContain('Michael Foster');
+  expect(technologyAssessment.textContent).not.toContain('independently documents');
   expect(paragraphs[2].textContent).toBe(
     'The requirement was recurring and specific: assess a fast-moving field on the ground and deliver findings program managers could act on—which programs merited attention, where capability was concentrating, and how the regional effort compared with U.S. work then being consolidated into the national roadmap. The engagement placed Altman inside the assessment cycle at precisely the moment the U.S. government was deciding how to measure, fund, and track an emerging technology it did not yet understand or control.'
   );
