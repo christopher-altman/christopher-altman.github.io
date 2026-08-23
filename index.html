@@ -9,9 +9,10 @@
     <title>Frontier AI Lab | Christopher Altman</title>
     
     <!-- SEO -->
-   <meta name="description" content="Frontier AI lab developing reproducible evaluation harnesses for testing claims in frontier models, autonomous agents, quantum machine learning, and superconducting quantum systems, with emphasis on falsification, perturbation tests, baselines, diagnostic plots, and reviewable artifacts." />
+    <meta name="description" content="Frontier AI Lab developing reproducible evaluation harnesses for testing claims in frontier models, autonomous agents, quantum machine learning, and superconducting quantum systems, with emphasis on falsification, perturbation tests, baselines, diagnostic plots, and reviewable artifacts." />
 <meta name="keywords" content="frontier AI evaluation, AI alignment, automated falsification, quantum machine learning, superconducting qubits, model telemetry, perturbation testing, reproducible research" />
     <meta name="author" content="Christopher Altman" />
+    <link rel="canonical" href="https://lab.christopheraltman.com/" />
     
     <!-- Open Graph -->
     <meta property="og:title" content="Frontier AI Lab | Christopher Altman" />
@@ -26,7 +27,7 @@
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Frontier Research Lab | Christopher Altman" />
+    <meta name="twitter:title" content="Frontier AI Lab | Christopher Altman" />
     <meta name="twitter:description" content="Reproducible evaluation harnesses for frontier AI, quantum machine learning, and superconducting quantum systems." />
     <meta name="twitter:image" content="https://lab.christopheraltman.com/assets/planetary.png" />
     <meta name="twitter:url" content="https://lab.christopheraltman.com/" />
@@ -35,18 +36,14 @@
  <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "Person",
-    "name": "Christopher Altman",
-    "url": "https://lab.christopheraltman.com/bio/",
-    "sameAs": [
-      "https://www.christopheraltman.com",
-      "https://github.com/christopher-altman",
-      "https://scholar.google.com/citations?user=tvwpCcgAAAAJ",
-      "https://www.linkedin.com/in/altman",
-      "https://continuationobservatory.org"
-    ],
-    "jobTitle": "Founder, Continuation Observatory; Chief Scientist, Quantum Technology and Artificial Intelligence",
-    "description": "Physicist and frontier-AI evaluation researcher developing reproducible evaluation harnesses for frontier AI, quantum machine learning, and superconducting quantum systems."
+    "@type": "WebSite",
+    "@id": "https://lab.christopheraltman.com/#website",
+    "name": "Frontier AI Lab",
+    "url": "https://lab.christopheraltman.com/",
+    "description": "Reproducible evaluation harnesses for frontier AI, quantum machine learning, and superconducting quantum systems.",
+    "author": {
+      "@id": "https://lab.christopheraltman.com/bio/#person"
+    }
   }
 </script>
     
@@ -57,7 +54,7 @@
     <link rel="preload" href="assets/accuracy-vs-identifiability-light.jpeg" as="image" type="image/jpeg" />
     <link rel="preload" href="assets/accuracy-vs-identifiability-dark.png" as="image" type="image/png" />
     
-    <link rel="stylesheet" href="styles.css?v=20260515" />
+    <link rel="stylesheet" href="styles.css?v=20260823-3" />
     
     <script>
       (function() {
@@ -74,123 +71,60 @@
   </head>
 
   <body>
-    <!-- Header -->
-    <header class="header">
+    <header class="header site-header">
       <div class="container">
-        <div class="header-content">
-          
-          <div class="header-identity">
-            <img
-              class="avatar"
-              src="assets/Christopher_Altman.jpeg"
-              alt="Christopher Altman"
-              width="72"
-              height="72"
-              loading="eager"
-              decoding="async"
-            />
-            <div class="header-text reveal">
-              <h1 class="name">Christopher Altman</h1>
-              <p class="tagline">Frontier AI Evaluation · Alignment · Quantum Machine Learning
-                <br>Space Telemetry Anomaly Detection · Superconducting Qubits</p>
-              <p class="tagline-secondary">Founder, Continuation Observatory · Structural AI Evaluation · Quantum Information</p>
-            </div>
-          </div>
-          
-          <nav class="nav-links">
-            <nav class="nav-links reveal" data-delay="80">
-              <a href="https://www.christopheraltman.com" target="_blank" rel="noopener noreferrer" aria-label="Website">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <circle cx="12" cy="12" r="10"></circle>
-                  <line x1="2" y1="12" x2="22" y2="12"></line>
-                  <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
-                </svg>
-              </a>
-              <a href="https://scholar.google.com/citations?user=tvwpCcgAAAAJ" target="_blank" rel="noopener noreferrer" aria-label="Google Scholar profile">
-                <svg width="32" height="32" viewBox="0 0 24 24">
-                  <g transform="matrix(0.83 0 0 0.83 12 12)">
-                    <g transform="matrix(1 0 0 1 0.05 1.79)">
-                      <path fill="currentColor" transform="translate(-12.05, -13.79)" d="M 13.823 13.313 C 13.823 12.334000000000001 15.942 12.046000000000001 15.942 9.754000000000001 C 15.942 8.752 15.873 8.038000000000002 15.424 7.5310000000000015 C 15.389 7.496000000000001 15.366 7.473000000000002 15.331999999999999 7.450000000000001 C 15.171 7.300000000000001 14.985999999999999 7.174000000000001 14.755999999999998 7.058000000000001 C 14.755999999999998 6.724000000000001 16.633999999999997 6.9430000000000005 16.633999999999997 6.298000000000001 C 16.310999999999996 6.298000000000001 12.521999999999997 6.298000000000001 12.521999999999997 6.298000000000001 C 12.521999999999997 6.298000000000001 9.503999999999998 6.378000000000001 8.616999999999997 8.601 C 8.524999999999997 8.797 8.466999999999997 9.004000000000001 8.420999999999998 9.223 C 8.375 9.465 8.34 9.73 8.34 10.007 C 8.34 13.578 11.991 13.175 11.991 13.175 C 11.991 13.175 11.991 13.716000000000001 11.991 14.085 C 11.991 14.454 12.475 14.327000000000002 12.532 15.076 C 12.29 15.076 7.475 14.938 7.475 18.186 C 7.475 21.445999999999998 11.725 21.285 11.725 21.285 C 11.725 21.285 16.631999999999998 21.504 16.631999999999998 17.472 C 16.634 15.063 13.823 14.28 13.823 13.313 z M 10.264 10.202 C 10.091 9.5 10.114 8.82 10.31 8.279 C 10.368 8.06 10.46 7.864 10.575000000000001 7.703 C 10.782000000000002 7.392 11.059000000000001 7.1850000000000005 11.404000000000002 7.093 C 11.784000000000002 7.001 12.176000000000002 7.058 12.544000000000002 7.266 C 12.751000000000003 7.37 12.947000000000003 7.519 13.120000000000003 7.704 C 13.477000000000002 8.061 13.777000000000003 8.579 13.938000000000002 9.19 C 14.318000000000003 10.641 13.823000000000002 12.035 12.798000000000002 12.299999999999999 C 11.784 12.587 10.655 11.642 10.264 10.202 z M 12.383 20.247 C 10.69 20.362 9.226999999999999 19.441 9.145999999999999 18.185 C 9.065 16.918 10.377999999999998 15.811999999999998 12.082999999999998 15.684999999999999 C 13.775999999999998 15.557999999999998 15.215999999999998 16.491 15.319999999999999 17.758 C 15.39 19.014 14.088 20.132 12.383 20.247 z" />
-                    </g>
-                    <g transform="matrix(1 0 0 1 -0.5 -5.5)">
-                      <path fill="currentColor" transform="translate(-11.5, -6.5)" d="M 20 4 L 15.429 7.429 L 13.143 7.429 C 12.949 7.223 12.754000000000001 7.2 12.549000000000001 7.246 C 12.183000000000002 7.04 11.795000000000002 6.9830000000000005 11.418000000000001 7.075 C 11.074 7.166 10.8 7.371 10.594 7.68 C 10.479999999999999 7.84 10.388 8.033999999999999 10.331 8.251 C 9.977 8.423 9 9 9 9 L 3 9 L 11 4 L 20 4 z" />
-                    </g>
-                    <g transform="matrix(1 0 0 1 6 -2.5)">
-                      <line stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none" x1="0" y1="-0.5" x2="0" y2="0.5" />
-                    </g>
-                    <g transform="matrix(1 0 0 1 6 -5.5)">
-                      <line stroke="currentColor" stroke-width="1" stroke-linecap="round" fill="none" x1="0" y1="-1.5" x2="0" y2="1.5" />
-                    </g>
-                  </g>
-                </svg>
-              </a>
-              <a href="https://github.com/christopher-altman" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
-                </svg>
-              </a>
-              <a href="https://www.linkedin.com/in/Altman" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"></path>
-                </svg>
-              </a>
-              <a href="https://x.com/coherence" target="_blank" rel="noopener noreferrer" aria-label="X profile">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M4 4l11.733 16h4.267l-11.733-16z"></path>
-                  <path d="M4 20l6.768-6.768m2.46-2.46L20 4"></path>
-                </svg>
-              </a>
-              <a href="https://christopheraltman.bsky.social/" target="_blank" rel="noopener noreferrer" aria-label="Bluesky profile">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 10.8c-1.087-2.114-4.046-6.053-6.798-7.995C2.566.944 1.561 1.266.902 1.565.139 1.908 0 3.08 0 3.768c0 .69.378 5.65.624 6.479.815 2.736 3.713 3.66 6.383 3.364.136-.02.275-.039.415-.056-.138.022-.276.04-.415.056-3.912.58-7.387 2.005-2.83 7.078 5.013 5.19 6.87-1.113 7.823-4.308.953 3.195 2.05 9.271 7.733 4.308 4.267-4.308 1.172-6.498-2.74-7.078a8.741 8.741 0 0 1-.415-.056c.14.017.279.036.415.056 2.67.297 5.568-.628 6.383-3.364.246-.828.624-5.79.624-6.478 0-.69-.139-1.861-.902-2.206-.659-.298-1.664-.62-4.3 1.24C16.046 4.748 13.087 8.687 12 10.8z"></path>
-                </svg>
-              </a>
-              <a href="mailto:x@christopheraltman.com" aria-label="Email">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                  <polyline points="22,6 12,13 2,6"></polyline>
-                </svg>
-              </a>
-              <button id="themeToggle" class="theme-toggle" aria-label="Switch to dark mode">
-                <svg class="theme-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <circle cx="12" cy="12" r="5"></circle>
-                  <line x1="12" y1="1" x2="12" y2="3"></line>
-                  <line x1="12" y1="21" x2="12" y2="23"></line>
-                  <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                  <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                  <line x1="1" y1="12" x2="3" y2="12"></line>
-                  <line x1="21" y1="12" x2="23" y2="12"></line>
-                  <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                  <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                </svg>
-              </button>
-            </nav>
+        <div class="header-content site-header-content">
+          <a class="header-identity site-wordmark" href="https://lab.christopheraltman.com/" aria-label="Frontier AI Lab home">
+            <span class="avatar" aria-hidden="true"></span>
+            <span class="header-text">
+              <span class="name">Christopher Altman</span>
+              <span class="tagline">Frontier AI Evaluation · Alignment · Quantum Machine Learning<br />Space Telemetry Anomaly Detection · Superconducting Qubits</span>
+              <span class="tagline-secondary">Founder, Continuation Observatory · Structural AI Evaluation · Quantum Information</span>
+            </span>
+          </a>
+          <nav class="site-nav" aria-label="Property navigation">
+            <a href="https://lab.christopheraltman.com/">Lab</a>
+            <a href="https://continuationobservatory.org/">Observatory</a>
+            <a href="https://www.christopheraltman.com">Personal</a>
+            <button id="themeToggle" class="theme-toggle" type="button" aria-label="Switch color theme">
+              <svg class="theme-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <circle cx="12" cy="12" r="4"></circle>
+                <path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.66 6.34l1.41-1.41"></path>
+              </svg>
+            </button>
           </nav>
-          
         </div>
       </div>
     </header>
 
+    <nav class="home-section-nav" aria-label="Homepage sections">
+      <div class="container home-section-nav-inner">
+        <a href="#research">Research</a>
+        <a href="#collaborations">Collaborations</a>
+        <a href="#publications">Publications</a>
+        <a href="#featured-projects">Projects</a>
+        <a href="#themes">Themes</a>
+      </div>
+    </nav>
+
     <main>
     <!-- Hero -->
 
-    <section class="hero">
+    <section class="hero" id="research">
   <div class="container">
     <div class="hero-content">
       <div class="hero-layout">
         <div class="hero-copy">  
-          <h2 class="hero-title">
+          <h1 class="hero-title">
   <span class="reveal highlight-phrase" data-delay="0">Reproducible</span>
   <span class="reveal highlight-phrase" data-delay="80">evaluation harnesses</span>
   <span class="reveal" data-delay="160">for frontier AI</span>
   <span class="reveal" data-delay="240">and quantum systems</span>
-          </h2>
+          </h1>
           <h3 class="hero-hook reveal" data-delay="400">
   Building reproducible instruments for frontier AI evaluation, alignment testing, and quantum-system benchmarks.
           </h3>
-          <br>
           <p class="hero-text reveal" data-delay="550">
-            <p class="hero-text reveal" data-delay="550">
   <span class="lead-in">Our research program</span> develops reproducible evaluation harnesses for testing claims in frontier AI, quantum machine learning, and superconducting quantum systems. We combine quantum machine learning methods with classical testbeds to probe function–representation decoupling, continuation interests, and the reliability of geometric proxies in model repair.
 </p>
 <p class="hero-text reveal" data-delay="700">
@@ -228,11 +162,11 @@
   <section class="hero-links-section" aria-label="Primary research links">
     <div class="container">
       <div class="hero-link-actions reveal" data-delay="900">
-        <a class="hero-link-button" href="https://continuationobservatory.org/" target="_blank" rel="noopener noreferrer">Continuation Observatory</a>
-        <a class="hero-link-button" href="bio/">Biography</a>
-        <a class="hero-link-button" href="https://arxiv.org/abs/2603.11382" target="_blank" rel="noopener noreferrer">arXiv</a>
-        <a class="hero-link-button" href="https://github.com/christopher-altman/persistence-signal-detector" target="_blank" rel="noopener noreferrer">Code</a>
-        <a class="hero-link-button" href="https://continuationobservatory.org/ucip/patent/" target="_blank" rel="noopener noreferrer">Patent</a>
+        <a class="hero-link-button hero-link-primary" href="https://continuationobservatory.org/" target="_blank" rel="noopener noreferrer">Continuation Observatory</a>
+        <a class="hero-link-button" href="bio/">Research Biography</a>
+        <a class="hero-link-button" href="https://arxiv.org/abs/2603.11382" target="_blank" rel="noopener noreferrer">UCIP Paper</a>
+        <a class="hero-link-button" href="https://github.com/christopher-altman/persistence-signal-detector" target="_blank" rel="noopener noreferrer">UCIP Code</a>
+        <a class="hero-link-button" href="https://continuationobservatory.org/ucip/patent/" target="_blank" rel="noopener noreferrer">UCIP Patent Status</a>
       </div>
     </div>
   </section>
@@ -348,10 +282,11 @@
             <a href="https://ui.adsabs.harvard.edu/abs/2004IJTP...43.2029A/abstract" target="_blank" rel="noopener noreferrer" class="pub-title-link">
               <div class="pub-title">Superpositional Quantum Network Topologies</div>
             </a>
-            <div class="pub-meta">C. Altman, J. Pykacz, R. Zapatrin — <i>International Journal of Theoretical Physics</i> Vol. <b>43</b>, 2029–2040.</div>
+            <div class="pub-meta">C. Altman, J. Pykacz, R. Zapatrin — <i>International Journal of Theoretical Physics</i> Vol. <b>43</b>: electronic record 43(10), 2029–2040; print issue 43(12), 2435–2445.</div>
             <div class="pub-links">
               <a href="https://ui.adsabs.harvard.edu/abs/2004IJTP...43.2029A/abstract" target="_blank" rel="noopener noreferrer">NASA ADS</a>
-              <a href="https://doi.org/10.1023/B:IJTP.0000049008.51567.ec" target="_blank" rel="noopener noreferrer">DOI</a>
+              <a href="https://doi.org/10.1023/B:IJTP.0000049008.51567.ec" target="_blank" rel="noopener noreferrer">Electronic DOI</a>
+              <a href="https://doi.org/10.1007/s10773-004-7709-0" target="_blank" rel="noopener noreferrer">Print DOI</a>
               <a href="https://arxiv.org/abs/q-bio/0311016" target="_blank" rel="noopener noreferrer">arXiv</a>
             </div>
           </article>
@@ -533,7 +468,7 @@
   </section>
 
   <!-- Research Themes -->
-  <section class="themes-section">
+  <section class="themes-section" id="themes">
     <div class="container">
       <h3 class="section-title reveal" data-delay="0">Research Themes</h3>
       <div class="themes-grid">
@@ -687,13 +622,47 @@
         © <span id="currentYear"></span> <b>Christopher Altman</b> · License: 
         <a href="LICENSE" target="_blank" rel="noopener noreferrer">MIT</a>
       </p>
-      <div class="footer-links">
-      <a href="https://scholar.google.com/citations?user=tvwpCcgAAAAJ" target="_blank" rel="noopener noreferrer">Google Scholar</a>
-        <a href="https://github.com/christopher-altman" target="_blank" rel="noopener noreferrer">GitHub</a>
-        <a href="https://www.christopheraltman.com" target="_blank" rel="noopener noreferrer">Personal Website</a>
-        <a href="bio/">Biography</a>
-        <a href="mailto:x@christopheraltman.com">Contact</a>
-      </div>
+      <nav class="footer-links" aria-label="Professional profiles">
+        <a href="https://scholar.google.com/citations?user=tvwpCcgAAAAJ" target="_blank" rel="noopener noreferrer" aria-label="Google Scholar" title="Google Scholar">
+          <svg class="scholar-icon" width="32" height="32" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <g transform="matrix(0.83 0 0 0.83 12 12)">
+              <g transform="matrix(1 0 0 1 0.05 1.79)">
+                <path fill="currentColor" transform="translate(-12.05, -13.79)" d="M 13.823 13.313 C 13.823 12.334000000000001 15.942 12.046000000000001 15.942 9.754000000000001 C 15.942 8.752 15.873 8.038000000000002 15.424 7.5310000000000015 C 15.389 7.496000000000001 15.366 7.473000000000002 15.331999999999999 7.450000000000001 C 15.171 7.300000000000001 14.985999999999999 7.174000000000001 14.755999999999998 7.058000000000001 C 14.755999999999998 6.724000000000001 16.633999999999997 6.9430000000000005 16.633999999999997 6.298000000000001 C 16.310999999999996 6.298000000000001 12.521999999999997 6.298000000000001 12.521999999999997 6.298000000000001 C 12.521999999999997 6.298000000000001 9.503999999999998 6.378000000000001 8.616999999999997 8.601 C 8.524999999999997 8.797 8.466999999999997 9.004000000000001 8.420999999999998 9.223 C 8.375 9.465 8.34 9.73 8.34 10.007 C 8.34 13.578 11.991 13.175 11.991 13.175 C 11.991 13.175 11.991 13.716000000000001 11.991 14.085 C 11.991 14.454 12.475 14.327000000000002 12.532 15.076 C 12.29 15.076 7.475 14.938 7.475 18.186 C 7.475 21.445999999999998 11.725 21.285 11.725 21.285 C 11.725 21.285 16.631999999999998 21.504 16.631999999999998 17.472 C 16.634 15.063 13.823 14.28 13.823 13.313 z M 10.264 10.202 C 10.091 9.5 10.114 8.82 10.31 8.279 C 10.368 8.06 10.46 7.864 10.575000000000001 7.703 C 10.782000000000002 7.392 11.059000000000001 7.1850000000000005 11.404000000000002 7.093 C 11.784000000000002 7.001 12.176000000000002 7.058 12.544000000000002 7.266 C 12.751000000000003 7.37 12.947000000000003 7.519 13.120000000000003 7.704 C 13.477000000000002 8.061 13.777000000000003 8.579 13.938000000000002 9.19 C 14.318000000000003 10.641 13.823000000000002 12.035 12.798000000000002 12.299999999999999 C 11.784 12.587 10.655 11.642 10.264 10.202 z M 12.383 20.247 C 10.69 20.362 9.226999999999999 19.441 9.145999999999999 18.185 C 9.065 16.918 10.377999999999998 15.811999999999998 12.082999999999998 15.684999999999999 C 13.775999999999998 15.557999999999998 15.215999999999998 16.491 15.319999999999999 17.758 C 15.39 19.014 14.088 20.132 12.383 20.247 z"></path>
+              </g>
+              <g transform="matrix(1 0 0 1 -0.5 -5.5)">
+                <path fill="currentColor" transform="translate(-11.5, -6.5)" d="M 20 4 L 15.429 7.429 L 13.143 7.429 C 12.949 7.223 12.754000000000001 7.2 12.549000000000001 7.246 C 12.183000000000002 7.04 11.795000000000002 6.9830000000000005 11.418000000000001 7.075 C 11.074 7.166 10.8 7.371 10.594 7.68 C 10.479999999999999 7.84 10.388 8.033999999999999 10.331 8.251 C 9.977 8.423 9 9 9 9 L 3 9 L 11 4 L 20 4 z"></path>
+              </g>
+              <g transform="matrix(1 0 0 1 6 -2.5)">
+                <line stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none" x1="0" y1="-0.5" x2="0" y2="0.5"></line>
+              </g>
+              <g transform="matrix(1 0 0 1 6 -5.5)">
+                <line stroke="currentColor" stroke-width="1" stroke-linecap="round" fill="none" x1="0" y1="-1.5" x2="0" y2="1.5"></line>
+              </g>
+            </g>
+          </svg>
+        </a>
+        <a href="https://arxiv.org/a/altman_c_1.html" target="_blank" rel="noopener noreferrer" aria-label="arXiv" title="arXiv">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M3.8423 0a1.0037 1.0037 0 0 0-.922.6078c-.1536.3687-.0438.6275.2938 1.1113l6.9185 8.3597-1.0223 1.1058a1.0393 1.0393 0 0 0 .003 1.4229l1.2292 1.3135-5.4391 6.4444c-.2803.299-.4538.823-.2971 1.1986a1.0253 1.0253 0 0 0 .9585.635.9133.9133 0 0 0 .6891-.3405l5.783-6.126 7.4902 8.0051a.8527.8527 0 0 0 .6835.2597.9575.9575 0 0 0 .8777-.6138c.1577-.377-.017-.7502-.306-1.1407l-7.0518-8.3418 1.0632-1.13a.9626.9626 0 0 0 .0089-1.3165L4.6336.4639s-.3733-.4535-.768-.463zm0 .272h.0166c.2179.0052.4874.2715.5644.3639l.005.006.0052.0055 10.169 10.9905a.6915.6915 0 0 1-.0072.945l-1.0666 1.133-1.4982-1.7724-8.5994-10.39c-.3286-.472-.352-.6183-.2592-.841a.7307.7307 0 0 1 .6704-.4401Zm14.341 1.5701a.877.877 0 0 0-.6554.2418l-5.6962 6.1584 1.6944 1.8319 5.3089-6.5138c.3251-.4335.479-.6603.3247-1.0292a1.1205 1.1205 0 0 0-.9763-.689zm-7.6557 12.2823 1.3186 1.4135-5.7864 6.1295a.6494.6494 0 0 1-.4959.26.7516.7516 0 0 1-.706-.4669c-.1119-.2682.0359-.6864.2442-.9083l.0051-.0055.0047-.0055z"></path></svg>
+        </a>
+        <a href="https://github.com/christopher-altman" target="_blank" rel="noopener noreferrer" aria-label="GitHub" title="GitHub">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+        </a>
+        <a href="https://huggingface.co/cohaerence" target="_blank" rel="noopener noreferrer" aria-label="Hugging Face" title="Hugging Face">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12.025 1.13c-5.77 0-10.449 4.647-10.449 10.378 0 1.112.178 2.181.503 3.185.064-.222.203-.444.416-.577a.96.96 0 0 1 .524-.15c.293 0 .584.124.84.284.278.173.48.408.71.694.226.282.458.611.684.951v-.014c.017-.324.106-.622.264-.874s.403-.487.762-.543c.3-.047.596.06.787.203s.31.313.4.467c.15.257.212.468.233.542.01.026.653 1.552 1.657 2.54.616.605 1.01 1.223 1.082 1.912.055.537-.096 1.059-.38 1.572.637.121 1.294.187 1.967.187.657 0 1.298-.063 1.921-.178-.287-.517-.44-1.041-.384-1.581.07-.69.465-1.307 1.081-1.913 1.004-.987 1.647-2.513 1.657-2.539.021-.074.083-.285.233-.542.09-.154.208-.323.4-.467a1.08 1.08 0 0 1 .787-.203c.359.056.604.29.762.543s.247.55.265.874v.015c.225-.34.457-.67.683-.952.23-.286.432-.52.71-.694.257-.16.547-.284.84-.285a.97.97 0 0 1 .524.151c.228.143.373.388.43.625l.006.04a10.3 10.3 0 0 0 .534-3.273c0-5.731-4.678-10.378-10.449-10.378M8.327 6.583a1.5 1.5 0 0 1 .713.174 1.487 1.487 0 0 1 .617 2.013c-.183.343-.762-.214-1.102-.094-.38.134-.532.914-.917.71a1.487 1.487 0 0 1 .69-2.803m7.486 0a1.487 1.487 0 0 1 .689 2.803c-.385.204-.536-.576-.916-.71-.34-.12-.92.437-1.103.094a1.487 1.487 0 0 1 .617-2.013 1.5 1.5 0 0 1 .713-.174m-10.68 1.55a.96.96 0 1 1 0 1.921.96.96 0 0 1 0-1.92m13.838 0a.96.96 0 1 1 0 1.92.96.96 0 0 1 0-1.92M8.489 11.458c.588.01 1.965 1.157 3.572 1.164 1.607-.007 2.984-1.155 3.572-1.164.196-.003.305.12.305.454 0 .886-.424 2.328-1.563 3.202-.22-.756-1.396-1.366-1.63-1.32q-.011.001-.02.006l-.044.026-.01.008-.03.024q-.018.017-.035.036l-.032.04a1 1 0 0 0-.058.09l-.014.025q-.049.088-.11.19a1 1 0 0 1-.083.116 1.2 1.2 0 0 1-.173.18q-.035.029-.075.058a1.3 1.3 0 0 1-.251-.243 1 1 0 0 1-.076-.107c-.124-.193-.177-.363-.337-.444-.034-.016-.104-.008-.2.022q-.094.03-.216.087-.06.028-.125.063l-.13.074q-.067.04-.136.086a3 3 0 0 0-.135.096 3 3 0 0 0-.26.219 2 2 0 0 0-.12.121 2 2 0 0 0-.106.128l-.002.002a2 2 0 0 0-.09.132l-.001.001a1.2 1.2 0 0 0-.105.212q-.013.036-.024.073c-1.139-.875-1.563-2.317-1.563-3.203 0-.334.109-.457.305-.454m.836 10.354c.824-1.19.766-2.082-.365-3.194-1.13-1.112-1.789-2.738-1.789-2.738s-.246-.945-.806-.858-.97 1.499.202 2.362c1.173.864-.233 1.45-.685.64-.45-.812-1.683-2.896-2.322-3.295s-1.089-.175-.938.647 2.822 2.813 2.562 3.244-1.176-.506-1.176-.506-2.866-2.567-3.49-1.898.473 1.23 2.037 2.16c1.564.932 1.686 1.178 1.464 1.53s-3.675-2.511-4-1.297c-.323 1.214 3.524 1.567 3.287 2.405-.238.839-2.71-1.587-3.216-.642-.506.946 3.49 2.056 3.522 2.064 1.29.33 4.568 1.028 5.713-.624m5.349 0c-.824-1.19-.766-2.082.365-3.194 1.13-1.112 1.789-2.738 1.789-2.738s.246-.945.806-.858.97 1.499-.202 2.362c-1.173.864.233 1.45.685.64.451-.812 1.683-2.896 2.322-3.295s1.089-.175.938.647-2.822 2.813-2.562 3.244 1.176-.506 1.176-.506 2.866-2.567 3.49-1.898-.473 1.23-2.037 2.16c-1.564.932-1.686 1.178-1.464 1.53s3.675-2.511 4-1.297c.323 1.214-3.524 1.567-3.287 2.405.238.839 2.71-1.587 3.216-.642.506.946-3.49 2.056-3.522 2.064-1.29.33-4.568 1.028-5.713-.624"></path></svg>
+        </a>
+        <a href="https://www.linkedin.com/in/Altman" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" title="LinkedIn">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"></path></svg>
+        </a>
+        <a href="https://x.com/coherence" target="_blank" rel="noopener noreferrer" aria-label="X" title="X">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 4l11.733 16H20L8.267 4z"></path><path d="M4 20l6.768-6.768m2.46-2.46L20 4"></path></svg>
+        </a>
+        <a href="https://christopheraltman.bsky.social/" target="_blank" rel="noopener noreferrer" aria-label="Bluesky" title="Bluesky">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 10.8c-1.087-2.114-4.046-6.053-6.798-7.995C2.566.944 1.561 1.266.902 1.565.139 1.908 0 3.08 0 3.768c0 .69.378 5.65.624 6.479.815 2.736 3.713 3.66 6.383 3.364.136-.02.275-.039.415-.056-.138.022-.276.04-.415.056-3.912.58-7.387 2.005-2.83 7.078 5.013 5.19 6.87-1.113 7.823-4.308.953 3.195 2.05 9.271 7.733 4.308 4.267-4.308 1.172-6.498-2.74-7.078a8.741 8.741 0 0 1-.415-.056c.14.017.279.036.415.056 2.67.297 5.568-.628 6.383-3.364.246-.828.624-5.79.624-6.478 0-.69-.139-1.861-.902-2.206-.659-.298-1.664-.62-4.3 1.24C16.046 4.748 13.087 8.687 12 10.8z"></path></svg>
+        </a>
+        <a href="mailto:x@christopheraltman.com" aria-label="Email" title="Email">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+        </a>
+      </nav>
     </div>
   </div>
 </footer>

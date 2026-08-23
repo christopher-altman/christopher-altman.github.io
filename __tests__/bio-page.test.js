@@ -11,6 +11,7 @@ const { JSDOM } = require('jsdom');
 const root = path.join(__dirname, '..');
 const homeHtml = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
 const bioHtml = fs.readFileSync(path.join(root, 'bio', 'index.html'), 'utf8');
+const homeCss = fs.readFileSync(path.join(root, 'styles.css'), 'utf8');
 const bioCss = fs.readFileSync(path.join(root, 'bio', 'bio.css'), 'utf8');
 const sitemap = fs.readFileSync(path.join(root, 'sitemap.xml'), 'utf8');
 
@@ -18,7 +19,7 @@ const sitemap = fs.readFileSync(path.join(root, 'sitemap.xml'), 'utf8');
 test('biography is a canonical, indexable profile page', () => {
   const document = new JSDOM(bioHtml).window.document;
 
-  expect(document.title).toBe('Christopher Altman — Physicist, Frontier AI Researcher & Quantum Scientist');
+  expect(document.title).toBe('Christopher Altman — Frontier AI Evaluation & Quantum Information');
   expect(document.querySelector('link[rel="canonical"]').href)
     .toBe('https://lab.christopheraltman.com/bio/');
   expect(document.querySelector('meta[name="robots"]').content).toBe('index,follow');
@@ -36,11 +37,9 @@ test('biography is a canonical, indexable profile page', () => {
 
 test('lab homepage points semantic biography links to the first-party route', () => {
   const document = new JSDOM(homeHtml).window.document;
-  const biographyLinks = [...document.querySelectorAll('a')]
-    .filter((link) => link.textContent.trim() === 'Biography');
+  const biographyLink = document.querySelector('.hero-link-actions a[href="bio/"]');
 
-  expect(biographyLinks.length).toBeGreaterThanOrEqual(2);
-  expect(biographyLinks.every((link) => link.getAttribute('href') === 'bio/')).toBe(true);
+  expect(biographyLink.textContent.trim()).toBe('Research Biography');
   expect(homeHtml).not.toContain('www.th-pedia.org/wiki/Christopher_Altman');
 });
 
@@ -79,6 +78,10 @@ test('first-party documents and photographs are served from repository assets', 
   );
   expect(bioHtml).toContain('../assets/documents/korean-quantum-information-research.pdf');
   expect(bioHtml).toContain('../assets/photos/daniel-greenberger-traunkirchen-2010.jpg');
+  const ucipFigurePath = path.join(root, 'assets', 'ucip-bipartition-entropy.webp');
+  expect(fs.statSync(ucipFigurePath).size).toBeGreaterThan(0);
+  expect(bioHtml).toContain('../assets/ucip-bipartition-entropy.webp');
+  expect(bioHtml).not.toContain('../assets/ucip-entanglement.webp');
 
   expect(homeHtml).not.toContain('drive.google.com');
   expect(bioHtml).not.toContain('drive.google.com');
@@ -91,6 +94,63 @@ test('first-party documents and photographs are served from repository assets', 
 
 test('sitemap exposes the canonical biography route', () => {
   expect(sitemap).toContain('<loc>https://lab.christopheraltman.com/bio/</loc>');
+});
+
+test('homepage and biography resolve to one canonical Person identity', () => {
+  const canonicalPersonId = 'https://lab.christopheraltman.com/bio/#person';
+  const homeDocument = new JSDOM(homeHtml).window.document;
+  const bioDocument = new JSDOM(bioHtml).window.document;
+  const homeSchema = JSON.parse(
+    homeDocument.querySelector('script[type="application/ld+json"]').textContent
+  );
+  const bioSchema = JSON.parse(
+    bioDocument.querySelector('script[type="application/ld+json"]').textContent
+  );
+  const homeNodes = homeSchema['@graph'] || [homeSchema];
+  const bioNodes = bioSchema['@graph'] || [bioSchema];
+  const personDeclarations = [...homeNodes, ...bioNodes]
+    .filter((node) => node['@type'] === 'Person');
+  const profilePage = bioNodes.find((node) => node['@type'] === 'ProfilePage');
+  const person = personDeclarations[0];
+
+  expect(homeSchema['@type']).toBe('WebSite');
+  expect(homeSchema['@id']).toBe('https://lab.christopheraltman.com/#website');
+  expect(homeSchema.author).toEqual({ '@id': canonicalPersonId });
+  expect(personDeclarations).toHaveLength(1);
+  expect(person['@id']).toBe(canonicalPersonId);
+  expect(profilePage.mainEntity).toEqual({ '@id': canonicalPersonId });
+  expect(person.name).toBe('Christopher Altman');
+  expect(person.url).toBe('https://lab.christopheraltman.com/bio/');
+  expect(person.jobTitle).toBe('Founder and Principal Investigator, Continuation Observatory');
+  expect(person.affiliation).toEqual({
+    '@type': 'Organization',
+    name: 'Continuation Observatory',
+    url: 'https://continuationobservatory.org/',
+  });
+  expect(person.sameAs).toEqual([
+    'https://www.christopheraltman.com',
+    'https://scholar.google.com/citations?user=tvwpCcgAAAAJ',
+    'https://arxiv.org/a/altman_c_1.html',
+    'https://github.com/christopher-altman',
+    'https://huggingface.co/cohaerence',
+  ]);
+});
+
+test('canonical URLs, Open Graph URLs, and sitemap entries agree per page', () => {
+  const pages = [
+    [homeHtml, 'https://lab.christopheraltman.com/'],
+    [bioHtml, 'https://lab.christopheraltman.com/bio/'],
+  ];
+  const sitemapUrls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)]
+    .map((match) => match[1]);
+
+  expect(sitemapUrls).toEqual(pages.map(([, url]) => url));
+  for (const [html, expectedUrl] of pages) {
+    const document = new JSDOM(html).window.document;
+    expect(document.querySelector('link[rel="canonical"]').href).toBe(expectedUrl);
+    expect(document.querySelector('meta[property="og:url"]').content).toBe(expectedUrl);
+    expect(sitemapUrls).toContain(expectedUrl);
+  }
 });
 
 test('biography uses direct factual framing without defensive disclaimers', () => {
@@ -166,8 +226,9 @@ test('biography presents the research arc without overstating institutional scop
   expect(quantum.textContent).toContain('the clearest methodological precursor to his present work');
   expect(quantum.textContent).not.toContain('the closest precursor to his present work');
   expect(quantum.textContent).toContain(
-    'In 2004, representing the Quantum Information Science and Technology (QuIST) Project, he attended the invitation-only Gordon Research Conference on Quantum Information Science in Ventura, California.'
+    'In 2004, representing the Quantum Information Science and Technology (QuIST) Project, he attended the Gordon Research Conference on Quantum Information Science in Ventura, California—a two-hundred-seat meeting, with admission by application to the conference chair, held off the record to permit discussion of unpublished work.'
   );
+  expect(quantum.textContent).not.toContain('invitation-only Gordon Research Conference');
   expect(quantum.textContent).not.toContain('2003 Gordon Research Conference');
   expect(quantum.textContent).toContain(
     'At Quantum Structures ’08 in Sopot, Altman continued developing adaptive quantum networks with Zapatrin while discussing quantum information theory with Lev Levitin over walks along the Baltic coast.'
@@ -203,8 +264,8 @@ test('biography presents the research arc without overstating institutional scop
   expect(starlab.textContent).toContain(
     'Recruited in 2000, Altman joined the CAM-Brain project at Starlab, the multidisciplinary “Deep Future” research institute outside Brussels.'
   );
-  const siftedSource = document.querySelector('#ref-27 a');
-  expect(starlab.querySelector('a[href="#ref-27"]')).not.toBeNull();
+  const siftedSource = document.querySelector('#ref-31 a');
+  expect(starlab.querySelector('a[href="#ref-31"]')).not.toBeNull();
   expect(siftedSource.href).toBe(
     'https://sifted.eu/articles/starlab-deeptech-university-spinouts-europe'
   );
@@ -243,30 +304,30 @@ test('biography presents the research arc without overstating institutional scop
   );
   expect(astronautics.textContent).not.toContain('Its Mauna Kea analogue site');
 
-  expect(quantum.querySelector('a[href="#ref-22"]')).not.toBeNull();
-  expect(quantum.querySelector('a[href="#ref-24"]')).not.toBeNull();
-  expect(quantum.querySelector('a[href="#ref-25"]')).not.toBeNull();
-  expect(quantum.querySelector('a[href="#ref-23"]')).not.toBeNull();
-  expect(quantum.querySelector('a[href="#ref-12"]')).not.toBeNull();
-  expect(quantum.querySelector('a[href="#ref-17"]')).not.toBeNull();
+  expect(quantum.querySelector('a[href="#ref-26"]')).not.toBeNull();
+  expect(quantum.querySelector('a[href="#ref-28"]')).not.toBeNull();
+  expect(quantum.querySelector('a[href="#ref-29"]')).not.toBeNull();
+  expect(quantum.querySelector('a[href="#ref-27"]')).not.toBeNull();
+  expect(quantum.querySelector('a[href="#ref-16"]')).not.toBeNull();
   expect(quantum.querySelector('a[href="#ref-21"]')).not.toBeNull();
-  expect(document.querySelector('#ref-22').textContent).toContain('NASA NSPIRES');
-  expect(document.querySelector('#ref-24 a').href).toBe('https://thpedia.org/wiki/Quiness');
-  expect(document.querySelector('#ref-25 a').href).toBe('https://www.darpa.mil/research/programs/quiness');
-  expect(document.querySelector('#ref-23').textContent).toContain('QUINESS Underwater Laser');
-  expect(document.querySelector('#ref-12 a').href).toBe(
+  expect(quantum.querySelector('a[href="#ref-25"]')).not.toBeNull();
+  expect(document.querySelector('#ref-26').textContent).toContain('NASA NSPIRES');
+  expect(document.querySelector('#ref-28 a').href).toBe('https://thpedia.org/wiki/Quiness');
+  expect(document.querySelector('#ref-29 a').href).toBe('https://www.darpa.mil/research/programs/quiness');
+  expect(document.querySelector('#ref-27').textContent).toContain('QUINESS Underwater Laser');
+  expect(document.querySelector('#ref-16 a').href).toBe(
     'https://www.grc.org/quantum-information-science-conference/2004/'
   );
-  expect(document.querySelectorAll('#ref-12 a')[1].getAttribute('href')).toBe(
+  expect(document.querySelectorAll('#ref-16 a')[1].getAttribute('href')).toBe(
     '../assets/documents/gordon-research-conference-quantum-information-science-2004.pdf'
   );
-  expect(document.querySelector('#ref-17 a').href).toBe(
+  expect(document.querySelector('#ref-21 a').href).toBe(
     'https://www.christopheraltman.com/2008/08/progress-in-quantum-computing-iqsa-lt25.html'
   );
-  expect(document.querySelector('#ref-21 a').href).toBe(
+  expect(document.querySelector('#ref-25 a').href).toBe(
     'https://www.christopheraltman.com/2010/'
   );
-  expect(document.querySelectorAll('#ref-21 a')[1].getAttribute('href')).toBe(
+  expect(document.querySelectorAll('#ref-25 a')[1].getAttribute('href')).toBe(
     '../assets/photos/daniel-greenberger-traunkirchen-2010.jpg'
   );
 
@@ -279,28 +340,66 @@ test('biography presents the research arc without overstating institutional scop
   expect(homeHtml).toContain('<i>Principal Investigator and Program Lead, NIAC proposal</i>');
 });
 
-test('institutional research assessments identify their documented recipients and roadmap influence', () => {
+test('technology assessment is promoted between frontier-AI evaluation and quantum research', () => {
   const document = new JSDOM(bioHtml).window.document;
+  const frontierAi = document.querySelector('#frontier-ai');
+  const technologyAssessment = document.querySelector('#technology-assessment');
+  const quantum = document.querySelector('#quantum');
   const leadership = document.querySelector('#leadership');
-  const leadershipWithoutCitations = leadership.cloneNode(true);
-  leadershipWithoutCitations.querySelectorAll('sup').forEach(citation => citation.remove());
-  const assessmentSource = document.querySelector('#ref-42');
-  const collinsSource = document.querySelector('#ref-43');
-  const roadmapSource = document.querySelector('#ref-44');
-  const conferenceSource = document.querySelector('#ref-45');
-  const meetingSource = document.querySelector('#ref-46');
-  const ursinSource = document.querySelector('#ref-47');
+  const assessmentWithoutCitations = technologyAssessment.cloneNode(true);
+  assessmentWithoutCitations.querySelectorAll('sup').forEach(citation => citation.remove());
+  const paragraphs = assessmentWithoutCitations.querySelectorAll('p');
+  const assessmentSource = document.querySelector('#ref-11');
+  const collinsSource = document.querySelector('#ref-12');
+  const distributionSource = document.querySelector('#ref-13');
+  const roadmapSource = document.querySelector('#ref-14');
 
-  expect(leadershipWithoutCitations.textContent).toContain(
-    'From 2003 to 2004, while based in Tokyo with the Asian Technology Information Program’s Quantum Information Science and Technology project, Altman prepared national-level assessments of East Asian quantum-information research for senior figures across U.S. policy, scientific, and research-funding institutions, including Dean Collins, director of the Advanced Research and Development Activity (ARDA), and Richard J. Hughes of Los Alamos National Laboratory, who chaired the Technology Experts Panel for the 2004 QIST Quantum Cryptography Roadmap. Altman and Hughes first met in person during the 2013 IEEE Photonics Society Summer Topical Meeting on Quantum Photonics and Communications in Waikoloa, Hawaiʻi. In extended discussions, Hughes described Altman’s reports as a formative influence on the U.S. national quantum roadmap. Throughout that week, Altman and NIAC collaborator Rupert Ursin continued exploring free-space quantum communication toward satellites, in settings ranging from Mauna Kea to Hawaiʻi Island’s rainforest, beaches, and volcanic coast.'
+  expect(document.querySelector('.bio-index a[href="#technology-assessment"]')).not.toBeNull();
+  expect(frontierAi.compareDocumentPosition(technologyAssessment) & 4).toBeTruthy();
+  expect(technologyAssessment.compareDocumentPosition(quantum) & 4).toBeTruthy();
+  const assessmentHeading = technologyAssessment.querySelector('h2');
+  expect(assessmentHeading.textContent).toBe(
+    'Disruptive technology assessment for U.S. government sponsors'
   );
+  expect(assessmentHeading.querySelector('.bio-heading-qualifier').textContent).toBe(
+    'for U.S. government sponsors'
+  );
+  expect(bioCss).toMatch(/\.bio-heading-qualifier\s*\{[^}]*white-space:\s*nowrap;/s);
+  expect(bioCss).toMatch(/@media \(max-width:\s*420px\)[\s\S]*?\.bio-heading-qualifier\s*\{[^}]*white-space:\s*normal;/s);
+
+  expect(paragraphs[0].textContent).toContain(
+    'From 2003 to 2004, Altman was based in Tokyo with the Asian Technology Information Program’s Quantum Information Science and Technology project, where he conducted recurring assessments of quantum-information research across Japan and Korea.'
+  );
+  expect(paragraphs[0].textContent).toContain(
+    'The resulting reports were subsequently disseminated to scientists and researchers across U.S. government agencies and national laboratories, including Los Alamos, the institutional home of the U.S. national roadmap initiative.'
+  );
+  expect(paragraphs[1].textContent).toBe(
+    'A National Academies volume independently documents Collins’s leadership of ARDA and its quantum-information-science effort. The series ran contemporaneously with the 2004 QIST quantum-cryptography roadmapping effort.'
+  );
+  expect(paragraphs[2].textContent).toBe(
+    'The requirement was recurring and specific: assess a fast-moving field on the ground and deliver findings program managers could act on—which programs merited attention, where capability was concentrating, and how the regional effort compared with U.S. work then being consolidated into the national roadmap. The engagement placed Altman inside the assessment cycle at precisely the moment the U.S. government was deciding how to measure, fund, and track an emerging technology it did not yet understand or control.'
+  );
+  expect(paragraphs[3].textContent).toBe(
+    'That same institutional problem now frames Altman’s frontier-AI work: institutions must again build the instruments before they can govern systems whose emerging capabilities they do not yet fully understand and whose continued controllability cannot be assumed.'
+  );
+  expect(bioHtml).not.toContain('Richard J. Hughes');
+  expect(bioHtml).not.toContain('formative influence');
+  expect(leadership.textContent).not.toContain(
+    'From 2003 to 2004, Altman was based in Tokyo with the Asian Technology Information Program’s Quantum Information Science and Technology project'
+  );
+  expect(leadership.textContent).not.toContain(
+    'During the 2013 IEEE Photonics Society Summer Topical Meeting on Quantum Photonics and Communications in Waikoloa'
+  );
+  expect(bioHtml).toContain('<!-- Deferred until the Hughes roadmap attribution is approved and restored:');
+  expect(bioHtml).toContain('https://web.archive.org/web/20130209212255/http://www.sum-ieee.org/');
+  expect(bioHtml).toContain('https://www.christopheraltman.com/2013/07/l-istening-to-rupert-ursin-s-closing.html');
   expect(leadership.textContent).not.toContain(
     'senior leadership at U.S. policy, scientific, and research-funding agencies'
   );
-  expect(leadershipWithoutCitations.textContent).toContain(
+  expect(leadership.textContent).toContain(
     'In 2004 Altman received the European Information Security Award'
   );
-  expect(leadershipWithoutCitations.textContent).not.toContain(
+  expect(leadership.textContent).not.toContain(
     'In 2004 he received the European Information Security Award'
   );
   expect(assessmentSource.querySelector('a').getAttribute('href')).toBe(
@@ -308,20 +407,19 @@ test('institutional research assessments identify their documented recipients an
   );
   expect(collinsSource.querySelector('a[href="https://www.nationalacademies.org/read/13540/chapter/5"]')).not.toBeNull();
   expect(roadmapSource.querySelector('a[href="https://qist.lanl.gov/pdfs/whole_roadmap.pdf"]')).not.toBeNull();
-  expect(conferenceSource.querySelector('a[href="https://web.archive.org/web/20130209212255/http://www.sum-ieee.org/"]')).not.toBeNull();
-  expect(ursinSource.querySelector('a[href="https://www.christopheraltman.com/2013/07/l-istening-to-rupert-ursin-s-closing.html"]')).not.toBeNull();
-  expect(meetingSource.querySelector('a[href="https://www.christopheraltman.com/2013/08/"]')).not.toBeNull();
+  expect(distributionSource.textContent).toContain('report-submission and distribution records');
+  expect(distributionSource.textContent).toContain('On file, available on request.');
 });
 
 test('research leadership includes current OASA teaching and mentorship', () => {
   const document = new JSDOM(bioHtml).window.document;
   const leadership = document.querySelector('#leadership');
-  const oasaSource = document.querySelector('#ref-39');
+  const oasaSource = document.querySelector('#ref-43');
 
   expect(leadership.textContent).toContain(
     'Alongside his research, Altman serves on the International Council of Advisors of the Orion Astropreneur Space Academy in Hong Kong, teaching and mentoring students and aspiring space-sector professionals in commercial astronautics and the future of human spaceflight.'
   );
-  expect(leadership.querySelector('a[href="#ref-39"]')).not.toBeNull();
+  expect(leadership.querySelector('a[href="#ref-43"]')).not.toBeNull();
   expect(oasaSource.querySelector('a[href="https://www.oasahk.org/team-oasa"]')).not.toBeNull();
   expect(oasaSource.querySelector('a[href="https://www.oasahk.org/summer-boot-camp2025"]')).not.toBeNull();
 });
@@ -329,7 +427,7 @@ test('research leadership includes current OASA teaching and mentorship', () => 
 test('education records undergraduate research leadership and the Salishan fellowship cohort', () => {
   const document = new JSDOM(bioHtml).window.document;
   const leadership = document.querySelector('#leadership');
-  const salishanSource = document.querySelector('#ref-50');
+  const salishanSource = document.querySelector('#ref-48');
 
   expect(leadership.textContent).toContain(
     'Altman studied philosophy at the Pierre Laclede Honors College of the University of Missouri–St. Louis. As an undergraduate honors research fellow, he co-directed experimental neuroscience studies supported by National Science Foundation funding, contributing original study designs and supervising undergraduate and graduate research assistants.'
@@ -337,8 +435,15 @@ test('education records undergraduate research leadership and the Salishan fello
   expect(leadership.textContent).toContain(
     'In April 2001, Altman was selected as one of three student fellows for the invitation-only Salishan Conference on High-Speed Computing, alongside MIT Media Lab doctoral researchers H. Shrikumar and Bill Butera.'
   );
-  expect(leadership.querySelector('a[href="#ref-49"]')).not.toBeNull();
-  expect(leadership.querySelector('a[href="#ref-50"]')).not.toBeNull();
+  expect(leadership.querySelector('a[href="#ref-47"]')).not.toBeNull();
+  expect(leadership.querySelector('a[href="#ref-17"]')).not.toBeNull();
+  expect(leadership.querySelector('a[href="#ref-48"]')).not.toBeNull();
+  expect(document.querySelector('#ref-17 a').href).toBe(
+    'https://web.archive.org/web/20050213045521/http://qt.tn.tudelft.nl/~altman/'
+  );
+  expect(document.querySelector('#ref-47').textContent).toContain(
+    'Academic and scholarship records on file, available on request.'
+  );
   expect(salishanSource.querySelector('a').href).toBe(
     'https://www.christopheraltman.com/2001/05/salishan.html'
   );
@@ -346,7 +451,7 @@ test('education records undergraduate research leadership and the Salishan fello
 
 test('opening biography lede and metadata use a consistent frontier-AI presentation', () => {
   const document = new JSDOM(bioHtml).window.document;
-  const title = 'Christopher Altman — Physicist, Frontier AI Researcher & Quantum Scientist';
+  const title = 'Christopher Altman — Frontier AI Evaluation & Quantum Information';
   const structuredData = JSON.parse(
     document.querySelector('script[type="application/ld+json"]').textContent
   );
@@ -370,29 +475,118 @@ test('biography narrative uses closed em dashes while preserving title typograph
 
   expect(narrative).not.toContain(' — ');
   expect(document.title).toContain(' — ');
-  expect(document.querySelector('#ref-21').textContent)
+  expect(document.querySelector('#ref-25').textContent)
     .toContain('Traunkirchen — Quantum Physics and the Nature of Reality');
 });
 
-test('opening profile closes its professional link row with Hugging Face', () => {
+test('opening profile retains only the three compact evidence links', () => {
   const document = new JSDOM(bioHtml).window.document;
   const professionalLinks = [...document.querySelectorAll('.bio-primary-links a')];
-  const topNavigationLabels = [...document.querySelectorAll('.bio-nav a')]
-    .map((link) => link.textContent.trim());
-  const huggingFace = professionalLinks.at(-1);
-
-  expect(huggingFace.textContent.trim()).toBe('Hugging Face');
-  expect(huggingFace.href).toBe('https://huggingface.co/cohaerence');
-  expect(topNavigationLabels).not.toContain('Hugging Face');
+  expect(professionalLinks.map((link) => link.textContent.trim())).toEqual([
+    'Google Scholar',
+    'arXiv',
+    'GitHub',
+  ]);
+  expect(professionalLinks.map((link) => link.href)).toEqual([
+    'https://scholar.google.com/citations?user=tvwpCcgAAAAJ',
+    'https://arxiv.org/a/altman_c_1.html',
+    'https://github.com/christopher-altman',
+  ]);
 });
 
-test('page header identifies the research biography and uses a compact lab label', () => {
-  const document = new JSDOM(bioHtml).window.document;
-  const tagline = document.querySelector('.bio-home-link .tagline');
-  const labLink = document.querySelector('.bio-nav a[href="../"]');
+test('Tier 1 site bar is identical and separate from page-specific section navigation', () => {
+  const homeDocument = new JSDOM(homeHtml).window.document;
+  const bioDocument = new JSDOM(bioHtml).window.document;
+  const normalizeMarkup = (element) => element.outerHTML.replace(/\s+/g, ' ').trim();
+  const homeHeader = homeDocument.querySelector('.site-header');
+  const bioHeader = bioDocument.querySelector('.site-header');
+  const homePropertyLinks = [...homeHeader.querySelectorAll('.site-nav a')];
+  const homeSectionLinks = [...homeDocument.querySelectorAll('.home-section-nav a')];
+  const bioSectionLinks = [...bioDocument.querySelectorAll('.bio-index nav a')];
 
-  expect(tagline.textContent.trim()).toBe('Research biography');
-  expect(labLink.textContent.trim()).toBe('Frontier Lab');
+  expect(normalizeMarkup(homeHeader)).toBe(normalizeMarkup(bioHeader));
+  expect(homeHeader.querySelector('.site-wordmark .tagline').innerHTML).toBe(
+    'Frontier AI Evaluation · Alignment · Quantum Machine Learning<br>Space Telemetry Anomaly Detection · Superconducting Qubits'
+  );
+  expect(homeHeader.querySelector('.site-wordmark .tagline-secondary').textContent.trim()).toBe(
+    'Founder, Continuation Observatory · Structural AI Evaluation · Quantum Information'
+  );
+  expect(homeCss).toMatch(/\.site-wordmark \.avatar\s*\{[^}]*width:\s*96px;[^}]*height:\s*96px;/s);
+  expect(homeCss).toMatch(/\.site-wordmark \.name\s*\{[^}]*font-size:\s*1\.5rem;/s);
+  expect(homeCss).toMatch(/\.avatar\s*\{[^}]*background:\s*#fff url\("assets\/Christopher_Altman\.jpeg"\) center \/ cover no-repeat;/s);
+  expect(homePropertyLinks.map((link) => link.textContent.trim())).toEqual([
+    'Lab',
+    'Observatory',
+    'Personal',
+  ]);
+  expect(homePropertyLinks.map((link) => link.href)).toEqual([
+    'https://lab.christopheraltman.com/',
+    'https://continuationobservatory.org/',
+    'https://www.christopheraltman.com/',
+  ]);
+  expect(homePropertyLinks.every((link) => !link.getAttribute('href').startsWith('#'))).toBe(true);
+  expect(homeSectionLinks.every((link) => link.getAttribute('href').startsWith('#'))).toBe(true);
+  expect(bioSectionLinks.every((link) => link.getAttribute('href').startsWith('#'))).toBe(true);
+  expect(bioDocument.querySelector('.bio-primary-links a[href="https://continuationobservatory.org/"]')).toBeNull();
+});
+
+test('homepage section navigation and strengthened research actions remain responsive', () => {
+  const document = new JSDOM(homeHtml).window.document;
+  const sectionLinks = [...document.querySelectorAll('.home-section-nav a')];
+  const actions = [...document.querySelectorAll('.hero-link-actions a')];
+
+  expect(sectionLinks.map((link) => link.textContent.trim())).toEqual([
+    'Research',
+    'Collaborations',
+    'Publications',
+    'Projects',
+    'Themes',
+  ]);
+  sectionLinks.forEach((link) => {
+    expect(document.querySelector(link.getAttribute('href'))).not.toBeNull();
+  });
+  expect(homeHtml).not.toMatch(/<p[^>]*>\s*<p\b/);
+  expect(document.querySelectorAll('main h1')).toHaveLength(1);
+  expect(actions.map((link) => link.textContent.trim())).toEqual([
+    'Continuation Observatory',
+    'Research Biography',
+    'UCIP Paper',
+    'UCIP Code',
+    'UCIP Patent Status',
+  ]);
+  expect(actions[0].classList.contains('hero-link-primary')).toBe(true);
+  expect(homeCss).toMatch(/\.home-section-nav\s*\{[^}]*position:\s*sticky;[^}]*top:\s*9rem;/s);
+  expect(homeCss).toMatch(/@media \(max-width:\s*640px\)[\s\S]*?\.home-section-nav\s*\{[^}]*position:\s*static;/s);
+});
+
+test('professional profile footer row is identical on both pages', () => {
+  const homeDocument = new JSDOM(homeHtml).window.document;
+  const bioDocument = new JSDOM(bioHtml).window.document;
+  const normalizeMarkup = (element) => element.outerHTML.replace(/\s+/g, ' ').trim();
+  const homeFooter = homeDocument.querySelector('.footer-links');
+  const bioFooter = bioDocument.querySelector('.footer-links');
+  const links = [...homeFooter.querySelectorAll('a')];
+  const labels = links.map((link) => link.getAttribute('aria-label'));
+
+  expect(normalizeMarkup(homeFooter)).toBe(normalizeMarkup(bioFooter));
+  expect(labels).toEqual([
+    'Google Scholar',
+    'arXiv',
+    'GitHub',
+    'Hugging Face',
+    'LinkedIn',
+    'X',
+    'Bluesky',
+    'Email',
+  ]);
+  expect(links.every((link) => link.textContent.trim() === '')).toBe(true);
+  expect(links.every((link) => link.querySelector('svg[aria-hidden="true"]'))).toBe(true);
+  const scholarIcon = homeFooter.querySelector('a[aria-label="Google Scholar"] svg.scholar-icon');
+  expect(scholarIcon.getAttribute('width')).toBe('32');
+  expect(scholarIcon.querySelectorAll('path')).toHaveLength(2);
+  expect(scholarIcon.querySelectorAll('line')).toHaveLength(2);
+  expect(scholarIcon.querySelector('g[transform="matrix(0.83 0 0 0.83 12 12)"]')).not.toBeNull();
+  expect(homeFooter.querySelector('a[aria-label="Hugging Face"] svg path')).not.toBeNull();
 });
 
 test('opening name uses the second quarter reduction without wrapping', () => {
@@ -404,7 +598,7 @@ test('opening name uses the second quarter reduction without wrapping', () => {
 
 test('long biography headings use the full prose width before wrapping', () => {
   expect(bioCss).toMatch(
-    /#starlab > h2,\s*#astronautics > h2,\s*#leadership > h2\s*\{[^}]*max-width:\s*none;/s
+    /#technology-assessment > h2,\s*#starlab > h2,\s*#astronautics > h2,\s*#leadership > h2\s*\{[^}]*max-width:\s*none;/s
   );
 });
 
@@ -481,15 +675,15 @@ test('numbered references are contiguous and follow first-appearance order', () 
 
 test('THPedia profile is presented only as an understated numbered source', () => {
   const document = new JSDOM(bioHtml).window.document;
-  const thpediaSource = document.querySelector('#ref-49');
+  const thpediaSource = document.querySelector('#ref-47');
   const profileLink = thpediaSource.querySelector(
     'a[href="https://thpedia.org/wiki/Christopher_Altman"]'
   );
 
-  expect(document.querySelector('#leadership a[href="#ref-49"]')).not.toBeNull();
+  expect(document.querySelector('#leadership a[href="#ref-47"]')).not.toBeNull();
   expect(profileLink).not.toBeNull();
   expect(thpediaSource.textContent).toContain(
-    'Extended biographical profile and historical source compilation.'
+    'Biographical source compilation;'
   );
   expect(document.querySelector('.bio-source-note')).toBeNull();
 });
@@ -505,8 +699,10 @@ test('satellite-QKD security analysis cites its framework and mission context', 
   expect(satelliteQkdSource.href)
     .toBe('https://github.com/christopher-altman/sat-qkd-security-curves');
   expect(overview.textContent).toContain(
-    'His experimental and applied contributions range from quantum-optical entanglement and coherence in superconducting devices to satellite quantum-key-distribution security analysis that models live quantum links under real-world atmospheric and orbital constraints in support of ongoing entangled-photon experiments'
+    'His experimental and applied contributions range from quantum-optical entanglement and coherence in superconducting devices to satellite quantum-key-distribution security analysis that models live quantum links under real-world atmospheric and orbital constraints.'
   );
+  expect(overview.textContent).not.toContain('in support of ongoing entangled-photon experiments');
+  expect(overview.textContent).not.toContain('independent satellite quantum-key-distribution');
   expect(speqtralMissionSource.href).toBe(
     'https://speqtralquantum.com/newsroom/its-time-to-secure-the-worlds-communications-from-the-quantum-computing-threat'
   );
@@ -524,6 +720,70 @@ test('satellite-QKD security analysis cites its framework and mission context', 
   expect(overview.textContent).not.toContain('space-deployable quantum-communication architectures');
   expect(overview.querySelector('a[href="#ref-5"]')).not.toBeNull();
   expect(overview.querySelector('a[href="#ref-6"]')).not.toBeNull();
+});
+
+test('synthetic validation reports results in evidential order and states sample scope', () => {
+  const document = new JSDOM(bioHtml).window.document;
+  const frontierAi = document.querySelector('#frontier-ai');
+  const label = frontierAi.querySelector('.bio-metrics-label');
+  const metrics = frontierAi.querySelector('.bio-metrics');
+  const metricLabels = [...metrics.querySelectorAll('dt')]
+    .map((element) => element.textContent.trim());
+  const note = frontierAi.querySelector('.bio-metrics-note');
+
+  expect(label.textContent.trim()).toBe('Synthetic validation');
+  expect(metricLabels).toEqual([
+    'Graded tracking',
+    'Classical baselines',
+    'Entropy gap',
+    'Permutation test',
+    'Synthetic separation',
+  ]);
+  expect(metrics.textContent).toContain('r = 0.934');
+  expect(metrics.textContent).toContain('0 of 4');
+  expect(metrics.textContent).toContain('Δ = 0.381');
+  expect(metrics.textContent).toContain('p < 0.001');
+  expect(metrics.textContent).toContain('AUC-ROC 1.0');
+  expect(note.textContent).toContain('11 continuation-weight settings with 20 trajectories per setting');
+  expect(note.textContent).toContain('n = 30 per class');
+  expect(note.textContent).toContain('one seed (42)');
+  expect(note.textContent).not.toContain('confidence interval');
+});
+
+test('non-public and compilation sources are labeled by evidentiary status', () => {
+  const document = new JSDOM(bioHtml).window.document;
+
+  expect(bioHtml).not.toContain('Lifeboat Foundation');
+  expect(document.querySelector('#ref-23').textContent).toContain(
+    'Templeton International Research Fellowship appointment correspondence'
+  );
+  expect(document.querySelector('#ref-23').textContent).toContain('On file, available on request.');
+  expect(document.querySelector('#ref-26').textContent).toContain('On file, available on request.');
+  expect(document.querySelector('#ref-27').textContent).toContain('On file, available on request.');
+  expect(document.querySelector('#ref-28').textContent).toContain('Historical source compilation');
+  expect(document.querySelector('#ref-36').textContent).toContain(
+    'photographic record of the French Sénat presentation on file, available on request.'
+  );
+  expect(document.querySelector('#ref-41 a[href="https://vascoproject.org/our-team/"]')).not.toBeNull();
+  expect(document.querySelector('#ref-41').textContent).toContain(
+    'Official photographic contributor roster; role correspondence on file, available on request.'
+  );
+});
+
+test('lab naming, personal-site naming, update date, and dual IJTP records stay synchronized', () => {
+  const document = new JSDOM(bioHtml).window.document;
+  const homeDocument = new JSDOM(homeHtml).window.document;
+  const ref15 = document.querySelector('#ref-19');
+
+  expect(document.querySelector('.site-nav a[href="https://www.christopheraltman.com"]').textContent.trim())
+    .toBe('Personal');
+  expect(document.querySelector('.footer-copyright').textContent).toContain('Updated 23 August 2026');
+  expect(homeDocument.querySelector('meta[name="twitter:title"]').content)
+    .toBe('Frontier AI Lab | Christopher Altman');
+  expect(bioHtml).not.toMatch(/Frontier Lab|Research Lab|Frontier AI Research Lab|Personal site/);
+  expect(ref15.textContent).toContain('electronic record, 43(10), 2029–2040');
+  expect(ref15.textContent).toContain('print issue, 43(12), 2435–2445');
+  expect(homeHtml).toContain('electronic record 43(10), 2029–2040; print issue 43(12), 2435–2445');
 });
 
 test('machine-readable backend identifier uses inline code semantics', () => {
