@@ -554,7 +554,9 @@ test('homepage section navigation and strengthened research actions remain respo
     'UCIP Code',
     'UCIP Patent Status',
   ]);
-  expect(actions[0].classList.contains('hero-link-primary')).toBe(true);
+  expect(actions.every((link) => link.className === 'hero-link-button')).toBe(true);
+  expect(homeHtml).not.toContain('hero-link-primary');
+  expect(homeCss).not.toContain('.hero-link-primary');
   expect(homeCss).toMatch(/\.home-section-nav\s*\{[^}]*position:\s*sticky;[^}]*top:\s*9rem;/s);
   expect(homeCss).toMatch(/@media \(max-width:\s*640px\)[\s\S]*?\.home-section-nav\s*\{[^}]*position:\s*static;/s);
 });

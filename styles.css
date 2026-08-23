@@ -539,19 +539,6 @@ main > section.hero-links-section {
   text-decoration: none;
 }
 
-.hero-link-primary {
-  border-color: var(--color-primary);
-  color: var(--color-bg);
-  background: var(--color-primary);
-}
-
-.hero-link-primary:hover,
-.hero-link-primary:focus-visible {
-  border-color: var(--color-accent);
-  color: var(--color-bg);
-  background: var(--color-accent);
-}
-
 /* Stats Section */
 .stats-section {
   background: var(--color-bg-alt);
@@ -1525,20 +1512,6 @@ box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
 :root[data-theme="dark"] .hero-link-button:hover {
   color: #EAF4FF;
   background: rgba(37, 88, 150, 0.54);
-}
-
-:root[data-theme="dark"] .hero-link-button.hero-link-primary {
-  border-color: var(--color-accent);
-  color: #FFFFFF;
-  background: var(--color-accent);
-  box-shadow: none;
-}
-
-:root[data-theme="dark"] .hero-link-button.hero-link-primary:hover,
-:root[data-theme="dark"] .hero-link-button.hero-link-primary:focus-visible {
-  border-color: #7CB9FF;
-  color: #FFFFFF;
-  background: #255896;
 }
 
 :root[data-theme="dark"] .method-chip.active,
