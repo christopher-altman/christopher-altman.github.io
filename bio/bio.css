@@ -363,6 +363,12 @@
   .bio-metrics {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
+  .bio-metrics > div:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+    align-items: center;
+    text-align: center;
+  }
 }
 
 @media (max-width: 900px) {

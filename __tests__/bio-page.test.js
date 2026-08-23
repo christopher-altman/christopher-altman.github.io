@@ -749,6 +749,7 @@ test('synthetic validation reports results in evidential order and states sample
   expect(metrics.textContent).toContain('Δ = 0.381');
   expect(metrics.textContent).toContain('p < 0.001');
   expect(metrics.textContent).toContain('AUC-ROC 1.0');
+  expect(bioCss).toMatch(/@media \(max-width:\s*980px\)[\s\S]*?\.bio-metrics > div:last-child:nth-child\(odd\)\s*\{[^}]*grid-column:\s*1 \/ -1;[^}]*align-items:\s*center;[^}]*text-align:\s*center;/s);
   expect(note.textContent).toContain('11 continuation-weight settings with 20 trajectories per setting');
   expect(note.textContent).toContain('n = 30 per class');
   expect(note.textContent).toContain('one seed (42)');
