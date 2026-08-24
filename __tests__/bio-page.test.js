@@ -231,8 +231,10 @@ test('biography presents the research arc without overstating institutional scop
   expect(quantum.textContent).not.toContain('invitation-only Gordon Research Conference');
   expect(quantum.textContent).not.toContain('2003 Gordon Research Conference');
   expect(quantum.textContent).toContain(
-    'At Quantum Structures ’08 in Sopot, Altman continued developing adaptive quantum networks with Zapatrin while discussing quantum information theory with Lev Levitin over walks along the Baltic coast.'
+    'At Quantum Structures ’08 in Sopot, Altman continued developing adaptive quantum networks with Zapatrin.'
   );
+  expect(quantum.textContent).not.toContain('Lev Levitin');
+  expect(quantum.textContent).not.toContain('Baltic coast');
   expect(quantum.textContent).not.toContain('spent much of the week in extended discussions');
   expect(quantum.textContent).not.toContain('During the Traunkirchen residency');
   expect(quantum.textContent).not.toContain('Časlav Brukner');
@@ -282,9 +284,9 @@ test('biography presents the research arc without overstating institutional scop
   expect(starlabImage.getAttribute('src')).not.toContain('Starlab-Space-3k2k.webp');
   expect(starlab.textContent).toContain('the program’s flagship experimental platform');
   expect(starlab.textContent).toContain(
-    'Altman originated the idea of placing distinct network topologies in quantum superposition and training the topology itself—not only its transition functions—and further developed the resulting adaptive quantum-network formalism with Roman R. Zapatrin.'
+    'In parallel, Altman proposed treating distinct network topologies in quantum superposition and making topology itself a trainable variable.'
   );
-  expect(starlab.textContent).not.toContain('originated the idea of treating network topology itself');
+  expect(starlab.textContent).not.toContain('originated the idea');
   expect(starlab.textContent).toContain('Superpositional Quantum Network Topologies');
   expect(starlab.textContent).toContain('Accelerated Training Convergence in Superposed Quantum Networks');
   expect(starlab.textContent).toContain('Backpropagation Training in Adaptive Quantum Networks');
@@ -359,11 +361,12 @@ test('technology assessment is promoted between frontier-AI evaluation and quant
   expect(technologyAssessment.compareDocumentPosition(quantum) & 4).toBeTruthy();
   const assessmentHeading = technologyAssessment.querySelector('h2');
   expect(assessmentHeading.textContent).toBe(
-    'Disruptive technology assessment for U.S. government sponsors'
+    'Quantum-technology assessment for U.S. government programs'
   );
   expect(assessmentHeading.querySelector('.bio-heading-qualifier').textContent).toBe(
-    'for U.S. government sponsors'
+    'for U.S. government programs'
   );
+  expect(technologyAssessment.textContent).not.toContain('Disruptive technology assessment');
   expect(bioCss).toMatch(/\.bio-heading-qualifier\s*\{[^}]*white-space:\s*nowrap;/s);
   expect(bioCss).toMatch(/@media \(max-width:\s*420px\)[\s\S]*?\.bio-heading-qualifier\s*\{[^}]*white-space:\s*normal;/s);
 
@@ -693,6 +696,48 @@ test('numbered references are contiguous and follow first-appearance order', () 
   citations.forEach(link => {
     expect(document.querySelector(link.getAttribute('href'))).not.toBeNull();
   });
+});
+
+test('source documentation is a native disclosure that opens for citation hashes and print', () => {
+  const document = new JSDOM(bioHtml).window.document;
+  const sourceSection = document.querySelector('#sources');
+  const details = sourceSection.querySelector('details.bio-sources-details');
+  const summary = details.querySelector('summary');
+  const behaviorDom = new JSDOM(bioHtml, {
+    runScripts: 'dangerously',
+    pretendToBeVisual: true,
+    url: 'https://lab.christopheraltman.com/bio/#ref-49',
+    beforeParse(window) {
+      window.matchMedia = () => ({ matches: false });
+      window.HTMLElement.prototype.scrollIntoView = () => {};
+    },
+  });
+  const behaviorDocument = behaviorDom.window.document;
+  const behaviorDetails = behaviorDocument.querySelector('details.bio-sources-details');
+  const sourceScript = [...document.querySelectorAll('script')]
+    .map((script) => script.textContent)
+    .find((text) => text.includes('openSourcesForReference'));
+
+  expect(document.querySelector('.bio-index a[href="#sources"]').textContent)
+    .toBe('Sources and documentation');
+  expect(details.hasAttribute('open')).toBe(false);
+  expect(details.firstElementChild).toBe(summary);
+  expect(summary.querySelector('h2').textContent).toBe('Sources and documentation');
+  expect(details.querySelectorAll('ol > li[id^="ref-"]')).toHaveLength(50);
+  expect(bioHtml).not.toContain('Selected sources');
+  expect(behaviorDetails.open).toBe(true);
+  behaviorDetails.open = false;
+  behaviorDocument.querySelector('article section:not(#sources) a[href="#ref-1"]')
+    .dispatchEvent(new behaviorDom.window.MouseEvent('click', { bubbles: true }));
+  expect(behaviorDetails.open).toBe(true);
+  expect(sourceScript).toMatch(/const referenceHash = \/\^#ref-\\d\+\$\//);
+  expect(sourceScript).toContain('sourceDetails.open = true');
+  expect(sourceScript).toContain("window.addEventListener('hashchange'");
+  expect(sourceScript).toContain("a[href^=\"#ref-\"]");
+  expect(bioCss).toMatch(
+    /@media print\s*\{[\s\S]*?\.bio-sources-details:not\(\[open\]\) > ol\s*\{[^}]*display:\s*grid !important;/s
+  );
+  behaviorDom.window.close();
 });
 
 test('THPedia profile is presented only as an understated numbered source', () => {
