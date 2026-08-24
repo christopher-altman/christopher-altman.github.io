@@ -719,12 +719,12 @@ test('source documentation is a native disclosure that opens for citation hashes
     .find((text) => text.includes('openSourcesForReference'));
 
   expect(document.querySelector('.bio-index a[href="#sources"]').textContent)
-    .toBe('Sources and documentation');
+    .toBe('Selected sources');
   expect(details.hasAttribute('open')).toBe(false);
   expect(details.firstElementChild).toBe(summary);
-  expect(summary.querySelector('h2').textContent).toBe('Sources and documentation');
+  expect(summary.querySelector('h2').textContent).toBe('Selected sources');
   expect(details.querySelectorAll('ol > li[id^="ref-"]')).toHaveLength(50);
-  expect(bioHtml).not.toContain('Selected sources');
+  expect(bioHtml).not.toContain('Sources and documentation');
   expect(behaviorDetails.open).toBe(true);
   behaviorDetails.open = false;
   behaviorDocument.querySelector('article section:not(#sources) a[href="#ref-1"]')
@@ -736,6 +736,9 @@ test('source documentation is a native disclosure that opens for citation hashes
   expect(sourceScript).toContain("a[href^=\"#ref-\"]");
   expect(bioCss).toMatch(
     /@media print\s*\{[\s\S]*?\.bio-sources-details:not\(\[open\]\) > ol\s*\{[^}]*display:\s*grid !important;/s
+  );
+  expect(bioCss).toMatch(
+    /\.bio-sources-details > summary h2\s*\{[^}]*font-size:\s*clamp\(1\.45rem,\s*2\.6vw,\s*2rem\);/s
   );
   behaviorDom.window.close();
 });

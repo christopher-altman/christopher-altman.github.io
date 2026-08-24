@@ -364,6 +364,7 @@
 
 .bio-sources-details > summary h2 {
   margin-bottom: 0;
+  font-size: clamp(1.45rem, 2.6vw, 2rem);
 }
 
 .bio-sources ol {
