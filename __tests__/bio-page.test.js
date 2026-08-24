@@ -810,7 +810,7 @@ test('lab naming, personal-site naming, update date, and dual IJTP records stay 
 
   expect(document.querySelector('.site-nav a[href="https://www.christopheraltman.com"]').textContent.trim())
     .toBe('Personal');
-  expect(document.querySelector('.footer-copyright').textContent).toContain('Updated 23 August 2026');
+  expect(document.querySelector('.footer-copyright').textContent).toContain('Updated 24 August 2026');
   expect(homeDocument.querySelector('meta[name="twitter:title"]').content)
     .toBe('Frontier AI Lab | Christopher Altman');
   expect(bioHtml).not.toMatch(/Frontier Lab|Research Lab|Frontier AI Research Lab|Personal site/);
