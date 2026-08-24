@@ -458,6 +458,17 @@ test('education records undergraduate research leadership and the Salishan fello
   );
 });
 
+test('archived institutional sources retain their captured page titles', () => {
+  const document = new JSDOM(bioHtml).window.document;
+
+  expect(document.querySelector('#ref-46 a').textContent).toBe(
+    '“Faculty and Staff | Christopher Altman.”'
+  );
+  expect(document.querySelector('#ref-49 a').textContent).toBe(
+    '“Current Research | Christopher Altman, Starlab CAM-Brain Project.”'
+  );
+});
+
 test('opening biography lede and metadata use a consistent frontier-AI presentation', () => {
   const document = new JSDOM(bioHtml).window.document;
   const title = 'Christopher Altman — Frontier AI Evaluation & Quantum Information';
