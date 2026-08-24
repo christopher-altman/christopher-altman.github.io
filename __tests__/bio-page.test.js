@@ -188,17 +188,20 @@ test('Starlab section distinguishes the technical presentation from the French S
   const starlab = document.querySelector('#starlab');
   const presentationParagraph = [...starlab.querySelectorAll('p')]
     .find((paragraph) => paragraph.textContent.includes('Toward a Science of Consciousness'));
+  const prose = presentationParagraph.cloneNode(true);
+  prose.querySelectorAll('sup').forEach((citation) => citation.remove());
 
-  expect(presentationParagraph.textContent).toContain(
+  expect(prose.textContent).toContain(
     'Altman presented the program’s large-scale neural architectures at Toward a Science of Consciousness in 2002 and, as an invited delegate, addressed the French Sénat hearing in Paris, Le Robot : le futur de l’homme ou l’homme du futur ?'
   );
-  expect(presentationParagraph.textContent).not.toContain(
+  expect(prose.textContent).not.toContain(
     'and to policy audiences including European leaders at the French Sénat in Paris'
   );
   expect(presentationParagraph.querySelector('em').textContent).toBe('Guinness World Records');
   expect([...presentationParagraph.querySelectorAll('em')].at(-1).textContent)
     .toBe('Le Robot : le futur de l’homme ou l’homme du futur ?');
   expect(presentationParagraph.querySelector('a[href="#ref-36"]')).not.toBeNull();
+  expect(presentationParagraph.querySelector('a[href="#ref-37"]')).not.toBeNull();
 });
 
 test('biography presents the research arc without overstating institutional scope or technical lineage', () => {
@@ -438,12 +441,12 @@ test('technology assessment is promoted between frontier-AI evaluation and quant
 test('research leadership includes current OASA teaching and mentorship', () => {
   const document = new JSDOM(bioHtml).window.document;
   const leadership = document.querySelector('#leadership');
-  const oasaSource = document.querySelector('#ref-44');
+  const oasaSource = document.querySelector('#ref-45');
 
   expect(leadership.textContent).toContain(
     'Alongside his research, Altman serves on the International Council of Advisors of the Orion Astropreneur Space Academy in Hong Kong, teaching and mentoring students and aspiring space-sector professionals in commercial astronautics and the future of human spaceflight.'
   );
-  expect(leadership.querySelector('a[href="#ref-44"]')).not.toBeNull();
+  expect(leadership.querySelector('a[href="#ref-45"]')).not.toBeNull();
   expect(oasaSource.querySelector('a[href="https://www.oasahk.org/team-oasa"]')).not.toBeNull();
   expect(oasaSource.querySelector('a[href="https://www.oasahk.org/summer-boot-camp2025"]')).not.toBeNull();
 });
@@ -451,8 +454,8 @@ test('research leadership includes current OASA teaching and mentorship', () => 
 test('education records undergraduate research leadership and the Salishan fellowship cohort', () => {
   const document = new JSDOM(bioHtml).window.document;
   const leadership = document.querySelector('#leadership');
-  const academicSource = document.querySelector('#ref-49');
-  const salishanSource = document.querySelector('#ref-50');
+  const academicSource = document.querySelector('#ref-50');
+  const salishanSource = document.querySelector('#ref-51');
 
   expect(leadership.textContent).toContain(
     'Altman studied philosophy at the Pierre Laclede Honors College of the University of Missouri–St. Louis. As an undergraduate honors research fellow, he co-directed experimental neuroscience studies supported by National Science Foundation funding, contributing original study designs and supervising undergraduate and graduate research assistants.'
@@ -460,10 +463,10 @@ test('education records undergraduate research leadership and the Salishan fello
   expect(leadership.textContent).toContain(
     'In April 2001, Altman was selected as one of three student fellows for the invitation-only Salishan Conference on High-Speed Computing, alongside MIT Media Lab doctoral researchers H. Shrikumar and Bill Butera.'
   );
-  expect(leadership.querySelector('a[href="#ref-48"]')).not.toBeNull();
   expect(leadership.querySelector('a[href="#ref-49"]')).not.toBeNull();
-  expect(leadership.querySelector('a[href="#ref-17"]')).not.toBeNull();
   expect(leadership.querySelector('a[href="#ref-50"]')).not.toBeNull();
+  expect(leadership.querySelector('a[href="#ref-17"]')).not.toBeNull();
+  expect(leadership.querySelector('a[href="#ref-51"]')).not.toBeNull();
   expect(document.querySelector('#ref-17 a').href).toBe(
     'https://web.archive.org/web/20050213045521/http://qt.tn.tudelft.nl/~altman/'
   );
@@ -482,10 +485,10 @@ test('education records undergraduate research leadership and the Salishan fello
 test('archived institutional sources retain their captured page titles', () => {
   const document = new JSDOM(bioHtml).window.document;
 
-  expect(document.querySelector('#ref-46 a').textContent).toBe(
+  expect(document.querySelector('#ref-47 a').textContent).toBe(
     '“Faculty and Staff | Christopher Altman.”'
   );
-  expect(document.querySelector('#ref-49 a').textContent).toBe(
+  expect(document.querySelector('#ref-50 a').textContent).toBe(
     '“Current Research | Christopher Altman, Starlab CAM-Brain Project.”'
   );
 });
@@ -724,7 +727,7 @@ test('source documentation is a native disclosure that opens for citation hashes
   const behaviorDom = new JSDOM(bioHtml, {
     runScripts: 'dangerously',
     pretendToBeVisual: true,
-    url: 'https://lab.christopheraltman.com/bio/#ref-49',
+    url: 'https://lab.christopheraltman.com/bio/#ref-50',
     beforeParse(window) {
       window.matchMedia = () => ({ matches: false });
       window.HTMLElement.prototype.scrollIntoView = () => {};
@@ -741,7 +744,7 @@ test('source documentation is a native disclosure that opens for citation hashes
   expect(details.hasAttribute('open')).toBe(false);
   expect(details.firstElementChild).toBe(summary);
   expect(summary.querySelector('h2').textContent).toBe('Selected sources');
-  expect(details.querySelectorAll('ol > li[id^="ref-"]')).toHaveLength(50);
+  expect(details.querySelectorAll('ol > li[id^="ref-"]')).toHaveLength(51);
   expect(bioHtml).not.toContain('Sources and documentation');
   expect(behaviorDetails.open).toBe(true);
   behaviorDetails.open = false;
@@ -763,12 +766,12 @@ test('source documentation is a native disclosure that opens for citation hashes
 
 test('THPedia profile is presented only as an understated numbered source', () => {
   const document = new JSDOM(bioHtml).window.document;
-  const thpediaSource = document.querySelector('#ref-48');
+  const thpediaSource = document.querySelector('#ref-49');
   const profileLink = thpediaSource.querySelector(
     'a[href="https://thpedia.org/wiki/Christopher_Altman"]'
   );
 
-  expect(document.querySelector('#leadership a[href="#ref-48"]')).not.toBeNull();
+  expect(document.querySelector('#leadership a[href="#ref-49"]')).not.toBeNull();
   expect(profileLink).not.toBeNull();
   expect(thpediaSource.textContent).toContain('Biographical source compilation.');
   expect(thpediaSource.textContent).not.toContain('University of Missouri');
@@ -868,14 +871,23 @@ test('non-public and compilation sources are labeled by evidentiary status', () 
   expect(document.querySelector('#ref-26').textContent).toContain('On file, available on request.');
   expect(document.querySelector('#ref-27').textContent).toContain('On file, available on request.');
   expect(document.querySelector('#ref-28').textContent).toContain('Historical source compilation');
-  expect(document.querySelector('#ref-36').textContent).toContain(
-    'photographic record of the French Sénat presentation on file, available on request.'
+  expect(document.querySelector('#ref-36').textContent).not.toContain('French Sénat');
+  expect(document.querySelector('#ref-37 a[href="https://web.archive.org/web/20011031105458/http://www.umsl.edu/~altmanc/news.html"]')).not.toBeNull();
+  expect(document.querySelector('#ref-37 a[href="https://web.archive.org/web/20010413020528/http://foobar.starlab.net:80/~degaris/news/political.html"]')).not.toBeNull();
+  expect(document.querySelector('#ref-37').textContent).toContain(
+    'photographic record on file, available on request.'
   );
-  expect(document.querySelector('#ref-41 a[href="https://astradyne.us/team-member/christopher-altman/"]')).not.toBeNull();
-  expect(document.querySelector('#ref-41').textContent).not.toContain('VASCO');
-  expect(document.querySelector('#ref-42 a[href="https://vascoproject.org/our-team/"]')).not.toBeNull();
-  expect(document.querySelector('#ref-42').textContent).not.toContain('Astradyne');
-  expect(document.querySelector('#ref-42').textContent).toContain(
+  expect(document.querySelector('#ref-37').textContent).toContain(
+    'English-language event title: The Robot: The Future of Man or Man of the Future?'
+  );
+  expect(document.querySelector('#ref-37 em').textContent)
+    .toBe('The Robot: The Future of Man or Man of the Future?');
+  expect(document.querySelector('#ref-37').textContent).not.toContain('of Altman’s presentation');
+  expect(document.querySelector('#ref-42 a[href="https://astradyne.us/team-member/christopher-altman/"]')).not.toBeNull();
+  expect(document.querySelector('#ref-42').textContent).not.toContain('VASCO');
+  expect(document.querySelector('#ref-43 a[href="https://vascoproject.org/our-team/"]')).not.toBeNull();
+  expect(document.querySelector('#ref-43').textContent).not.toContain('Astradyne');
+  expect(document.querySelector('#ref-43').textContent).toContain(
     'Official photographic contributor roster; role correspondence on file, available on request.'
   );
 });
