@@ -417,12 +417,12 @@ test('technology assessment is promoted between frontier-AI evaluation and quant
 test('research leadership includes current OASA teaching and mentorship', () => {
   const document = new JSDOM(bioHtml).window.document;
   const leadership = document.querySelector('#leadership');
-  const oasaSource = document.querySelector('#ref-43');
+  const oasaSource = document.querySelector('#ref-44');
 
   expect(leadership.textContent).toContain(
     'Alongside his research, Altman serves on the International Council of Advisors of the Orion Astropreneur Space Academy in Hong Kong, teaching and mentoring students and aspiring space-sector professionals in commercial astronautics and the future of human spaceflight.'
   );
-  expect(leadership.querySelector('a[href="#ref-43"]')).not.toBeNull();
+  expect(leadership.querySelector('a[href="#ref-44"]')).not.toBeNull();
   expect(oasaSource.querySelector('a[href="https://www.oasahk.org/team-oasa"]')).not.toBeNull();
   expect(oasaSource.querySelector('a[href="https://www.oasahk.org/summer-boot-camp2025"]')).not.toBeNull();
 });
@@ -430,7 +430,8 @@ test('research leadership includes current OASA teaching and mentorship', () => 
 test('education records undergraduate research leadership and the Salishan fellowship cohort', () => {
   const document = new JSDOM(bioHtml).window.document;
   const leadership = document.querySelector('#leadership');
-  const salishanSource = document.querySelector('#ref-48');
+  const academicSource = document.querySelector('#ref-49');
+  const salishanSource = document.querySelector('#ref-50');
 
   expect(leadership.textContent).toContain(
     'Altman studied philosophy at the Pierre Laclede Honors College of the University of Missouri–St. Louis. As an undergraduate honors research fellow, he co-directed experimental neuroscience studies supported by National Science Foundation funding, contributing original study designs and supervising undergraduate and graduate research assistants.'
@@ -438,15 +439,20 @@ test('education records undergraduate research leadership and the Salishan fello
   expect(leadership.textContent).toContain(
     'In April 2001, Altman was selected as one of three student fellows for the invitation-only Salishan Conference on High-Speed Computing, alongside MIT Media Lab doctoral researchers H. Shrikumar and Bill Butera.'
   );
-  expect(leadership.querySelector('a[href="#ref-47"]')).not.toBeNull();
-  expect(leadership.querySelector('a[href="#ref-17"]')).not.toBeNull();
   expect(leadership.querySelector('a[href="#ref-48"]')).not.toBeNull();
+  expect(leadership.querySelector('a[href="#ref-49"]')).not.toBeNull();
+  expect(leadership.querySelector('a[href="#ref-17"]')).not.toBeNull();
+  expect(leadership.querySelector('a[href="#ref-50"]')).not.toBeNull();
   expect(document.querySelector('#ref-17 a').href).toBe(
     'https://web.archive.org/web/20050213045521/http://qt.tn.tudelft.nl/~altman/'
   );
-  expect(document.querySelector('#ref-47').textContent).toContain(
-    'Academic and scholarship records on file, available on request.'
+  expect(academicSource.textContent).toContain(
+    'academic and scholarship records on file, available on request.'
   );
+  expect(academicSource.querySelector(
+    'a[href="https://web.archive.org/web/20011031105458/http://www.umsl.edu/~altmanc/"]'
+  )).not.toBeNull();
+  expect(academicSource.textContent).not.toContain('THPedia');
   expect(salishanSource.querySelector('a').href).toBe(
     'https://www.christopheraltman.com/2001/05/salishan.html'
   );
@@ -680,16 +686,16 @@ test('numbered references are contiguous and follow first-appearance order', () 
 
 test('THPedia profile is presented only as an understated numbered source', () => {
   const document = new JSDOM(bioHtml).window.document;
-  const thpediaSource = document.querySelector('#ref-47');
+  const thpediaSource = document.querySelector('#ref-48');
   const profileLink = thpediaSource.querySelector(
     'a[href="https://thpedia.org/wiki/Christopher_Altman"]'
   );
 
-  expect(document.querySelector('#leadership a[href="#ref-47"]')).not.toBeNull();
+  expect(document.querySelector('#leadership a[href="#ref-48"]')).not.toBeNull();
   expect(profileLink).not.toBeNull();
-  expect(thpediaSource.textContent).toContain(
-    'Biographical source compilation;'
-  );
+  expect(thpediaSource.textContent).toContain('Biographical source compilation.');
+  expect(thpediaSource.textContent).not.toContain('University of Missouri');
+  expect(thpediaSource.textContent).not.toContain('Academic and scholarship records');
   expect(document.querySelector('.bio-source-note')).toBeNull();
 });
 
@@ -788,8 +794,11 @@ test('non-public and compilation sources are labeled by evidentiary status', () 
   expect(document.querySelector('#ref-36').textContent).toContain(
     'photographic record of the French Sénat presentation on file, available on request.'
   );
-  expect(document.querySelector('#ref-41 a[href="https://vascoproject.org/our-team/"]')).not.toBeNull();
-  expect(document.querySelector('#ref-41').textContent).toContain(
+  expect(document.querySelector('#ref-41 a[href="https://astradyne.us/team-member/christopher-altman/"]')).not.toBeNull();
+  expect(document.querySelector('#ref-41').textContent).not.toContain('VASCO');
+  expect(document.querySelector('#ref-42 a[href="https://vascoproject.org/our-team/"]')).not.toBeNull();
+  expect(document.querySelector('#ref-42').textContent).not.toContain('Astradyne');
+  expect(document.querySelector('#ref-42').textContent).toContain(
     'Official photographic contributor roster; role correspondence on file, available on request.'
   );
 });
