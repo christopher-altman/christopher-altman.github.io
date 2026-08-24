@@ -183,6 +183,24 @@ test('application-domain sentence closes the frontier-AI evaluation section', ()
   );
 });
 
+test('Starlab section distinguishes the technical presentation from the French Sénat address', () => {
+  const document = new JSDOM(bioHtml).window.document;
+  const starlab = document.querySelector('#starlab');
+  const presentationParagraph = [...starlab.querySelectorAll('p')]
+    .find((paragraph) => paragraph.textContent.includes('Toward a Science of Consciousness'));
+
+  expect(presentationParagraph.textContent).toContain(
+    'Altman presented the program’s large-scale neural architectures at Toward a Science of Consciousness in 2002 and, as an invited delegate, addressed the French Sénat hearing in Paris, Le Robot : le futur de l’homme ou l’homme du futur ?'
+  );
+  expect(presentationParagraph.textContent).not.toContain(
+    'and to policy audiences including European leaders at the French Sénat in Paris'
+  );
+  expect(presentationParagraph.querySelector('em').textContent).toBe('Guinness World Records');
+  expect([...presentationParagraph.querySelectorAll('em')].at(-1).textContent)
+    .toBe('Le Robot : le futur de l’homme ou l’homme du futur ?');
+  expect(presentationParagraph.querySelector('a[href="#ref-36"]')).not.toBeNull();
+});
+
 test('biography presents the research arc without overstating institutional scope or technical lineage', () => {
   const document = new JSDOM(bioHtml).window.document;
   const overview = document.querySelector('#overview');
