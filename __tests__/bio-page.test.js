@@ -183,6 +183,33 @@ test('application-domain sentence closes the frontier-AI evaluation section', ()
   );
 });
 
+test('Starlab follows frontier-AI evaluation in the article and sidebar', () => {
+  const document = new JSDOM(bioHtml).window.document;
+  const expectedOrder = [
+    'frontier-ai',
+    'starlab',
+    'technology-assessment',
+    'quantum',
+    'astronautics',
+  ];
+  const articleIds = [...document.querySelectorAll('.bio-prose > section')]
+    .map((section) => section.id);
+  const sidebarIds = [...document.querySelectorAll('.bio-index nav a')]
+    .map((link) => link.getAttribute('href').slice(1));
+  const articleStart = articleIds.indexOf('frontier-ai');
+  const sidebarStart = sidebarIds.indexOf('frontier-ai');
+  const openingParagraph = document.querySelector('#starlab > p').cloneNode(true);
+  openingParagraph.querySelectorAll('sup').forEach((citation) => citation.remove());
+
+  expect(articleIds.slice(articleStart, articleStart + expectedOrder.length))
+    .toEqual(expectedOrder);
+  expect(sidebarIds.slice(sidebarStart, sidebarStart + expectedOrder.length))
+    .toEqual(expectedOrder);
+  expect(openingParagraph.textContent.trim()).toBe(
+    'The technical lineage behind this structural approach began at Starlab, where Altman joined the CAM-Brain project in 2000 at the multidisciplinary “Deep Future” research institute outside Brussels. As a research scientist, Global Coordinator, and Managing Director of the Global CAM-Brain Machine teams, he led contributors across an international network pursuing large-scale artificial-brain synthesis through cellular automata, genetic algorithms, and field-programmable gate arrays.'
+  );
+});
+
 test('Starlab section distinguishes the technical presentation from the French Sénat address', () => {
   const document = new JSDOM(bioHtml).window.document;
   const starlab = document.querySelector('#starlab');
@@ -200,8 +227,8 @@ test('Starlab section distinguishes the technical presentation from the French S
   expect(presentationParagraph.querySelector('em').textContent).toBe('Guinness World Records');
   expect([...presentationParagraph.querySelectorAll('em')].at(-1).textContent)
     .toBe('Le Robot : le futur de l’homme ou l’homme du futur ?');
-  expect(presentationParagraph.querySelector('a[href="#ref-36"]')).not.toBeNull();
-  expect(presentationParagraph.querySelector('a[href="#ref-37"]')).not.toBeNull();
+  expect(presentationParagraph.querySelector('a[href="#ref-16"]')).not.toBeNull();
+  expect(presentationParagraph.querySelector('a[href="#ref-17"]')).not.toBeNull();
 });
 
 test('biography presents the research arc without overstating institutional scope or technical lineage', () => {
@@ -285,10 +312,10 @@ test('biography presents the research arc without overstating institutional scop
   expect(quantum.textContent).not.toContain('carried the same architecture into two proposals');
 
   expect(starlab.textContent).toContain(
-    'Recruited in 2000, Altman joined the CAM-Brain project at Starlab, the multidisciplinary “Deep Future” research institute outside Brussels.'
+    'The technical lineage behind this structural approach began at Starlab, where Altman joined the CAM-Brain project in 2000 at the multidisciplinary “Deep Future” research institute outside Brussels.'
   );
-  const siftedSource = document.querySelector('#ref-31 a');
-  expect(starlab.querySelector('a[href="#ref-31"]')).not.toBeNull();
+  const siftedSource = document.querySelector('#ref-11 a');
+  expect(starlab.querySelector('a[href="#ref-11"]')).not.toBeNull();
   expect(siftedSource.href).toBe(
     'https://sifted.eu/articles/starlab-deeptech-university-spinouts-europe'
   );
@@ -327,30 +354,30 @@ test('biography presents the research arc without overstating institutional scop
   );
   expect(astronautics.textContent).not.toContain('Its Mauna Kea analogue site');
 
+  expect(quantum.querySelector('a[href="#ref-33"]')).not.toBeNull();
+  expect(quantum.querySelector('a[href="#ref-35"]')).not.toBeNull();
+  expect(quantum.querySelector('a[href="#ref-36"]')).not.toBeNull();
+  expect(quantum.querySelector('a[href="#ref-34"]')).not.toBeNull();
   expect(quantum.querySelector('a[href="#ref-26"]')).not.toBeNull();
-  expect(quantum.querySelector('a[href="#ref-28"]')).not.toBeNull();
   expect(quantum.querySelector('a[href="#ref-29"]')).not.toBeNull();
-  expect(quantum.querySelector('a[href="#ref-27"]')).not.toBeNull();
-  expect(quantum.querySelector('a[href="#ref-16"]')).not.toBeNull();
-  expect(quantum.querySelector('a[href="#ref-21"]')).not.toBeNull();
-  expect(quantum.querySelector('a[href="#ref-25"]')).not.toBeNull();
-  expect(document.querySelector('#ref-26').textContent).toContain('NASA NSPIRES');
-  expect(document.querySelector('#ref-28 a').href).toBe('https://thpedia.org/wiki/Quiness');
-  expect(document.querySelector('#ref-29 a').href).toBe('https://www.darpa.mil/research/programs/quiness');
-  expect(document.querySelector('#ref-27').textContent).toContain('QUINESS Underwater Laser');
-  expect(document.querySelector('#ref-16 a').href).toBe(
+  expect(quantum.querySelector('a[href="#ref-32"]')).not.toBeNull();
+  expect(document.querySelector('#ref-33').textContent).toContain('NASA NSPIRES');
+  expect(document.querySelector('#ref-35 a').href).toBe('https://thpedia.org/wiki/Quiness');
+  expect(document.querySelector('#ref-36 a').href).toBe('https://www.darpa.mil/research/programs/quiness');
+  expect(document.querySelector('#ref-34').textContent).toContain('QUINESS Underwater Laser');
+  expect(document.querySelector('#ref-26 a').href).toBe(
     'https://www.grc.org/quantum-information-science-conference/2004/'
   );
-  expect(document.querySelectorAll('#ref-16 a')[1].getAttribute('href')).toBe(
+  expect(document.querySelectorAll('#ref-26 a')[1].getAttribute('href')).toBe(
     '../assets/documents/gordon-research-conference-quantum-information-science-2004.pdf'
   );
-  expect(document.querySelector('#ref-21 a').href).toBe(
+  expect(document.querySelector('#ref-29 a').href).toBe(
     'https://www.christopheraltman.com/2008/08/progress-in-quantum-computing-iqsa-lt25.html'
   );
-  expect(document.querySelector('#ref-25 a').href).toBe(
+  expect(document.querySelector('#ref-32 a').href).toBe(
     'https://www.christopheraltman.com/2010/'
   );
-  expect(document.querySelectorAll('#ref-25 a')[1].getAttribute('href')).toBe(
+  expect(document.querySelectorAll('#ref-32 a')[1].getAttribute('href')).toBe(
     '../assets/photos/daniel-greenberger-traunkirchen-2010.jpg'
   );
 
@@ -372,10 +399,10 @@ test('technology assessment is promoted between frontier-AI evaluation and quant
   const assessmentWithoutCitations = technologyAssessment.cloneNode(true);
   assessmentWithoutCitations.querySelectorAll('sup').forEach(citation => citation.remove());
   const paragraphs = assessmentWithoutCitations.querySelectorAll('p');
-  const assessmentSource = document.querySelector('#ref-11');
-  const collinsSource = document.querySelector('#ref-12');
-  const distributionSource = document.querySelector('#ref-13');
-  const roadmapSource = document.querySelector('#ref-14');
+  const assessmentSource = document.querySelector('#ref-21');
+  const collinsSource = document.querySelector('#ref-22');
+  const distributionSource = document.querySelector('#ref-23');
+  const roadmapSource = document.querySelector('#ref-24');
 
   expect(document.querySelector('.bio-index a[href="#technology-assessment"]')).not.toBeNull();
   expect(frontierAi.compareDocumentPosition(technologyAssessment) & 4).toBeTruthy();
@@ -465,9 +492,9 @@ test('education records undergraduate research leadership and the Salishan fello
   );
   expect(leadership.querySelector('a[href="#ref-49"]')).not.toBeNull();
   expect(leadership.querySelector('a[href="#ref-50"]')).not.toBeNull();
-  expect(leadership.querySelector('a[href="#ref-17"]')).not.toBeNull();
+  expect(leadership.querySelector('a[href="#ref-27"]')).not.toBeNull();
   expect(leadership.querySelector('a[href="#ref-51"]')).not.toBeNull();
-  expect(document.querySelector('#ref-17 a').href).toBe(
+  expect(document.querySelector('#ref-27 a').href).toBe(
     'https://web.archive.org/web/20050213045521/http://qt.tn.tudelft.nl/~altman/'
   );
   expect(academicSource.textContent).toContain(
@@ -519,7 +546,7 @@ test('biography narrative uses closed em dashes while preserving title typograph
 
   expect(narrative).not.toContain(' — ');
   expect(document.title).toContain(' — ');
-  expect(document.querySelector('#ref-25').textContent)
+  expect(document.querySelector('#ref-32').textContent)
     .toContain('Traunkirchen — Quantum Physics and the Nature of Reality');
 });
 
@@ -864,25 +891,25 @@ test('non-public and compilation sources are labeled by evidentiary status', () 
   const document = new JSDOM(bioHtml).window.document;
 
   expect(bioHtml).not.toContain('Lifeboat Foundation');
-  expect(document.querySelector('#ref-23').textContent).toContain(
+  expect(document.querySelector('#ref-30').textContent).toContain(
     'Templeton International Research Fellowship appointment correspondence'
   );
-  expect(document.querySelector('#ref-23').textContent).toContain('On file, available on request.');
-  expect(document.querySelector('#ref-26').textContent).toContain('On file, available on request.');
-  expect(document.querySelector('#ref-27').textContent).toContain('On file, available on request.');
-  expect(document.querySelector('#ref-28').textContent).toContain('Historical source compilation');
-  expect(document.querySelector('#ref-36').textContent).not.toContain('French Sénat');
-  expect(document.querySelector('#ref-37 a[href="https://web.archive.org/web/20011031105458/http://www.umsl.edu/~altmanc/news.html"]')).not.toBeNull();
-  expect(document.querySelector('#ref-37 a[href="https://web.archive.org/web/20010413020528/http://foobar.starlab.net:80/~degaris/news/political.html"]')).not.toBeNull();
-  expect(document.querySelector('#ref-37').textContent).toContain(
+  expect(document.querySelector('#ref-30').textContent).toContain('On file, available on request.');
+  expect(document.querySelector('#ref-33').textContent).toContain('On file, available on request.');
+  expect(document.querySelector('#ref-34').textContent).toContain('On file, available on request.');
+  expect(document.querySelector('#ref-35').textContent).toContain('Historical source compilation');
+  expect(document.querySelector('#ref-16').textContent).not.toContain('French Sénat');
+  expect(document.querySelector('#ref-17 a[href="https://web.archive.org/web/20011031105458/http://www.umsl.edu/~altmanc/news.html"]')).not.toBeNull();
+  expect(document.querySelector('#ref-17 a[href="https://web.archive.org/web/20010413020528/http://foobar.starlab.net:80/~degaris/news/political.html"]')).not.toBeNull();
+  expect(document.querySelector('#ref-17').textContent).toContain(
     'photographic record on file, available on request.'
   );
-  expect(document.querySelector('#ref-37').textContent).toContain(
+  expect(document.querySelector('#ref-17').textContent).toContain(
     'English-language event title: The Robot: The Future of Man or Man of the Future?'
   );
-  expect(document.querySelector('#ref-37 em').textContent)
+  expect(document.querySelector('#ref-17 em').textContent)
     .toBe('The Robot: The Future of Man or Man of the Future?');
-  expect(document.querySelector('#ref-37').textContent).not.toContain('of Altman’s presentation');
+  expect(document.querySelector('#ref-17').textContent).not.toContain('of Altman’s presentation');
   expect(document.querySelector('#ref-42 a[href="https://astradyne.us/team-member/christopher-altman/"]')).not.toBeNull();
   expect(document.querySelector('#ref-42').textContent).not.toContain('VASCO');
   expect(document.querySelector('#ref-43 a[href="https://vascoproject.org/our-team/"]')).not.toBeNull();
@@ -895,7 +922,7 @@ test('non-public and compilation sources are labeled by evidentiary status', () 
 test('lab naming, personal-site naming, update date, and dual IJTP records stay synchronized', () => {
   const document = new JSDOM(bioHtml).window.document;
   const homeDocument = new JSDOM(homeHtml).window.document;
-  const ref15 = document.querySelector('#ref-19');
+  const ref18 = document.querySelector('#ref-18');
 
   expect(document.querySelector('.site-nav a[href="https://www.christopheraltman.com"]').textContent.trim())
     .toBe('Personal');
@@ -903,8 +930,8 @@ test('lab naming, personal-site naming, update date, and dual IJTP records stay 
   expect(homeDocument.querySelector('meta[name="twitter:title"]').content)
     .toBe('Frontier AI Lab | Christopher Altman');
   expect(bioHtml).not.toMatch(/Frontier Lab|Research Lab|Frontier AI Research Lab|Personal site/);
-  expect(ref15.textContent).toContain('electronic record, 43(10), 2029–2040');
-  expect(ref15.textContent).toContain('print issue, 43(12), 2435–2445');
+  expect(ref18.textContent).toContain('electronic record, 43(10), 2029–2040');
+  expect(ref18.textContent).toContain('print issue, 43(12), 2435–2445');
   expect(homeHtml).toContain('electronic record 43(10), 2029–2040; print issue 43(12), 2435–2445');
 });
 
