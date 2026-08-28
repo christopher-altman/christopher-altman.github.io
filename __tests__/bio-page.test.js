@@ -255,6 +255,10 @@ test('biography presents the research arc without overstating institutional scop
   expect(quantum.textContent).toContain(
     "Although UCIP is computed classically, its use of density-matrix formalism has a methodological antecedent in Altman’s earlier quantum-information research."
   );
+  expect(quantum.textContent).toContain(
+    'presented at the NATO Advanced Research Workshop on Quantum Chaos in Como, Italy'
+  );
+  expect(quantum.textContent).not.toContain('Quantum Chaos in Como, examined');
   expect(document.querySelector('#frontier-ai').textContent).toContain(
     'The protocol encodes agent trajectories with a quantum Boltzmann machine—a Hamiltonian-based model whose thermal states are represented by density matrices—and measures the von Neumann entropy of the reduced density matrix induced by a hidden-unit bipartition.'
   );
