@@ -250,6 +250,12 @@ test('biography presents the research arc without overstating institutional scop
   const overviewStarlabLink = [...overview.querySelectorAll('a')]
     .find((link) => link.textContent.trim() === 'Starlab');
   expect(overviewStarlabLink.href).toBe('https://youtu.be/0X_HDSQXMI0');
+  expect(overview.textContent).toContain(
+    'At Starlab in Brussels, Altman evolved neural architectures in reconfigurable hardware for real-time robot control.'
+  );
+  expect(overview.textContent).not.toContain(
+    'Altman evolved neural architectures in reconfigurable hardware. His quantum-information research'
+  );
   expect(overview.textContent).not.toContain('more instruments will be needed as capabilities advance');
   expect(overview.textContent).not.toContain('national-security benchmarking');
   expect(quantum.textContent).toContain(
@@ -930,7 +936,7 @@ test('lab naming, personal-site naming, update date, and dual IJTP records stay 
 
   expect(document.querySelector('.site-nav a[href="https://www.christopheraltman.com"]').textContent.trim())
     .toBe('Personal');
-  expect(document.querySelector('.footer-copyright').textContent).toContain('Updated 24 August 2026');
+  expect(document.querySelector('.footer-copyright').textContent).toContain('Updated 1 September 2026');
   expect(homeDocument.querySelector('meta[name="twitter:title"]').content)
     .toBe('Frontier AI Lab | Christopher Altman');
   expect(bioHtml).not.toMatch(/Frontier Lab|Research Lab|Frontier AI Research Lab|Personal site/);
