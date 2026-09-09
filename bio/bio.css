@@ -262,6 +262,10 @@
 }
 
 /* Key-results panel */
+#synthetic-validation {
+  scroll-margin-top: 13rem;
+}
+
 .bio-metrics-label {
   margin: 2.25rem 0 0.75rem;
   color: var(--color-primary);
@@ -448,6 +452,10 @@
 }
 
 @media (max-width: 640px) {
+  #synthetic-validation {
+    scroll-margin-top: 22rem;
+  }
+
   .bio-sources li[id^="ref-"] {
     scroll-margin-top: 13rem;
   }

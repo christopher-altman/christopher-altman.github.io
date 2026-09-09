@@ -562,7 +562,7 @@ test('biography narrative uses closed em dashes while preserving title typograph
 
 test('opening profile retains only the three compact evidence links', () => {
   const document = new JSDOM(bioHtml).window.document;
-  const professionalLinks = [...document.querySelectorAll('.bio-primary-links a')];
+  const professionalLinks = [...document.querySelectorAll('.bio-hero .bio-primary-links a')];
   expect(professionalLinks.map((link) => link.textContent.trim())).toEqual([
     'Google Scholar',
     'arXiv',
@@ -868,6 +868,28 @@ test('multi-part biography headings keep subject terms together when wrapping', 
   expect(bioCss).toMatch(/\.bio-heading-term\s*\{[^}]*white-space:\s*nowrap;/s);
 });
 
+test('overview ends with ordered research resources and frontier framing retains its citation', () => {
+  const document = new JSDOM(bioHtml).window.document;
+  const overview = document.querySelector('#overview');
+  const resources = overview.querySelector('nav[aria-label="UCIP research resources"]');
+
+  expect(overview.lastElementChild).toBe(resources);
+  expect(overview.nextElementSibling.id).toBe('frontier-ai');
+  expect([...resources.querySelectorAll('a')].map(link => [
+    link.textContent.trim(), link.getAttribute('href'),
+  ])).toEqual([
+    ['UCIP paper', 'https://arxiv.org/abs/2603.11382'],
+    ['Implementation', 'https://continuationobservatory.org/ucip/code/'],
+    ['Evaluation evidence', '#synthetic-validation'],
+  ]);
+  const opening = document.querySelector('#frontier-ai > p');
+  expect(opening.textContent).toContain(
+    'Behavior and self-report alone can leave unresolved whether continuation is an objective in its own right or a means to another task.'
+  );
+  expect(opening.textContent).not.toContain('self-report carries no evidential weight');
+  expect(opening.querySelector('sup a').getAttribute('href')).toBe('#ref-2');
+});
+
 test('synthetic validation reports results in evidential order and states sample scope', () => {
   const document = new JSDOM(bioHtml).window.document;
   const frontierAi = document.querySelector('#frontier-ai');
@@ -878,6 +900,15 @@ test('synthetic validation reports results in evidential order and states sample
   const note = frontierAi.querySelector('.bio-metrics-note');
 
   expect(label.textContent.trim()).toBe('Synthetic validation');
+  expect(document.querySelectorAll('[id="synthetic-validation"]')).toHaveLength(1);
+  expect(document.getElementById('synthetic-validation')).toBe(label);
+  expect(label.tagName).toBe('H3');
+  expect(label.nextElementSibling).toBe(metrics);
+  expect(metrics.nextElementSibling).toBe(note);
+  expect(note.closest('details')).toBeNull();
+  expect(note.textContent).toContain('Frozen Phase I gridworld');
+  expect(note.textContent).toContain('The RBM, autoencoder, VAE, and PCA baselines produced no positive entropy gap.');
+  expect(note.querySelector('sup a').getAttribute('href')).toBe('#ref-2');
   expect(metricLabels).toEqual([
     'Graded tracking',
     'Classical baselines',
