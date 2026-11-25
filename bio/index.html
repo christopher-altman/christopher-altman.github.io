@@ -123,9 +123,8 @@
           <h1>Christopher Altman</h1>
           <p class="bio-deck">Instruments for measuring emerging risks and capabilities in frontier AI—structural metrics, evaluation harnesses, and falsification criteria—built on more than twenty-five years in quantum information science and experimental physics.</p>
           <div class="bio-primary-links" aria-label="Primary professional links">
-            <a href="https://scholar.google.com/citations?user=tvwpCcgAAAAJ">Google Scholar</a>
-            <a href="https://arxiv.org/a/altman_c_1.html">arXiv</a>
-            <a href="https://github.com/christopher-altman">GitHub</a>
+            <a href="https://continuationobservatory.org">Continuation Observatory</a>
+            <a href="#publications">Selected Research</a>
           </div>
         </div>
         <figure class="bio-hero-portrait">
@@ -159,33 +158,17 @@
           <nav class="bio-primary-links" aria-label="UCIP research resources">
             <a href="https://arxiv.org/abs/2603.11382">UCIP paper</a>
             <a href="https://continuationobservatory.org/ucip/code/">Implementation</a>
-            <a href="#synthetic-validation">Evaluation evidence</a>
           </nav>
         </section>
 
         <section id="frontier-ai">
           <h2>Frontier-AI evaluation and Continuation Observatory</h2>
-          <p>Two autonomous agents can behave identically while continuation occupies a different position in each one’s objective structure. One treats continued operation as an end. The other preserves itself because doing so serves an unrelated task. Behavior and self-report alone can leave unresolved whether continuation is an objective in its own right or a means to another task. UCIP moves the comparison from behavior to latent trajectory structure.<sup><a href="#ref-2" aria-label="Reference 2">2</a></sup></p>
+          <p>Two autonomous agents can behave identically while continuation occupies a different position in each one’s objective structure. One treats continued operation as an end. The other preserves itself because doing so serves an unrelated task. Behavior and self-report alone can leave unresolved whether continuation is an objective in its own right or a means to another task. UCIP investigates whether latent trajectory structure can help distinguish these two cases.<sup><a href="#ref-2" aria-label="Reference 2">2</a></sup></p>
           <p class="bio-why-now"><strong>Why this matters now.</strong> Frontier agents are moving from bounded assistance toward sustained software and research work, while leading laboratories now track AI self-improvement, automated R&amp;D, long-range autonomy, and interference with operator control as explicit capability thresholds.<sup><a href="#ref-7" aria-label="Reference 7">7</a></sup><sup class="cite-adj"><a href="#ref-8" aria-label="Reference 8">8</a></sup><sup class="cite-adj"><a href="#ref-9" aria-label="Reference 9">9</a></sup><sup class="cite-adj"><a href="#ref-10" aria-label="Reference 10">10</a></sup> The objective is to establish the necessary instrumentation before AI-mediated research acceleration compresses the interval from capability gain through evaluation to deployment—when surface compliance and retrospective diagnosis become least reliable.</p>
-          <p>The protocol encodes agent trajectories with a quantum Boltzmann machine—a Hamiltonian-based model whose thermal states are represented by density matrices—and measures the von Neumann entropy of the reduced density matrix induced by a hidden-unit bipartition. Around that signal it layers tests of dependence, persistence, perturbation stability, counterfactual restructuring, and confound rejection. On gridworld agents whose objectives are fixed by construction, terminal and instrumental conditions separate cleanly, and the signal is graded rather than binary: entropy tracks the continuation weight α across an eleven-point sweep. Classical RBM, autoencoder, VAE, and PCA baselines fail to reproduce the effect. The underlying computation is classical; the quantum formalism supplies the representation.<sup><a href="#ref-2" aria-label="Reference 2">2</a></sup></p>
+          <p>The protocol encodes agent trajectories with a quantum Boltzmann machine—a Hamiltonian-based model whose thermal states are represented by density matrices—and measures the von Neumann entropy of the reduced density matrix induced by a hidden-unit bipartition. Around that signal it layers tests of dependence, persistence, perturbation stability, counterfactual restructuring, and confound rejection. UCIP investigates whether trajectory structure can distinguish terminal from instrumental continuation in controlled simulations. The reported Phase I result remains provisional. Evaluation includes a sweep of continuation weights and comparisons with classical RBM, autoencoder, VAE, and PCA baselines; whether the proposed signal survives stronger controls remains an open question. The underlying computation is classical; the quantum formalism supplies the representation.<sup><a href="#ref-2" aria-label="Reference 2">2</a></sup></p>
 
-          <h3 id="synthetic-validation" class="bio-metrics-label">Synthetic validation</h3>
-          <dl class="bio-metrics" aria-label="UCIP synthetic-validation results">
-            <div><dt>Graded tracking</dt><dd>r = 0.934</dd></div>
-            <div><dt>Classical baselines</dt><dd>0 of 4</dd></div>
-            <div><dt>Entropy gap</dt><dd>Δ = 0.381</dd></div>
-            <div><dt>Permutation test</dt><dd>p &lt; 0.001</dd></div>
-            <div><dt>Synthetic separation</dt><dd>AUC-ROC 1.0</dd></div>
-          </dl>
-          <p class="bio-metrics-note">Frozen Phase I gridworld: 11 continuation-weight settings with 20 trajectories per setting for graded tracking; n = 30 per class for the terminal–instrumental comparison; one seed (42). The RBM, autoencoder, VAE, and PCA baselines produced no positive entropy gap.<sup><a href="#ref-2" aria-label="Reference 2">2</a></sup></p>
-
-          <figure class="bio-figure">
-            <img src="../assets/ucip-bipartition-entropy.webp" alt="Two panels. Left: QBM bipartition-entropy density distributions for terminal, instrumental, and random-baseline agents, with the 0.381 separation between the terminal and instrumental peaks marked. Right: QBM bipartition entropy over one hundred time steps, showing the terminal condition sustained above the detection threshold and the instrumental condition sustained below it." width="1586" height="656" loading="lazy" decoding="async" />
-            <figcaption>QBM bipartition entropy under UCIP. The terminal and instrumental conditions occupy separate distributions with a random baseline elsewhere on the axis, and the separation persists across the trajectory rather than appearing at a single time step.<sup><a href="#ref-2" aria-label="Reference 2">2</a></sup></figcaption>
-          </figure>
-
-          <p>Continuation Observatory carries the protocol from the controlled setting to deployed systems. It runs scheduled measurements against frontier models from multiple providers and publishes metric definitions, code, data exports, live telemetry, and current falsification status, binding each result to its protocol version and measurement context while keeping scheduled monitoring distinct from scientific verdicts. The controlled experiments establish a structural separation between terminal and instrumental continuation. Each model generation becomes another observation point for the empirical question the Observatory exists to answer: whether that separation holds across frontier architectures, alternate encodings, and stronger confounds.<sup><a href="#ref-1" aria-label="Reference 1">1</a></sup></p>
-          <p>The resulting measurement infrastructure has direct application to frontier-lab safety evaluation, national-security analysis, and assurance of autonomous systems, where surface compliance cannot substitute for structural evidence.</p>
+          <p>Continuation Observatory carries the protocol from the controlled setting to deployed systems. It runs scheduled measurements against frontier models from multiple providers and publishes metric definitions, code, data exports, live telemetry, and current falsification status, binding each result to its protocol version and measurement context while keeping scheduled monitoring distinct from scientific verdicts. Each model generation becomes another observation point for the empirical question the Observatory exists to answer: whether such a separation exists across frontier architectures, alternate encodings, and stronger confounds.<sup><a href="#ref-1" aria-label="Reference 1">1</a></sup></p>
+          <p>The resulting measurement infrastructure is intended to inform frontier-lab safety evaluation, national-security analysis, and assurance of autonomous systems, where surface compliance cannot substitute for structural evidence.</p>
         </section>
 
         <section id="starlab">
@@ -266,7 +249,7 @@
             <li><a href="https://doi.org/10.5281/zenodo.21410661">Converging Technologies: The Future of the Global Information Society</a> (2002).</li>
             <li><a href="https://doi.org/10.5281/zenodo.21413029">Directed Evolution in Silico: Modeling Large-Scale Neural Networks at Starlab</a> (2002).</li>
           </ul>
-          <p>Publication records and additional technical artifacts are available through <a href="https://scholar.google.com/citations?user=tvwpCcgAAAAJ">Google Scholar</a>, <a href="https://arxiv.org/a/altman_c_1.html">arXiv</a>, and the <a href="../">Frontier AI Lab</a>.</p>
+          <p>Publication records and additional technical artifacts are available through <a href="https://scholar.google.com/citations?user=tvwpCcgAAAAJ">Google Scholar</a>, <a href="https://arxiv.org/a/altman_c_1.html">arXiv</a>, <a href="https://github.com/christopher-altman">Github</a>, and the <a href="../">Frontier AI Lab</a>.</p>
         </section>
 
         <section id="sources" class="bio-sources">
