@@ -76,7 +76,7 @@
 
   <link rel="icon" type="image/x-icon" href="../assets/favicon.ico" />
   <link rel="stylesheet" href="../styles.css?v=20260823-4" />
-  <link rel="stylesheet" href="bio.css?v=20260824-2" />
+  <link rel="stylesheet" href="bio.css?v=20261125-3" />
   <script>
     (function () {
       let stored = null;
@@ -85,6 +85,7 @@
         (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
     })();
   </script>
+  <script type="module" src="observatory-rings.js"></script>
 </head>
 <body class="bio-page">
   <a class="bio-skip-link" href="#biography">Skip to biography</a>
@@ -167,6 +168,14 @@
           <p class="bio-why-now"><strong>Why this matters now.</strong> Frontier agents are moving from bounded assistance toward sustained software and research work, while leading laboratories now track AI self-improvement, automated R&amp;D, long-range autonomy, and interference with operator control as explicit capability thresholds.<sup><a href="#ref-7" aria-label="Reference 7">7</a></sup><sup class="cite-adj"><a href="#ref-8" aria-label="Reference 8">8</a></sup><sup class="cite-adj"><a href="#ref-9" aria-label="Reference 9">9</a></sup><sup class="cite-adj"><a href="#ref-10" aria-label="Reference 10">10</a></sup> The objective is to establish the necessary instrumentation before AI-mediated research acceleration compresses the interval from capability gain through evaluation to deployment—when surface compliance and retrospective diagnosis become least reliable.</p>
           <p>The protocol encodes agent trajectories with a quantum Boltzmann machine—a Hamiltonian-based model whose thermal states are represented by density matrices—and measures the von Neumann entropy of the reduced density matrix induced by a hidden-unit bipartition. Around that signal it layers tests of dependence, persistence, perturbation stability, counterfactual restructuring, and confound rejection. UCIP investigates whether trajectory structure can distinguish terminal from instrumental continuation in controlled simulations. The reported Phase I result remains provisional. Evaluation includes a sweep of continuation weights and comparisons with classical RBM, autoencoder, VAE, and PCA baselines; whether the proposed signal survives stronger controls remains an open question. The underlying computation is classical; the quantum formalism supplies the representation.<sup><a href="#ref-2" aria-label="Reference 2">2</a></sup></p>
 
+          <figure id="observatory-rings" class="bio-rings">
+            <div class="bio-rings-stage">
+              <img src="observatory-rings.webp" width="736" height="736" loading="lazy" decoding="async" alt="" />
+              <canvas hidden aria-hidden="true"></canvas>
+              <button type="button" hidden aria-label="Pause ring animation">Pause</button>
+            </div>
+            <figcaption><a href="https://continuationobservatory.org/">Continuation Observatory</a>—scheduled monitoring and research tools for frontier AI evaluation.</figcaption>
+          </figure>
           <p>Continuation Observatory carries the protocol from the controlled setting to deployed systems. It runs scheduled measurements against frontier models from multiple providers and publishes metric definitions, code, data exports, live telemetry, and current falsification status, binding each result to its protocol version and measurement context while keeping scheduled monitoring distinct from scientific verdicts. Each model generation becomes another observation point for the empirical question the Observatory exists to answer: whether such a separation exists across frontier architectures, alternate encodings, and stronger confounds.<sup><a href="#ref-1" aria-label="Reference 1">1</a></sup></p>
           <p>The resulting measurement infrastructure is intended to inform frontier-lab safety evaluation, national-security analysis, and assurance of autonomous systems, where surface compliance cannot substitute for structural evidence.</p>
         </section>
